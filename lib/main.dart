@@ -1,6 +1,5 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:interrupt/config/color_pallete.dart';
 import 'package:interrupt/config/theme.dart';
 import 'package:interrupt/screens/onoarding/onboarding.dart';
 import 'package:interrupt/splash.dart';
