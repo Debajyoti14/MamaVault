@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interrupt/config/UI_constraints.dart';
+import 'package:interrupt/screens/signin_page.dart';
 import 'package:onboarding/onboarding.dart';
 
 import '../../config/color_pallete.dart';
@@ -270,7 +272,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       color: defaultProceedButtonColor,
       child: InkWell(
         borderRadius: defaultProceedButtonBorderRadius,
-        onTap: () {},
+        onTap: () {
+          Navigator.pushAndRemoveUntil(
+              context,
+              CupertinoPageRoute(builder: (_) => const SignInPage()),
+              (route) => false);
+        },
         child: const Padding(
           padding: defaultProceedButtonPadding,
           child: Text(

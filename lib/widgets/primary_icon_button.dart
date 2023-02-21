@@ -7,8 +7,12 @@ import '../config/color_pallete.dart';
 class PrimaryIconButton extends StatelessWidget {
   final String buttonTitle;
   final FaIcon buttonIcon;
+  final void Function() onPressed;
   const PrimaryIconButton(
-      {super.key, required this.buttonTitle, required this.buttonIcon});
+      {super.key,
+      required this.buttonTitle,
+      required this.buttonIcon,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +20,7 @@ class PrimaryIconButton extends StatelessWidget {
       width: double.infinity,
       height: 60,
       child: ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: onPressed,
         icon: buttonIcon,
         label: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
