@@ -5,13 +5,13 @@ import 'color_pallete.dart';
 
 final lightThemeData = ThemeData(
   brightness: Brightness.light,
-  primaryColor: PalleteColor.primaryPurple,
+  primaryColor: primaryPurple,
   textTheme: GoogleFonts.poppinsTextTheme(ThemeData.light().textTheme),
 );
 
 final darkThemeData = ThemeData(
   brightness: Brightness.dark,
-  primaryColor: PalleteColor.primaryPurple,
-  backgroundColor: PalleteColor.backgroundDark,
+  primaryColor: primaryPurple,
+  backgroundColor: backgroundDark,
   textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
 );

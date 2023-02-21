@@ -2,11 +2,9 @@
 
 import 'package:flutter/animation.dart';
 
-class PalleteColor {
-  //Light Theme
-  static const Color primaryPurple = Color(0x6061f6);
-  static const Color bodyTextColorLight = Color(0xFFFFFF);
+//Light Theme
+const Color primaryPurple = Color.fromARGB(255, 96, 96, 246);
+const Color bodyTextColorLight = Color.fromARGB(255, 255, 255, 255);
 
-  //Dark Theme
-  static const Color backgroundDark = Color(0x0E0E17);
-}
+//Dark Theme
+const Color backgroundDark = Color(0x0E0E17);
