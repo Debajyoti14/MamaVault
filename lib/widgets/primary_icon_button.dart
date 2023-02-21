@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../config/color_pallete.dart';
 
@@ -12,7 +13,7 @@ class PrimaryIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 320,
+      width: double.infinity,
       height: 60,
       child: ElevatedButton.icon(
         onPressed: () {},
@@ -25,7 +26,8 @@ class PrimaryIconButton extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           backgroundColor: PalleteColor.primaryPurple,
-          textStyle: const TextStyle(
+          textStyle: TextStyle(
+            fontFamily: GoogleFonts.poppins().fontFamily,
             fontWeight: FontWeight.w600,
             fontSize: 16,
           ),

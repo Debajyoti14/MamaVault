@@ -1,4 +1,4 @@
 // ignore_for_file: file_names
 
-const defaultPadding = 13;
-const defaultBorderRadius = 11;
+const double defaultPadding = 18;
+const double defaultBorderRadius = 11;
