@@ -7,6 +7,9 @@ import 'package:interrupt/config/UI_constraints.dart';
 import 'package:interrupt/config/color_pallete.dart';
 import 'package:interrupt/widgets/primary_icon_button.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/google_signin.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -29,7 +32,7 @@ class _ProfileState extends State<Profile> {
             return const Center(child: Text("Something went wrong"));
           }
 
-          if (snapshot.hasData && !snapshot.data!.exists) {
+          if (!snapshot.hasData) {
             return const Center(child: Text("Document does not exist"));
           }
 
@@ -124,7 +127,7 @@ class _ProfileState extends State<Profile> {
                                 ),
                               ),
                               Text(
-                                data['email'],
+                                "26 years",
                                 style: TextStyle(
                                   color:
                                       const Color.fromARGB(255, 113, 112, 112),
@@ -203,7 +206,12 @@ class _ProfileState extends State<Profile> {
                     PrimaryIconButton(
                         buttonTitle: "Logout",
                         buttonIcon: const FaIcon(FontAwesomeIcons.doorOpen),
-                        onPressed: () {})
+                        onPressed: () {
+                          final provider = Provider.of<GoogleSignInProvider>(
+                              context,
+                              listen: false);
+                          provider.logout();
+                        })
                   ],
                 ),
               ),
