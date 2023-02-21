@@ -20,7 +20,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         decoration: BoxDecoration(
           border: Border.all(
             width: 0.0,
-            color: bodyTextColorLight,
+            color: PalleteColor.bodyTextColorLight,
           ),
         ),
         child: SingleChildScrollView(
@@ -73,7 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         decoration: BoxDecoration(
           border: Border.all(
             width: 0.0,
-            color: bodyTextColorLight,
+            color: PalleteColor.bodyTextColorLight,
           ),
         ),
         child: SingleChildScrollView(
@@ -125,7 +125,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         decoration: BoxDecoration(
           border: Border.all(
             width: 0.0,
-            color: bodyTextColorLight,
+            color: PalleteColor.bodyTextColorLight,
           ),
         ),
         child: SingleChildScrollView(
@@ -179,7 +179,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           decoration: BoxDecoration(
             border: Border.all(
               width: 0.0,
-              color: bodyTextColorLight,
+              color: PalleteColor.bodyTextColorLight,
             ),
           ),
           child: SingleChildScrollView(
@@ -190,7 +190,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(30)),
                   child: Container(
-                    color: primaryPurple,
+                    color: PalleteColor.primaryPurple,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 55.0,
                       vertical: 90.0,
@@ -203,7 +203,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(
                       horizontal: defaultPadding, vertical: 50),
-                  color: bodyTextColorLight,
+                  color: PalleteColor.bodyTextColorLight,
                   child: Column(
                     children: const [
                       Align(
@@ -247,7 +247,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Material(
       elevation: 3,
       borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-      color: primaryPurple,
+      color: PalleteColor.primaryPurple,
       child: InkWell(
         borderRadius: defaultSkipButtonBorderRadius,
         onTap: () {
@@ -285,7 +285,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bodyTextColorLight,
+      backgroundColor: PalleteColor.bodyTextColorLight,
       body: Onboarding(
         pages: onboardingPagesList,
         onPageChange: (int pageIndex) {
@@ -295,14 +295,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         footerBuilder: (context, dragDistance, pagesLength, setIndex) {
           return DecoratedBox(
             decoration: BoxDecoration(
-              color: bodyTextColorLight,
+              color: PalleteColor.bodyTextColorLight,
               border: Border.all(
                 width: 0.0,
-                color: bodyTextColorLight,
+                color: PalleteColor.bodyTextColorLight,
               ),
             ),
             child: ColoredBox(
-              color: bodyTextColorLight,
+              color: PalleteColor.bodyTextColorLight,
               child: Padding(
                 padding: const EdgeInsets.all(45.0),
                 child: Row(
@@ -315,7 +315,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         closedIndicator:
                             const ClosedIndicator(color: Colors.white),
                         activeIndicator: const ActiveIndicator(
-                            color: primaryPurple, borderWidth: 2),
+                            color: PalleteColor.primaryPurple, borderWidth: 2),
                         indicatorDesign: IndicatorDesign.line(
                           lineDesign: LineDesign(
                             lineType: DesignType.line_uniform,

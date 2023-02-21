@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
       const SizedBox(height: 30),
       const Text(
         'MamaVault',
-        style: TextStyle(color: primaryPurple, fontSize: 26),
+        style: TextStyle(color: PalleteColor.primaryPurple, fontSize: 26),
       )
     ]);
   }
