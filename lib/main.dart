@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'MamaVault',
         theme: lightThemeData,
-        darkTheme: darkThemeData,
+        // darkTheme: darkThemeData,
         home: AnimatedSplashScreen(
             backgroundColor: Colors.white,
             centered: true,
