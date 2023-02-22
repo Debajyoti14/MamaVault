@@ -4,6 +4,8 @@ import 'package:interrupt/screens/Panic%20Mode/panic_mode_timer.dart';
 import 'package:interrupt/screens/settings.dart';
 import 'package:interrupt/screens/upload_doc.dart';
 
+import 'docs_gallery.dart';
+
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
 
@@ -19,9 +21,7 @@ class _BottomNavState extends State<BottomNav> {
     // const Center(
     //   child: Text("Documents"),
     // ),
-    const Center(
-      child: Text("Feeds"),
-    ),
+    const DocsGalleryScreen(),
     const SettingsPage(),
   ];
   void _onItemTapped(int index) {
