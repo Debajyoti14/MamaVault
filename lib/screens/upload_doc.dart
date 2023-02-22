@@ -28,9 +28,7 @@ class _UploadDocState extends State<UploadDoc> {
 
     if (currentImage.isNotEmpty) {
       currentImages.addAll(currentImage);
-      setState(() {
-        isSelected = false;
-      });
+      setState(() {});
     }
   }
 
@@ -105,7 +103,10 @@ class _UploadDocState extends State<UploadDoc> {
                         showModalBottomSheet(
                             context: context,
                             builder: (BuildContext context) {
-                              return bottomSheet();
+                              return StatefulBuilder(builder:
+                                  (BuildContext context, StateSetter setState) {
+                                return bottomSheet();
+                              });
                             });
                       },
                     )
@@ -161,10 +162,10 @@ class _UploadDocState extends State<UploadDoc> {
             (isSelected)
                 ? InkWell(
                     onTap: () async {
-                      print(isSelected);
                       await openPicker();
-                      print("Here");
-                      print(isSelected);
+                      setState(() {
+                        isSelected = false;
+                      });
                     },
                     child: Container(
                       height: 150,
