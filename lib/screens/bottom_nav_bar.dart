@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:interrupt/screens/profile.dart';
+
 import 'package:interrupt/screens/settings.dart';
 import 'package:interrupt/screens/upload_doc.dart';
+
+import 'docs_gallery.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});

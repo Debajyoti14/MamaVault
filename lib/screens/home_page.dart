@@ -6,7 +6,6 @@ import 'package:interrupt/screens/onboarding/add_details.dart';
 import 'package:interrupt/screens/signin_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// ignore: must_be_immutable
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
