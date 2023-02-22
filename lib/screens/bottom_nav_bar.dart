@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:interrupt/screens/profile.dart';
 import 'package:interrupt/screens/settings.dart';
 import 'package:interrupt/screens/upload_doc.dart';
 
@@ -15,7 +16,7 @@ class _BottomNavState extends State<BottomNav> {
   static final List<Widget> _widgetOptions = [
     const UploadDoc(),
     const Center(
-      child: Text("Documents"),
+      child: Profile(),
     ),
     const Center(
       child: Text("Feeds"),

@@ -1,3 +1,8 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:io' as io;
@@ -5,7 +10,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:interrupt/config/UI_constraints.dart';
 import 'package:interrupt/config/color_pallete.dart';
+import 'package:interrupt/widgets/custom_text_field.dart';
+import 'package:interrupt/widgets/primary_button.dart';
 import 'package:interrupt/widgets/primary_icon_button.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class UploadDoc extends StatefulWidget {
   const UploadDoc({super.key});
@@ -17,22 +25,29 @@ class UploadDoc extends StatefulWidget {
 class _UploadDocState extends State<UploadDoc> {
   List uploadedImageURL = [];
   final ImagePicker imagePicker = ImagePicker();
-
+  final user = FirebaseAuth.instance.currentUser!;
+  final docTitle = TextEditingController();
   List<XFile> imageFileList = [];
   List<XFile> currentImages = [];
+  List<String> fileTitle = [];
+  List<String> allTitleList = [];
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool isSelected = true;
   late String displayImageUrl = "assets/imageUploadIcon.png";
+  int nameIndex = 0;
 
   Future openPicker() async {
     List<XFile> currentImage = await imagePicker.pickMultiImage();
-
     if (currentImage.isNotEmpty) {
       currentImages.addAll(currentImage);
-      setState(() {});
+      setState(() {
+        isSelected = false;
+      });
     }
   }
 
   void selectImages() {
+    docTitle.clear();
     setState(() {
       imageFileList.addAll(currentImages);
       currentImages = [];
@@ -41,16 +56,55 @@ class _UploadDocState extends State<UploadDoc> {
     Navigator.pop(context);
   }
 
-  //   _uploadMultipleImages() async {
-  //   for (var image in imageFileList) {
-  //     final url = await _uploadImages(image);
-  //     uploadedImageURL.add(url);
-  //   }
-  // }
+  Future uploadFile() async {
+    imageFileList.forEach((image) async {
+      nameIndex++;
+      final finalFile = File(image.path);
+      final storageRef = FirebaseStorage.instance.ref();
+      final uploadTask = await storageRef
+          .child("${user.uid}/documents/${image.name}")
+          .putFile(finalFile);
+      var dowurl = await uploadTask.ref.getDownloadURL();
+      await addDocDetails(dowurl);
+    });
+  }
+
+  Future addDocDetails(String imageURL) async {
+    final user = FirebaseAuth.instance.currentUser!;
+
+    final finalUser = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('documents')
+        .doc();
+    final data = {
+      'doc_url': imageURL,
+      'doc_type': fileTitle[nameIndex],
+      'doc_format': "image",
+      "doc_download_url": imageURL,
+      "upload_time": "",
+      "timeline_time": ""
+    };
+    await finalUser.set(data);
+  }
+
+  Future checkTitle() async {
+    final CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('users/${user.uid}/documents');
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+    final allData = querySnapshot.docs
+        .map((doc) => doc.data() as Map<String, dynamic>)
+        .toList();
+
+    allData.forEach((data) {
+      allTitleList.add(data['doc_type']);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
         child: SingleChildScrollView(
@@ -124,14 +178,32 @@ class _UploadDocState extends State<UploadDoc> {
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3, crossAxisSpacing: 10),
                     itemBuilder: (BuildContext context, int index) {
-                      return Image.file(
-                        io.File(imageFileList[index].path),
-                        fit: BoxFit.cover,
+                      return Column(
+                        children: [
+                          Container(
+                            height: 80,
+                            child: Image.file(
+                              io.File(imageFileList[index].path),
+                              fit: BoxFit.fitHeight,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(fileTitle[index]),
+                        ],
                       );
                     },
                   )
                 : Container(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 200),
+            PrimaryButton(
+              buttonTitle: "Upload",
+              onPressed: () async {
+                await uploadFile();
+                nameIndex = 0;
+              },
+            ),
           ],
         )),
       ),
@@ -140,9 +212,12 @@ class _UploadDocState extends State<UploadDoc> {
 
   SizedBox bottomSheet() {
     return SizedBox(
-      height: 400,
+      height: 500,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+        padding: EdgeInsets.only(
+            left: defaultPadding,
+            right: defaultPadding,
+            bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           children: [
             const SizedBox(
@@ -163,9 +238,7 @@ class _UploadDocState extends State<UploadDoc> {
                 ? InkWell(
                     onTap: () async {
                       await openPicker();
-                      setState(() {
-                        isSelected = false;
-                      });
+                      await checkTitle();
                     },
                     child: Container(
                       height: 150,
@@ -196,10 +269,36 @@ class _UploadDocState extends State<UploadDoc> {
             const SizedBox(
               height: 40,
             ),
+            Form(
+              key: formKey,
+              child: CustomTextField(
+                hintText: "Enter Title",
+                controller: docTitle,
+                validator: (value) {
+                  if (value.toString().isEmpty) {
+                    return 'Title Required';
+                  } else if (allTitleList.contains(value.toString())) {
+                    return 'File name already exists';
+                  } else {
+                    return null;
+                  }
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
             PrimaryIconButton(
-                buttonTitle: "Upload",
-                buttonIcon: const FaIcon(FontAwesomeIcons.image),
-                onPressed: selectImages)
+              buttonTitle: "Next",
+              buttonIcon: const FaIcon(FontAwesomeIcons.image),
+              onPressed: () async {
+                await checkTitle();
+                if (formKey.currentState!.validate()) {
+                  fileTitle.add(docTitle.text);
+                  selectImages();
+                }
+              },
+            )
           ],
         ),
       ),
