@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:interrupt/screens/bottom_nav_bar.dart';
 import 'package:interrupt/screens/onboarding/add_details.dart';
 import 'package:interrupt/screens/profile.dart';
 import 'package:interrupt/screens/signin_page.dart';
@@ -44,7 +45,7 @@ class _HomeState extends State<Home> {
             } else if (snapshot.hasData) {
               createUser();
               if (isOnboarded) {
-                return const Profile();
+                return const BottomNav();
               } else {
                 return const AddDetailsScreen();
               }
