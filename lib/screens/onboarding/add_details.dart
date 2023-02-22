@@ -179,13 +179,13 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           print(dateController.text);
-                          // addDetailsUser();
-                          // Navigator.push(
-                          //   context,
-                          //   CupertinoPageRoute(
-                          //     builder: (_) => const AddMedicalRecordsScreen(),
-                          //   ),
-                          // );
+                          addDetailsUser();
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (_) => const AddMedicalRecordsScreen(),
+                            ),
+                          );
                         }
                       }),
                 ],

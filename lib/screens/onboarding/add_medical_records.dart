@@ -349,14 +349,20 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
                             final prefs = await SharedPreferences.getInstance();
                             await prefs.setBool('isOnboarded', true);
                           },
-                          icon: const Icon(Icons.skip_next),
+                          icon: const Icon(Icons.skip_next,
+                              color: PalleteColor.primaryPurple),
                           label: const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8),
-                            child: Text('Skip'),
+                            child: Text(
+                              'Skip',
+                              style:
+                                  TextStyle(color: PalleteColor.primaryPurple),
+                            ),
                           ),
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)),
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
                             backgroundColor: PalleteColor.bodyTextColorLight,
                             textStyle: TextStyle(
                               fontFamily: GoogleFonts.poppins().fontFamily,
