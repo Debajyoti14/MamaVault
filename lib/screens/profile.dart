@@ -6,11 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
 import 'package:interrupt/config/color_pallete.dart';
-import 'package:interrupt/widgets/primary_icon_button.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:provider/provider.dart';
 
-import '../provider/google_signin.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -396,15 +393,6 @@ class _ProfileState extends State<Profile> {
                               ),
                             )
                           ]),
-                      PrimaryIconButton(
-                          buttonTitle: "Logout",
-                          buttonIcon: const FaIcon(FontAwesomeIcons.doorOpen),
-                          onPressed: () {
-                            final provider = Provider.of<GoogleSignInProvider>(
-                                context,
-                                listen: false);
-                            provider.logout();
-                          })
                     ],
                   ),
                 ),
