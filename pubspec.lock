@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.1"
+  animated_checkmark:
+    dependency: transitive
+    description:
+      name: animated_checkmark
+      sha256: "878db0c6754c4145e9e17b46f20e304da060ac7a65f8ab4ab43494093f3f8443"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   animated_splash_screen:
     dependency: "direct main"
     description:
@@ -49,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
+  awesome_select:
+    dependency: "direct main"
+    description:
+      name: awesome_select
+      sha256: b7ea3886c29f07db559688feca329961aa8115c97ecc0615b11db8b8705160c3
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -73,6 +89,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+  chips_choice:
+    dependency: "direct main"
+    description:
+      name: chips_choice
+      sha256: "593a9bf48238abb057f81b1bc33557f28588126d3bd8b9deae3123cc697aa1bf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   cli_util:
     dependency: transitive
     description:
@@ -153,6 +177,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  date_time_picker:
+    dependency: "direct main"
+    description:
+      name: date_time_picker
+      sha256: "6923c568bcb67a66ab7e083708d0adbcae8214b41bb84d49febc17e89e06fc4a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -225,11 +257,27 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  flexi_chip:
+    dependency: transitive
+    description:
+      name: flexi_chip
+      sha256: "5942219bdbd94a7527b69eb5640e6bd05d8ec6a41a5a4a1a10ca22a5a1f41beb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.8"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_chips_input:
+    dependency: "direct main"
+    description:
+      name: flutter_chips_input
+      sha256: "9828e45e75f268ff51a08e8d05848776b0a4d8327867d2b347a733030bafe64f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   flutter_dotenv:
     dependency: "direct main"
     description:
@@ -417,7 +465,7 @@ packages:
     source: hosted
     version: "2.6.2"
   intl:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: intl
       sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
@@ -789,6 +837,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  widget_event:
+    dependency: transitive
+    description:
+      name: widget_event
+      sha256: b71014bc7d8ec85a325357e76e6b5769ee1d8a67d099a6ce5c429440a19dbf18
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.5"
   win32:
     dependency: transitive
     description:
