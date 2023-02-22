@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:interrupt/screens/profile.dart';
+import 'package:interrupt/screens/settings.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -12,9 +14,7 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = [
-    const Center(
-      child: Text("Memories"),
-    ),
+    const SettingsPage(),
     const Center(
       child: Text("Documents"),
     ),
