@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
 import 'package:interrupt/screens/signin_page.dart';
 import 'package:onboarding/onboarding.dart';
 
 import '../../config/color_pallete.dart';
+import '../../widgets/primary_button.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -200,13 +200,71 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     ),
     PageModel(
-        widget: Container(
-      decoration: const BoxDecoration(
-        color: PalleteColor.primaryPurple,
+      widget: SizedBox(
+        height: double.infinity,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 0.0,
+              color: PalleteColor.bodyTextColorLight,
+            ),
+          ),
+          child: SingleChildScrollView(
+            controller: ScrollController(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
+                  child: Container(
+                    color: PalleteColor.primaryPurple,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 55.0,
+                      vertical: 90.0,
+                    ),
+                    child: Image.asset(
+                      'assets/onboarding-4.png',
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: defaultPadding, vertical: 50),
+                  color: PalleteColor.bodyTextColorLight,
+                  child: Column(
+                    children: const [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'All time friend in Pregnancy',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 28,
+                              color: Colors.black),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'The only app you need in time of your pregnancy.',
+                          style: TextStyle(color: Colors.black45),
+                        ),
+                      ),
+                      SizedBox(height: 50),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-      width: double.infinity,
-      height: double.infinity,
-    )),
+    ),
   ];
 
   @override
@@ -225,37 +283,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         borderRadius: defaultSkipButtonBorderRadius,
         onTap: () {
           if (setIndex != null) {
-            index = 2;
-            setIndex(2);
+            index = 3;
+            setIndex(3);
           }
         },
         child: const Padding(
-          padding: EdgeInsets.all(15),
-          child: FaIcon(FontAwesomeIcons.arrowRight),
-        ),
+            padding: EdgeInsets.all(15),
+            child: Icon(
+              Icons.navigate_next,
+              color: PalleteColor.bodyTextColorLight,
+            )),
       ),
     );
   }
 
   Material get _signupButton {
     return Material(
-      borderRadius: defaultProceedButtonBorderRadius,
-      color: defaultProceedButtonColor,
-      child: InkWell(
-        borderRadius: defaultProceedButtonBorderRadius,
-        onTap: () {
-          Navigator.pushAndRemoveUntil(
-              context,
-              CupertinoPageRoute(builder: (_) => const SignInPage()),
-              (route) => false);
-        },
-        child: const Padding(
-          padding: defaultProceedButtonPadding,
-          child: Text(
-            'Sign up',
-            style: defaultProceedButtonTextStyle,
-          ),
-        ),
+      child: SizedBox(
+        width: 150,
+        child: PrimaryButton(
+            buttonTitle: 'Get Started',
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  CupertinoPageRoute(builder: (_) => const SignInPage()),
+                  (route) => false);
+            }),
       ),
     );
   }

@@ -62,12 +62,16 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 40),
-                  const Text(
-                    'Add Details',
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.left,
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Add Details',
+                      style:
+                          TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 40),
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: PalleteColor.primaryPurple,
@@ -78,7 +82,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       radius: 45,
                     ),
                   ),
-                  const SizedBox(height: 70),
+                  const SizedBox(height: 50),
                   CustomTextField(
                     hintText: 'Enter Your Name',
                     controller: nameController,
@@ -173,7 +177,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       }
                     },
                   ),
-                  const SizedBox(height: 180),
+                  const SizedBox(height: 150),
                   PrimaryButton(
                       buttonTitle: 'Next',
                       onPressed: () {

@@ -191,7 +191,6 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
     }
 
     return ListView(
-      // This next line does the trick.
       scrollDirection: Axis.horizontal,
       children: chips,
     );
@@ -213,10 +212,14 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 40),
-                  const Text(
-                    'Medical Records',
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.left,
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Medical Records',
+                      style:
+                          TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Image.asset('assets/add_medical_records.png'),
