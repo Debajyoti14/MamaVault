@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:interrupt/screens/profile.dart';
 import 'package:interrupt/screens/signin_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,7 +45,7 @@ class _HomeState extends State<Home> {
               if (isOnboarded) {
                 return const Center(child: Text('Setup Done'));
               } else {
-                return const Center(child: Text('Setup Pending'));
+                return const Profile();
               }
             } else if (snapshot.hasError) {
               return const Center(
