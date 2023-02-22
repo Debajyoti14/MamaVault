@@ -48,6 +48,8 @@ dependencies:
   shared_preferences: ^2.0.15
   percent_indicator: ^4.0.1
   accordion: ^2.5.1
+  fluentui_system_icons: ^1.1.190
+  fluentui_icons: ^1.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

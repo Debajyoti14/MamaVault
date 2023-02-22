@@ -34,7 +34,9 @@ class _ProfileState extends State<Profile> {
           }
 
           if (!snapshot.hasData) {
-            return const Center(child: Text("Document does not exist"));
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           if (snapshot.connectionState == ConnectionState.done) {
