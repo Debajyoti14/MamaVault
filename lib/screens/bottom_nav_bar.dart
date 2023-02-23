@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:interrupt/screens/docs_gallery.dart';
-import 'package:interrupt/screens/profile.dart';
+// import 'package:interrupt/screens/profile.dart';
 import 'package:interrupt/screens/settings.dart';
 import 'package:interrupt/screens/share.dart';
 import 'package:interrupt/screens/upload_doc.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/user_provider.dart';
+import '../provider/expire_provider.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -21,9 +22,7 @@ class _BottomNavState extends State<BottomNav> {
   static final List<Widget> _widgetOptions = [
     const DocsGalleryScreen(),
     const UploadDoc(),
-    const Center(
-      child: Profile(),
-    ),
+    const Share(),
     const SettingsPage(),
   ];
   void _onItemTapped(int index) {
@@ -37,10 +36,16 @@ class _BottomNavState extends State<BottomNav> {
     await userProvider.fetchUserDocs();
   }
 
+  fetchExpire() async {
+    ExpireProvider userProvider = Provider.of(context, listen: false);
+    await userProvider.fetchExpiryDetails();
+  }
+
   @override
   void initState() {
     super.initState();
     fetchDocs();
+    fetchExpire();
   }
 
   @override

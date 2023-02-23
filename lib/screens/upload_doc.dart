@@ -241,134 +241,140 @@ class _UploadDocState extends State<UploadDoc> {
     );
   }
 
-  SizedBox bottomSheet() {
-    return SizedBox(
-      height: 700,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(
-              left: defaultPadding,
-              right: defaultPadding,
-              bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 30,
-              ),
-              Text(
-                'Choose Image',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
-                      .fontFamily,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              (isSelected)
-                  ? InkWell(
-                      onTap: () async {
-                        await openPicker();
-                        await checkTitle();
-                      },
-                      child: Container(
-                        height: 150,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 255, 255, 255),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 224, 223, 223),
+  BottomSheet bottomSheet() {
+    return BottomSheet(
+      onClosing: () {},
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 700,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: defaultPadding,
+                  right: defaultPadding,
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    'Choose Image',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily:
+                          GoogleFonts.poppins(fontWeight: FontWeight.bold)
+                              .fontFamily,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  (isSelected)
+                      ? InkWell(
+                          onTap: () async {
+                            await openPicker();
+                            await checkTitle();
+                          },
+                          child: Container(
+                            height: 150,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 255, 255, 255),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: const Color.fromARGB(255, 224, 223, 223),
+                              ),
+                            ),
+                            child: Image.asset(displayImageUrl),
+                          ),
+                        )
+                      : Container(
+                          height: 150,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: const Color.fromARGB(255, 224, 223, 223),
+                            ),
+                          ),
+                          child: Image.file(
+                            io.File(currentImages[0].path),
+                            fit: BoxFit.contain,
                           ),
                         ),
-                        child: Image.asset(displayImageUrl),
-                      ),
-                    )
-                  : Container(
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 255, 255, 255),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: const Color.fromARGB(255, 224, 223, 223),
-                        ),
-                      ),
-                      child: Image.file(
-                        io.File(currentImages[0].path),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-              const SizedBox(
-                height: 20,
-              ),
-              Form(
-                key: formKey,
-                child: CustomTextField(
-                  hintText: "Enter Title",
-                  controller: docTitle,
-                  validator: (value) {
-                    if (value.toString().isEmpty) {
-                      return 'Title Required';
-                    } else if (allTitleList.contains(value.toString())) {
-                      return 'File name already exists';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                child: DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  const SizedBox(
+                    height: 20,
                   ),
-                  hint: const Text('Doc Type'),
-                  isExpanded: true,
-                  items: <String>[
-                    'USG Report',
-                    'Non-Stress Test',
-                    'Contraction Stress Test',
-                    'Doppler Ultrasound Report',
-                    'Others'
-                  ].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    docType = value!;
-                  },
-                  validator: (value) {
-                    if (docType == '') {
-                      return 'Doc type is required';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
+                  Form(
+                    key: formKey,
+                    child: CustomTextField(
+                      hintText: "Enter Title",
+                      controller: docTitle,
+                      validator: (value) {
+                        if (value.toString().isEmpty) {
+                          return 'Title Required';
+                        } else if (allTitleList.contains(value.toString())) {
+                          return 'File name already exists';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    child: DropdownButtonFormField<String>(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      hint: const Text('Doc Type'),
+                      isExpanded: true,
+                      items: <String>[
+                        'USG Report',
+                        'Non-Stress Test',
+                        'Contraction Stress Test',
+                        'Doppler Ultrasound Report',
+                        'Others'
+                      ].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        docType = value!;
+                      },
+                      validator: (value) {
+                        if (docType == '') {
+                          return 'Doc type is required';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  PrimaryIconButton(
+                    buttonTitle: "Next",
+                    buttonIcon: const FaIcon(FontAwesomeIcons.image),
+                    onPressed: () async {
+                      await checkTitle();
+                      if (formKey.currentState!.validate()) {
+                        fileTitle.add(docTitle.text);
+                        selectImages();
+                      }
+                    },
+                  )
+                ],
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              PrimaryIconButton(
-                buttonTitle: "Next",
-                buttonIcon: const FaIcon(FontAwesomeIcons.image),
-                onPressed: () async {
-                  await checkTitle();
-                  if (formKey.currentState!.validate()) {
-                    fileTitle.add(docTitle.text);
-                    selectImages();
-                  }
-                },
-              )
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
