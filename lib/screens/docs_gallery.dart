@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:interrupt/config/color_pallete.dart';
 
 import '../config/UI_constraints.dart';
+import 'doc_list.dart';
 
 class DocsGalleryScreen extends StatelessWidget {
   const DocsGalleryScreen({super.key});
@@ -45,7 +47,13 @@ class DocsGalleryScreen extends StatelessWidget {
                   itemCount: docCategories.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (_) => const DocListScreen()),
+                        );
+                      },
                       child: Column(
                         children: [
                           const FaIcon(

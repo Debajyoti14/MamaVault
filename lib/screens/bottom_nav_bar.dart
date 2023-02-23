@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:interrupt/screens/docs_gallery.dart';
 import 'package:interrupt/screens/profile.dart';
 import 'package:interrupt/screens/settings.dart';
 import 'package:interrupt/screens/share.dart';
 import 'package:interrupt/screens/upload_doc.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/user_provider.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -15,12 +19,10 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = [
-    const Share(),
+    const DocsGalleryScreen(),
+    const UploadDoc(),
     const Center(
       child: Profile(),
-    ),
-    const Center(
-      child: UploadDoc(),
     ),
     const SettingsPage(),
   ];
@@ -28,6 +30,17 @@ class _BottomNavState extends State<BottomNav> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  fetchDocs() async {
+    UserProvider userProvider = Provider.of(context, listen: false);
+    await userProvider.fetchUserDocs();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDocs();
   }
 
   @override

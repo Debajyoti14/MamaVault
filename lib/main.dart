@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:interrupt/config/theme.dart';
 import 'package:interrupt/provider/google_signin.dart';
+import 'package:interrupt/provider/user_provider.dart';
 import 'package:interrupt/screens/home_page.dart';
 import 'package:interrupt/screens/onboarding/onboarding.dart';
 import 'package:interrupt/splash.dart';
@@ -47,8 +48,15 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => GoogleSignInProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => GoogleSignInProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'MamaVault',

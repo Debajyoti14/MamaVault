@@ -79,8 +79,7 @@ class _UploadDocState extends State<UploadDoc> {
     final finalUser = FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
-        .collection('documents')
-        .doc();
+        .collection('documents');
     final data = {
       'doc_url': imageURL,
       'doc_type': docType,
@@ -90,7 +89,10 @@ class _UploadDocState extends State<UploadDoc> {
       "upload_time": dateController.text,
       "timeline_time": dateController.text,
     };
-    await finalUser.set(data);
+    await finalUser.add(data).then((value) {
+      String doc_id = value.id;
+      finalUser.doc(doc_id).update({'doc_id': doc_id});
+    });
   }
 
   Future checkTitle() async {
