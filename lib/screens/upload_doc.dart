@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,6 +28,7 @@ class _UploadDocState extends State<UploadDoc> {
   final ImagePicker imagePicker = ImagePicker();
   final user = FirebaseAuth.instance.currentUser!;
   final docTitle = TextEditingController();
+  final dateController = TextEditingController();
   List<XFile> imageFileList = [];
   List<XFile> currentImages = [];
   List<String> fileTitle = [];
@@ -35,6 +37,7 @@ class _UploadDocState extends State<UploadDoc> {
   bool isSelected = true;
   late String displayImageUrl = "assets/imageUploadIcon.png";
   int nameIndex = 0;
+  late String docType;
 
   Future openPicker() async {
     List<XFile> currentImage = await imagePicker.pickMultiImage();
@@ -65,11 +68,12 @@ class _UploadDocState extends State<UploadDoc> {
           .child("${user.uid}/documents/${image.name}")
           .putFile(finalFile);
       var dowurl = await uploadTask.ref.getDownloadURL();
-      await addDocDetails(dowurl);
+      var meta = await uploadTask.ref.getMetadata();
+      await addDocDetails(dowurl, meta.contentType);
     });
   }
 
-  Future addDocDetails(String imageURL) async {
+  Future addDocDetails(String imageURL, String? metaData) async {
     final user = FirebaseAuth.instance.currentUser!;
 
     final finalUser = FirebaseFirestore.instance
@@ -79,19 +83,20 @@ class _UploadDocState extends State<UploadDoc> {
         .doc();
     final data = {
       'doc_url': imageURL,
-      'doc_type': fileTitle[nameIndex],
-      'doc_format': "image",
+      'doc_type': docType,
+      'doc_title': fileTitle[nameIndex],
+      'doc_format': metaData,
       "doc_download_url": imageURL,
-      "upload_time": "",
-      "timeline_time": ""
+      "upload_time": dateController.text,
+      "timeline_time": dateController.text,
     };
     await finalUser.set(data);
   }
 
   Future checkTitle() async {
-    final CollectionReference _collectionRef =
+    final CollectionReference collectionRef =
         FirebaseFirestore.instance.collection('users/${user.uid}/documents');
-    QuerySnapshot querySnapshot = await _collectionRef.get();
+    QuerySnapshot querySnapshot = await collectionRef.get();
     final allData = querySnapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
@@ -180,7 +185,7 @@ class _UploadDocState extends State<UploadDoc> {
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: [
-                          Container(
+                          SizedBox(
                             height: 80,
                             child: Image.file(
                               io.File(imageFileList[index].path),
@@ -197,6 +202,30 @@ class _UploadDocState extends State<UploadDoc> {
                   )
                 : Container(),
             const SizedBox(height: 200),
+            DateTimePicker(
+              dateHintText: 'Select Date',
+              calendarTitle: 'MamaVault',
+              type: DateTimePickerType.date,
+              controller: dateController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2100),
+              dateLabelText: 'Date',
+              onChanged: (val) {},
+              onSaved: (val) {},
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Date is required';
+                } else {
+                  return null;
+                }
+              },
+            ),
+            const SizedBox(
+              height: 30,
+            ),
             PrimaryButton(
               buttonTitle: "Upload",
               onPressed: () async {
@@ -212,35 +241,48 @@ class _UploadDocState extends State<UploadDoc> {
 
   SizedBox bottomSheet() {
     return SizedBox(
-      height: 500,
-      child: Padding(
-        padding: EdgeInsets.only(
-            left: defaultPadding,
-            right: defaultPadding,
-            bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            Text(
-              'Choose Image',
-              style: TextStyle(
-                fontSize: 18,
-                fontFamily:
-                    GoogleFonts.poppins(fontWeight: FontWeight.bold).fontFamily,
+      height: 700,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+              left: defaultPadding,
+              right: defaultPadding,
+              bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 30,
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            (isSelected)
-                ? InkWell(
-                    onTap: () async {
-                      await openPicker();
-                      await checkTitle();
-                    },
-                    child: Container(
+              Text(
+                'Choose Image',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
+                      .fontFamily,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              (isSelected)
+                  ? InkWell(
+                      onTap: () async {
+                        await openPicker();
+                        await checkTitle();
+                      },
+                      child: Container(
+                        height: 150,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: const Color.fromARGB(255, 224, 223, 223),
+                          ),
+                        ),
+                        child: Image.asset(displayImageUrl),
+                      ),
+                    )
+                  : Container(
                       height: 150,
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 255, 255, 255),
@@ -249,57 +291,80 @@ class _UploadDocState extends State<UploadDoc> {
                           color: const Color.fromARGB(255, 224, 223, 223),
                         ),
                       ),
-                      child: Image.asset(displayImageUrl),
-                    ),
-                  )
-                : Container(
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 224, 223, 223),
+                      child: Image.file(
+                        io.File(currentImages[0].path),
+                        fit: BoxFit.contain,
                       ),
                     ),
-                    child: Image.file(
-                      io.File(currentImages[0].path),
-                      fit: BoxFit.contain,
-                    ),
+              const SizedBox(
+                height: 20,
+              ),
+              Form(
+                key: formKey,
+                child: CustomTextField(
+                  hintText: "Enter Title",
+                  controller: docTitle,
+                  validator: (value) {
+                    if (value.toString().isEmpty) {
+                      return 'Title Required';
+                    } else if (allTitleList.contains(value.toString())) {
+                      return 'File name already exists';
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                child: DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
                   ),
-            const SizedBox(
-              height: 40,
-            ),
-            Form(
-              key: formKey,
-              child: CustomTextField(
-                hintText: "Enter Title",
-                controller: docTitle,
-                validator: (value) {
-                  if (value.toString().isEmpty) {
-                    return 'Title Required';
-                  } else if (allTitleList.contains(value.toString())) {
-                    return 'File name already exists';
-                  } else {
-                    return null;
+                  hint: const Text('Doc Type'),
+                  isExpanded: true,
+                  items: <String>[
+                    'USG Report',
+                    'Non-Stress Test',
+                    'Contraction Stress Test',
+                    'Doppler Ultrasound Report',
+                    'Others'
+                  ].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    docType = value!;
+                  },
+                  validator: (value) {
+                    if (docType == '') {
+                      return 'Doc type is required';
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              PrimaryIconButton(
+                buttonTitle: "Next",
+                buttonIcon: const FaIcon(FontAwesomeIcons.image),
+                onPressed: () async {
+                  await checkTitle();
+                  if (formKey.currentState!.validate()) {
+                    fileTitle.add(docTitle.text);
+                    selectImages();
                   }
                 },
-              ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            PrimaryIconButton(
-              buttonTitle: "Next",
-              buttonIcon: const FaIcon(FontAwesomeIcons.image),
-              onPressed: () async {
-                await checkTitle();
-                if (formKey.currentState!.validate()) {
-                  fileTitle.add(docTitle.text);
-                  selectImages();
-                }
-              },
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
