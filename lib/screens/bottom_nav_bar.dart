@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:interrupt/screens/profile.dart';
 import 'package:interrupt/screens/settings.dart';
+import 'package:interrupt/screens/share.dart';
 import 'package:interrupt/screens/upload_doc.dart';
 
 class BottomNav extends StatefulWidget {
@@ -14,7 +15,7 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = [
-    const UploadDoc(),
+    const Share(),
     const Center(
       child: Profile(),
     ),
