@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:interrupt/screens/docs_gallery.dart';
 import 'package:interrupt/screens/profile.dart';
 import 'package:interrupt/screens/settings.dart';
+import 'package:interrupt/screens/share.dart';
 import 'package:interrupt/screens/upload_doc.dart';
 import 'package:provider/provider.dart';
 
