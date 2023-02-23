@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,6 +28,7 @@ class _UploadDocState extends State<UploadDoc> {
   final ImagePicker imagePicker = ImagePicker();
   final user = FirebaseAuth.instance.currentUser!;
   final docTitle = TextEditingController();
+  final dateController = TextEditingController();
   List<XFile> imageFileList = [];
   List<XFile> currentImages = [];
   List<String> fileTitle = [];
@@ -85,16 +87,16 @@ class _UploadDocState extends State<UploadDoc> {
       'doc_title': fileTitle[nameIndex],
       'doc_format': metaData,
       "doc_download_url": imageURL,
-      "upload_time": "",
-      "timeline_time": ""
+      "upload_time": dateController.text,
+      "timeline_time": dateController.text,
     };
     await finalUser.set(data);
   }
 
   Future checkTitle() async {
-    final CollectionReference _collectionRef =
+    final CollectionReference collectionRef =
         FirebaseFirestore.instance.collection('users/${user.uid}/documents');
-    QuerySnapshot querySnapshot = await _collectionRef.get();
+    QuerySnapshot querySnapshot = await collectionRef.get();
     final allData = querySnapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
@@ -200,6 +202,30 @@ class _UploadDocState extends State<UploadDoc> {
                   )
                 : Container(),
             const SizedBox(height: 200),
+            DateTimePicker(
+              dateHintText: 'Select Date',
+              calendarTitle: 'MamaVault',
+              type: DateTimePickerType.date,
+              controller: dateController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2100),
+              dateLabelText: 'Date',
+              onChanged: (val) {},
+              onSaved: (val) {},
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Date is required';
+                } else {
+                  return null;
+                }
+              },
+            ),
+            const SizedBox(
+              height: 30,
+            ),
             PrimaryButton(
               buttonTitle: "Upload",
               onPressed: () async {
