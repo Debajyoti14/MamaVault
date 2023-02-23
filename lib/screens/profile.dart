@@ -76,7 +76,12 @@ class _ProfileState extends State<Profile> {
                               elevation: 0,
                               backgroundColor: PalleteColor.bodyTextColorLight,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              print(data['diseases']);
+                              print(data['age']);
+                              print(data['allegies']);
+                              print(data);
+                            },
                             icon: const FaIcon(
                               FontAwesomeIcons.pen,
                               color: Colors.black,
@@ -129,7 +134,7 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
                                 Text(
-                                  "26 years",
+                                  "${data['age']} years",
                                   style: TextStyle(
                                     color: const Color.fromARGB(
                                         255, 113, 112, 112),
@@ -236,18 +241,7 @@ class _ProfileState extends State<Profile> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Medoc T",
-                                      style: TextStyle(
-                                        color: const Color.fromARGB(
-                                            255, 73, 72, 72),
-                                        fontSize: 14,
-                                        fontFamily: GoogleFonts.poppins(
-                                                fontWeight: FontWeight.w500)
-                                            .fontFamily,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Pentopra Jol",
+                                      data['diseases'].toString(),
                                       style: TextStyle(
                                         color: const Color.fromARGB(
                                             255, 73, 72, 72),
