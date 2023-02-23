@@ -3,25 +3,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {
-  Map<String, dynamic>? _userDocs;
+  List<Object?>? _userDocs;
 
-  Map<String, dynamic> get getUserDocs => _userDocs!;
+  List<Object?> get getUserDocs => _userDocs ?? [];
 
   Future fetchUserDocs() async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     User currentUser = _auth.currentUser!;
     try {
-      DocumentSnapshot snap = await _firestore
+      CollectionReference _docRef = _firestore
           .collection('users')
           .doc(currentUser.uid)
-          .collection('documents')
-          .doc()
-          .get();
-      print('Idhar hain bc');
-      print(snap.data());
-      _userDocs = {};
-      print(_userDocs);
+          .collection('documents');
+      QuerySnapshot querySnapshot = await _docRef.get();
+      final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+      _userDocs = allData;
       notifyListeners();
     } catch (e) {
       print(e.toString());

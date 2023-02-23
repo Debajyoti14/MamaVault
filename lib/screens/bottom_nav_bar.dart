@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:interrupt/screens/Panic%20Mode/panic_mode_timer.dart';
+import 'package:interrupt/screens/docs_gallery.dart';
+import 'package:interrupt/screens/profile.dart';
 import 'package:interrupt/screens/settings.dart';
 import 'package:interrupt/screens/upload_doc.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/user_provider.dart';
-import 'docs_gallery.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -18,12 +18,11 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = [
-    const UploadDoc(),
-    const PanicModeScreen(),
-    // const Center(
-    //   child: Text("Documents"),
-    // ),
     const DocsGalleryScreen(),
+    const UploadDoc(),
+    const Center(
+      child: Profile(),
+    ),
     const SettingsPage(),
   ];
   void _onItemTapped(int index) {
@@ -45,9 +44,6 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> _userDocs =
-        Provider.of<UserProvider>(context).getUserDocs;
-    print(_userDocs);
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
