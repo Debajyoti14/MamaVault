@@ -13,6 +13,8 @@ import 'package:interrupt/widgets/expire_link.dart';
 import 'package:interrupt/widgets/primary_icon_button.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:clipboard/clipboard.dart';
 
 import '../provider/user_provider.dart';
 import '../provider/expire_provider.dart';
@@ -31,6 +33,9 @@ class _ShareState extends State<Share> {
   bool shareProfile = true;
   List<String> allDocId = [];
   List allExpireLinks = [];
+  final success = const SnackBar(
+    content: Text('Copied to clipboard'),
+  );
 
   fetchExpire() async {
     ExpireProvider userProvider = Provider.of(context, listen: false);
@@ -85,6 +90,8 @@ class _ShareState extends State<Share> {
   Widget build(BuildContext context) {
     List allUserDocs = Provider.of<UserProvider>(context).getUserDocs;
     List allExpireDocs = Provider.of<ExpireProvider>(context).getExpiryDetails;
+    BuildContext modalContext = context;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -198,9 +205,118 @@ class _ShareState extends State<Share> {
                                             var res =
                                                 await sendDetails(allUserDocs);
                                             final Map parsed = json.decode(res);
-                                            print(parsed['share_doc_link']);
+                                            print(parsed);
                                             fetchExpire();
                                             setState(() {});
+                                            if (mounted) {
+                                              showModalBottomSheet(
+                                                  context: modalContext,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return SizedBox(
+                                                      height: 500,
+                                                      child: Padding(
+                                                        padding: const EdgeInsets
+                                                                .symmetric(
+                                                            horizontal:
+                                                                defaultPadding),
+                                                        child:
+                                                            Column(children: [
+                                                          const SizedBox(
+                                                            height: 40,
+                                                          ),
+                                                          Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              border:
+                                                                  Border.all(
+                                                                color: const Color
+                                                                        .fromARGB(
+                                                                    255,
+                                                                    224,
+                                                                    223,
+                                                                    223),
+                                                              ),
+                                                            ),
+                                                            child: QrImage(
+                                                              data: parsed[
+                                                                  'share_doc_link'],
+                                                              size: 200,
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 30),
+                                                          Container(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                                border:
+                                                                    Border.all(
+                                                                  color: const Color
+                                                                          .fromARGB(
+                                                                      255,
+                                                                      224,
+                                                                      223,
+                                                                      223),
+                                                                ),
+                                                              ),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width: 300,
+                                                                    child: Text(
+                                                                        parsed[
+                                                                            'share_doc_link']),
+                                                                  ),
+                                                                  InkWell(
+                                                                    child: const Icon(
+                                                                        Icons
+                                                                            .copy),
+                                                                    onTap: () {
+                                                                      FlutterClipboard.copy(
+                                                                              parsed['share_doc_link'])
+                                                                          .then(
+                                                                        (value) =>
+                                                                            ScaffoldMessenger.of(context).showSnackBar(success),
+                                                                      );
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                  )
+                                                                ],
+                                                              )),
+                                                          const SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                          PrimaryIconButton(
+                                                              buttonTitle:
+                                                                  "Send Via Email",
+                                                              buttonIcon:
+                                                                  const FaIcon(
+                                                                      FontAwesomeIcons
+                                                                          .share),
+                                                              onPressed: () {})
+                                                        ]),
+                                                      ),
+                                                    );
+                                                  });
+                                            }
                                           },
                                         ),
                                       ],
