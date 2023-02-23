@@ -77,10 +77,10 @@ class _ProfileState extends State<Profile> {
                               backgroundColor: PalleteColor.bodyTextColorLight,
                             ),
                             onPressed: () {
-                              print(data['diseases']);
-                              print(data['age']);
-                              print(data['allegies']);
-                              print(data);
+                              // print(data['diseases']);
+                              // print(data['age']);
+                              // print(data['allegies']);
+                              // print(data);
                             },
                             icon: const FaIcon(
                               FontAwesomeIcons.pen,

@@ -20,7 +20,7 @@ class _BottomNavState extends State<BottomNav> {
       child: Profile(),
     ),
     const Center(
-      child: Text("Feeds"),
+      child: UploadDoc(),
     ),
     const SettingsPage(),
   ];
