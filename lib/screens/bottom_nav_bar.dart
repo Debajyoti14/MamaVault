@@ -9,7 +9,9 @@ import 'package:interrupt/screens/upload_document.dart';
 import 'package:provider/provider.dart';
 import '../provider/user_provider.dart';
 import '../provider/expire_provider.dart';
+
 import '../provider/verified_number_provider.dart';
+
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -21,6 +23,8 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = [
+    Text('Hello'),
+    // const DashboardScreen(),
     const DocsGalleryScreen(),
     const DocumentUpload(),
     const Share(),
@@ -68,6 +72,10 @@ class _BottomNavState extends State<BottomNav> {
           selectedItemColor: const Color.fromRGBO(55, 80, 206, 1),
           currentIndex: _selectedIndex,
           items: const [
+            BottomNavigationBarItem(
+              label: 'Home',
+              icon: FaIcon(FontAwesomeIcons.home),
+            ),
             BottomNavigationBarItem(
               label: 'Memories',
               icon: FaIcon(FontAwesomeIcons.baby),

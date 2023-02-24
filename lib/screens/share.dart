@@ -1,24 +1,20 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
-import 'package:interrupt/config/color_pallete.dart';
+import 'package:interrupt/screens/doc_list.dart';
 import 'package:interrupt/widgets/expire_link.dart';
-// import 'package:interrupt/widgets/expire_link.dart';
 import 'package:interrupt/widgets/primary_icon_button.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:clipboard/clipboard.dart';
 
-import '../provider/user_provider.dart';
+import '../config/date_formatter.dart';
 import '../provider/expire_provider.dart';
-import '../widgets/custom_text_field.dart';
 
 class Share extends StatefulWidget {
   const Share({super.key});
@@ -43,9 +39,9 @@ class _ShareState extends State<Share> {
   }
 
   Future sendDetails(List allDoc) async {
-    allDoc.forEach((doc) {
+    for (var doc in allDoc) {
       allDocId.add(doc['doc_id']);
-    });
+    }
     var url = Uri.parse("https://expiry-system-s6e4vwvwlq-el.a.run.app");
     Map data = {
       "uid": user.uid, // user id
@@ -88,9 +84,7 @@ class _ShareState extends State<Share> {
 
   @override
   Widget build(BuildContext context) {
-    List allUserDocs = Provider.of<UserProvider>(context).getUserDocs;
     List allExpireDocs = Provider.of<ExpireProvider>(context).getExpiryDetails;
-    BuildContext modalContext = context;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -114,222 +108,15 @@ class _ShareState extends State<Share> {
                 height: 60,
               ),
               PrimaryIconButton(
-                buttonTitle: "Shared Doc",
+                buttonTitle: "Share Docs",
                 buttonIcon: const FaIcon(FontAwesomeIcons.share),
                 onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return StatefulBuilder(
-                        builder: (BuildContext context, StateSetter myState) {
-                          return BottomSheet(
-                            onClosing: () {},
-                            builder: (BuildContext context) {
-                              return SizedBox(
-                                height: 350,
-                                child: SingleChildScrollView(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: defaultPadding,
-                                      right: defaultPadding,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(
-                                          height: 30,
-                                        ),
-                                        Text(
-                                          'Expiry Time',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontFamily: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.bold)
-                                                .fontFamily,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        CustomTextField(
-                                          hintText: "Enter Expiry time",
-                                          controller: expireTime,
-                                          validator: (value) {
-                                            if (value.toString().isEmpty) {
-                                              return 'Time Required';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Share Profile",
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: GoogleFonts.poppins(
-                                                        fontWeight:
-                                                            FontWeight.w500)
-                                                    .fontFamily,
-                                              ),
-                                            ),
-                                            Switch(
-                                              value: shareProfile,
-                                              activeColor:
-                                                  PalleteColor.primaryPurple,
-                                              onChanged: (bool value) {
-                                                if (mounted) {
-                                                  setState(() {
-                                                    shareProfile = value;
-                                                  });
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 50,
-                                        ),
-                                        PrimaryIconButton(
-                                          buttonTitle: "Next",
-                                          buttonIcon: const FaIcon(
-                                            FontAwesomeIcons.link,
-                                            size: 18,
-                                          ),
-                                          onPressed: () async {
-                                            Navigator.pop(context);
-                                            var res =
-                                                await sendDetails(allUserDocs);
-                                            final Map parsed = json.decode(res);
 
-                                            fetchExpire();
-                                            setState(() {});
-                                            if (mounted) {
-                                              showModalBottomSheet(
-                                                  context: modalContext,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return SizedBox(
-                                                      height: 500,
-                                                      child: Padding(
-                                                        padding: const EdgeInsets
-                                                                .symmetric(
-                                                            horizontal:
-                                                                defaultPadding),
-                                                        child:
-                                                            Column(children: [
-                                                          const SizedBox(
-                                                            height: 40,
-                                                          ),
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                              border:
-                                                                  Border.all(
-                                                                color: const Color
-                                                                        .fromARGB(
-                                                                    255,
-                                                                    224,
-                                                                    223,
-                                                                    223),
-                                                              ),
-                                                            ),
-                                                            child: QrImage(
-                                                              data: parsed[
-                                                                  'share_doc_link'],
-                                                              size: 200,
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 30),
-                                                          Container(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(8),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: const Color
-                                                                          .fromARGB(
-                                                                      255,
-                                                                      224,
-                                                                      223,
-                                                                      223),
-                                                                ),
-                                                              ),
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  SizedBox(
-                                                                    width: 300,
-                                                                    child: Text(
-                                                                        parsed[
-                                                                            'share_doc_link']),
-                                                                  ),
-                                                                  InkWell(
-                                                                    child: const Icon(
-                                                                        Icons
-                                                                            .copy),
-                                                                    onTap: () {
-                                                                      FlutterClipboard.copy(
-                                                                              parsed['share_doc_link'])
-                                                                          .then(
-                                                                        (value) =>
-                                                                            ScaffoldMessenger.of(context).showSnackBar(success),
-                                                                      );
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              )),
-                                                          const SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                          PrimaryIconButton(
-                                                              buttonTitle:
-                                                                  "Send Via Email",
-                                                              buttonIcon:
-                                                                  const FaIcon(
-                                                                      FontAwesomeIcons
-                                                                          .share),
-                                                              onPressed: () {})
-                                                        ]),
-                                                      ),
-                                                    );
-                                                  });
-                                            }
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
-                  );
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (_) => const DocListScreen()));
+
                 },
               ),
               const SizedBox(
@@ -343,7 +130,7 @@ class _ShareState extends State<Share> {
                 height: 30,
               ),
               Text(
-                "Share Doc",
+                "Shared Links",
                 style: TextStyle(
                   fontSize: 24,
                   fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
@@ -353,16 +140,26 @@ class _ShareState extends State<Share> {
               const SizedBox(
                 height: 30,
               ),
-              Column(
-                children: allExpireDocs.map<Widget>((data) {
-                  return ExpireLink(
-                      link: data['shared_link'],
-                      date: data['expiry_time'].toString(),
-                      views: data['views'].toString(),
-                      percentage: 0.72,
-                      centerText: "22:00");
-                }).toList(),
-              )
+              allExpireDocs.isNotEmpty
+                  ? Column(
+                      children: allExpireDocs.map<Widget>((data) {
+                        String formattedDate =
+                            format12hourTime(data['expiry_time']);
+                        return ExpireLink(
+                            sharedDocID: data['shared_doc_id'],
+                            link: data['shared_link'],
+                            date: formattedDate,
+                            views: data['views'].toString(),
+                            percentage: 0.72,
+                            centerText: "22:00");
+                      }).toList(),
+                    )
+                  : SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: const Center(
+                        child: Text('No Active Shared Links Available '),
+                      ),
+                    )
             ],
           ),
         ),

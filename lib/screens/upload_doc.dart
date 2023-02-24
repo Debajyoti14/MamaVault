@@ -7,7 +7,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'dart:io' as io;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:interrupt/config/UI_constraints.dart';
@@ -16,7 +15,6 @@ import 'package:interrupt/widgets/custom_text_field.dart';
 import 'package:interrupt/widgets/primary_button.dart';
 import 'package:interrupt/widgets/primary_icon_button.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart';
 
 class UploadDoc extends StatefulWidget {
   const UploadDoc({super.key});
@@ -159,7 +157,7 @@ class _UploadDocState extends State<UploadDoc> {
                       ),
                     ),
                     Text(
-                      'Minimum 1 Image required',
+                      'Minimum 1 Document required',
                       style: TextStyle(
                         fontSize: 16,
                         fontFamily:
@@ -221,6 +219,7 @@ class _UploadDocState extends State<UploadDoc> {
                     )
                   : Container(),
               const SizedBox(height: 200),
+              const Text('Select Date'),
               DateTimePicker(
                 dateHintText: 'Select Date',
                 calendarTitle: 'MamaVault',

@@ -73,7 +73,6 @@ class _HomeState extends State<Home> {
           'account_created': DateTime.now(),
           'email': user.email,
           'name': user.displayName,
-          'starting_date': DateTime.now(),
           'uid': user.uid,
           'image': user.photoURL
         };

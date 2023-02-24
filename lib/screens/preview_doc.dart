@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:gallery_saver/gallery_saver.dart';
+import 'package:pdf_render/pdf_render_widgets.dart';
 
 import '../config/UI_constraints.dart';
 import '../widgets/primary_button.dart';
 
-class PreviewDocScreen extends StatelessWidget {
+class PreviewDocScreen extends StatefulWidget {
   final String docName;
   final String docType;
   final String docURL;
@@ -16,6 +20,11 @@ class PreviewDocScreen extends StatelessWidget {
       required this.docURL,
       required this.uploadTime});
 
+  @override
+  State<PreviewDocScreen> createState() => _PreviewDocScreenState();
+}
+
+class _PreviewDocScreenState extends State<PreviewDocScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +42,7 @@ class PreviewDocScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    docName,
+                    widget.docName,
                     style: const TextStyle(
                         fontSize: 32, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.left,
@@ -41,17 +50,32 @@ class PreviewDocScreen extends StatelessWidget {
                 ),
                 Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('Uploaded on: $uploadTime')),
+                    child: Text('Uploaded on: ${widget.uploadTime}')),
                 const SizedBox(height: 40),
-                docType == 'image/jpeg'
-                    ? Image.network(docURL,
+                widget.docType == 'image/jpeg'
+                    ? Image.network(widget.docURL,
                         height: MediaQuery.of(context).size.height * 0.5)
-                    : Text(docURL),
+                    // : const Text('Any'),
+                    : FutureBuilder<File>(
+                        future:
+                            DefaultCacheManager().getSingleFile(widget.docURL),
+                        builder: (context, snapshot) => snapshot.hasData
+                            ? SingleChildScrollView(
+                                child: SizedBox(
+                                  height: 500,
+                                  width: 300,
+                                  child: PdfViewer.openFile(
+                                    snapshot.data!.path,
+                                  ),
+                                ),
+                              )
+                            : Container(),
+                      ),
                 const SizedBox(height: 40),
                 PrimaryButton(
                   buttonTitle: 'Download',
                   onPressed: () async {
-                    await GallerySaver.saveImage(docURL).then((value) {
+                    await GallerySaver.saveImage(widget.docURL).then((value) {
                       var snackBar = const SnackBar(
                           content: Text('Image Saved in Gallery'));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
