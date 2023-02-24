@@ -69,6 +69,24 @@ class _DocListScreenState extends State<DocListScreen> {
     await userProvider.fetchExpiryDetails();
   }
 
+  Future testAPI(List allDocs) async {
+    var url = Uri.parse(
+        "https://us-central1-mamavault-019.cloudfunctions.net/getTimeline");
+    Map data = {
+      "documents": allDocs //array of all documents
+    };
+    var body = json.encode(data);
+    var response = await http.post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body,
+    );
+    await fetExpireDetails();
+    return response.body;
+  }
+
   Future sendDetails(List selectedDoc) async {
     for (var docID in selectedDoc) {
       allDocId.add(docID);
@@ -116,6 +134,26 @@ class _DocListScreenState extends State<DocListScreen> {
   @override
   Widget build(BuildContext context) {
     List allUserDocs = Provider.of<UserProvider>(context).getUserDocs;
+
+    // Future testAPI(List allDocs) async {
+    //   print(allDocs);
+    //   var url = Uri.parse(
+    //       "https://us-central1-mamavault-019.cloudfunctions.net/getTimeline");
+    //   Map data = {
+    //     "documents": allDocs //array of all documents
+    //   };
+    //   var body = json.encode(data);
+    //   var response = await http.post(
+    //     url,
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: body,
+    //   );
+    //   print(response.body);
+    //   return response.body;
+    // }
+
     BuildContext modalContext = context;
 
     List usgDocs = allUserDocs.where((element) {
@@ -197,74 +235,77 @@ class _DocListScreenState extends State<DocListScreen> {
               Column(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.75,
                     width: MediaQuery.of(context).size.width,
                     child: TabBarView(
                       children: [
                         allUserDocs.isNotEmpty
-                            ? Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: defaultPadding),
-                                child: Column(
-                                  children: [
-                                    allUserDocs.isNotEmpty
-                                        ? Row(
-                                            children: [
-                                              Checkbox(
-                                                checkColor: Colors.white,
-                                                activeColor:
-                                                    PalleteColor.primaryPurple,
-                                                value: isSelectAll,
-                                                shape: const CircleBorder(),
-                                                onChanged: (bool? value) {
-                                                  setState(() {
-                                                    isSelectAll = value!;
+                            ? SingleChildScrollView(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: defaultPadding,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      allUserDocs.isNotEmpty
+                                          ? Row(
+                                              children: [
+                                                Checkbox(
+                                                  checkColor: Colors.white,
+                                                  activeColor: PalleteColor
+                                                      .primaryPurple,
+                                                  value: isSelectAll,
+                                                  shape: const CircleBorder(),
+                                                  onChanged: (bool? value) {
+                                                    setState(() {
+                                                      isSelectAll = value!;
 
-                                                    if (value == true) {
-                                                      selectedItems.clear();
-                                                      setState(() {
-                                                        for (var item
-                                                            in allUserDocs) {
-                                                          selectedItems.add(
-                                                              item["doc_id"]);
-                                                        }
-                                                      });
-                                                    } else {
-                                                      selectedItems = [];
-                                                    }
-                                                  });
-                                                },
-                                              ),
-                                              const Text(
-                                                'Select All',
-                                                style: TextStyle(
-                                                    color: PalleteColor
-                                                        .primaryPurple),
-                                              )
-                                            ],
-                                          )
-                                        : Container(),
-                                    for (var doc in allUserDocs)
-                                      Column(
-                                        children: [
-                                          const SizedBox(height: 10),
-                                          GestureDetector(
-                                              child: IndividualDoc(
-                                            docData: doc,
-                                            documentID: doc['doc_id'],
-                                            callback: (val, isSelectAllfr) {
-                                              selectedItems = val;
-                                              isSelectAll = isSelectAllfr;
-                                              setState(() {});
-                                            },
-                                            selectedDocuments: selectedItems,
-                                            isSelectedDoc: isSelectAll,
-                                            documentTitle: doc['doc_title'],
-                                            time: doc['timeline_time'],
-                                          )),
-                                        ],
-                                      )
-                                  ],
+                                                      if (value == true) {
+                                                        selectedItems.clear();
+                                                        setState(() {
+                                                          for (var item
+                                                              in allUserDocs) {
+                                                            selectedItems.add(
+                                                                item["doc_id"]);
+                                                          }
+                                                        });
+                                                      } else {
+                                                        selectedItems = [];
+                                                      }
+                                                    });
+                                                  },
+                                                ),
+                                                const Text(
+                                                  'Select All',
+                                                  style: TextStyle(
+                                                      color: PalleteColor
+                                                          .primaryPurple),
+                                                )
+                                              ],
+                                            )
+                                          : Container(),
+                                      for (var doc in allUserDocs)
+                                        Column(
+                                          children: [
+                                            const SizedBox(height: 10),
+                                            GestureDetector(
+                                                child: IndividualDoc(
+                                              docData: doc,
+                                              documentID: doc['doc_id'],
+                                              callback: (val, isSelectAllfr) {
+                                                selectedItems = val;
+                                                isSelectAll = isSelectAllfr;
+                                                setState(() {});
+                                              },
+                                              selectedDocuments: selectedItems,
+                                              isSelectedDoc: isSelectAll,
+                                              documentTitle: doc['doc_title'],
+                                              time: doc['timeline_time'],
+                                            )),
+                                          ],
+                                        )
+                                    ],
+                                  ),
                                 ),
                               )
                             : Lottie.network(

@@ -43,6 +43,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.0.2
+  flowder: ^0.2.0
   flutter_launcher_icons: ^0.11.0
   flutter_svg: ^2.0.1
   font_awesome_flutter: ^10.4.0
@@ -58,6 +59,9 @@ dependencies:
   provider: ^6.0.5
   qr_flutter: ^4.0.0
   shared_preferences: ^2.0.15
+  permission_handler:
+  pdf_render: ^1.3.7
+  flutter_cache_manager: ^3.3.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
