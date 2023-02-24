@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../config/color_pallete.dart';
 import '../provider/user_provider.dart';
+import 'individual_doc.dart';
 
 class DocListScreen extends StatefulWidget {
   const DocListScreen({super.key});
@@ -15,6 +17,11 @@ class DocListScreen extends StatefulWidget {
 
 class _DocListScreenState extends State<DocListScreen> {
   bool isSelectAll = false;
+  bool isSelectAllUSG = false;
+  bool isSelectNonStressThings = false;
+  bool isSelectContractionStressThings = false;
+  bool isSelectDopplerUltrasoundReport = false;
+  bool isSelectOthers = false;
   List<Widget> docCategoriesTabs = const [
     Tab(child: Text('All')),
     Tab(child: Text('USG Reports')),
@@ -32,11 +39,13 @@ class _DocListScreenState extends State<DocListScreen> {
     'Others'
   ];
 
+  List selectedItems = [];
+
   @override
   Widget build(BuildContext context) {
-    List _allUserDocs = Provider.of<UserProvider>(context).getUserDocs;
+    List allUserDocs = Provider.of<UserProvider>(context).getUserDocs;
 
-    List _usgDocs = _allUserDocs.where((element) {
+    List usgDocs = allUserDocs.where((element) {
       if (element['doc_type'] == 'USG Report') {
         return true;
       } else {
@@ -44,7 +53,15 @@ class _DocListScreenState extends State<DocListScreen> {
       }
     }).toList();
 
-    List _contractionStressTestDocs = _allUserDocs.where((element) {
+    List nonStressTestDocs = allUserDocs.where((element) {
+      if (element['doc_type'] == 'Non-Stress Test') {
+        return true;
+      } else {
+        return false;
+      }
+    }).toList();
+
+    List contractionStressTestDocs = allUserDocs.where((element) {
       if (element['doc_type'] == 'Contraction Stress Test') {
         return true;
       } else {
@@ -52,7 +69,7 @@ class _DocListScreenState extends State<DocListScreen> {
       }
     }).toList();
 
-    List _dopplerUltraSoundReportDocs = _allUserDocs.where((element) {
+    List dopplerUltraSoundReportDocs = allUserDocs.where((element) {
       if (element['doc_type'] == 'Doppler Ultrasound Report') {
         return true;
       } else {
@@ -60,13 +77,15 @@ class _DocListScreenState extends State<DocListScreen> {
       }
     }).toList();
 
-    List _otherDocs = _allUserDocs.where((element) {
+    List otherDocs = allUserDocs.where((element) {
       if (element['doc_type'] == 'Others') {
         return true;
       } else {
         return false;
       }
     }).toList();
+
+    print(selectedItems);
 
     return SafeArea(
         child: DefaultTabController(
@@ -84,8 +103,9 @@ class _DocListScreenState extends State<DocListScreen> {
               fontFamily:
                   GoogleFonts.poppins(fontWeight: FontWeight.bold).fontFamily,
             ),
-            unselectedLabelStyle: const TextStyle(
+            unselectedLabelStyle: TextStyle(
               fontSize: 14.0,
+              fontFamily: GoogleFonts.poppins().fontFamily,
             ),
             labelColor: Colors.black,
             isScrollable: true,
@@ -103,95 +123,453 @@ class _DocListScreenState extends State<DocListScreen> {
           children: [
             Column(
               children: [
-                Row(
-                  children: [
-                    Checkbox(
-                      checkColor: Colors.white,
-                      value: isSelectAll,
-                      shape: const CircleBorder(),
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isSelectAll = value!;
-                        });
-                      },
-                    ),
-                    const Text(
-                      'Select All',
-                      style: TextStyle(color: PalleteColor.primaryPurple),
-                    )
-                  ],
-                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.6,
                   width: MediaQuery.of(context).size.width,
                   child: TabBarView(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: defaultPadding),
-                        child: Column(
-                          children: [
-                            for (var doc in _allUserDocs)
-                              Column(
+                      allUserDocs.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: defaultPadding),
+                              child: Column(
                                 children: [
-                                  const SizedBox(height: 10),
-                                  GestureDetector(
-                                    child: documentIndividual(
-                                      documentTitle: doc['doc_title'],
-                                      time: doc['timeline_time'],
-                                    ),
-                                  ),
-                                ],
-                              )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: defaultPadding),
-                        child: ListView.builder(
-                            itemCount: _usgDocs.length,
-                            itemBuilder: (builder, index) {
-                              final doc = _allUserDocs[index];
+                                  allUserDocs.isNotEmpty
+                                      ? Row(
+                                          children: [
+                                            Checkbox(
+                                              checkColor: Colors.white,
+                                              activeColor:
+                                                  PalleteColor.primaryPurple,
+                                              value: isSelectAll,
+                                              shape: const CircleBorder(),
+                                              onChanged: (bool? value) {
+                                                setState(() {
+                                                  isSelectAll = value!;
 
-                              return InkWell(
-                                child: Column(
-                                  children: [
-                                    const SizedBox(height: 10),
-                                    documentIndividual(
-                                      documentTitle: doc['doc_title'],
-                                      time: doc['timeline_time'],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                        // child: Column(
-                        //   children: [
-                        //     for (var doc in _usgDocs)
-                        //       Column(
-                        //         children: [
-                        //           const SizedBox(height: 10),
-                        //           documentIndividual(
-                        //             documentTitle: doc['doc_title'],
-                        //             time: doc['timeline_time'],
-                        //           ),
-                        //         ],
-                        //       )
-                        //   ],
-                        // ),
-                      ),
-                      const Center(child: Text('Contraction Stress Test')),
-                      const Center(child: Text('Doppler Ultrasound Report')),
-                      const Center(child: Text('Others')),
-                      const Center(child: Text('Others')),
+                                                  if (value == true) {
+                                                    selectedItems.clear();
+                                                    setState(() {
+                                                      for (var item
+                                                          in allUserDocs) {
+                                                        selectedItems.add(
+                                                            item["doc_id"]);
+                                                      }
+                                                    });
+                                                  } else {
+                                                    selectedItems = [];
+                                                  }
+                                                });
+                                              },
+                                            ),
+                                            const Text(
+                                              'Select All',
+                                              style: TextStyle(
+                                                  color: PalleteColor
+                                                      .primaryPurple),
+                                            )
+                                          ],
+                                        )
+                                      : Container(),
+                                  for (var doc in allUserDocs)
+                                    Column(
+                                      children: [
+                                        const SizedBox(height: 10),
+                                        GestureDetector(
+                                            child: IndividualDoc(
+                                          docData: doc,
+                                          documentID: doc['doc_id'],
+                                          callback: (val, isSelectAllfr) {
+                                            selectedItems = val;
+                                            isSelectAll = isSelectAllfr;
+                                            setState(() {});
+                                          },
+                                          selectedDocuments: selectedItems,
+                                          isSelectedDoc: isSelectAll,
+                                          documentTitle: doc['doc_title'],
+                                          time: doc['timeline_time'],
+                                        )),
+                                      ],
+                                    )
+                                ],
+                              ),
+                            )
+                          : Lottie.network(
+                              'https://assets3.lottiefiles.com/packages/lf20_aBYmBC.json'),
+                      usgDocs.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: defaultPadding),
+                              child: Column(
+                                children: [
+                                  usgDocs.isNotEmpty
+                                      ? Row(
+                                          children: [
+                                            Checkbox(
+                                              checkColor: Colors.white,
+                                              activeColor:
+                                                  PalleteColor.primaryPurple,
+                                              value: isSelectAllUSG,
+                                              shape: const CircleBorder(),
+                                              onChanged: (bool? value) {
+                                                setState(() {
+                                                  isSelectAllUSG = value!;
+                                                  if (value == true) {
+                                                    setState(() {
+                                                      for (var item
+                                                          in usgDocs) {
+                                                        selectedItems.add(
+                                                            item["doc_id"]);
+                                                      }
+                                                    });
+                                                  } else {
+                                                    for (var item in usgDocs) {
+                                                      selectedItems.remove(
+                                                          item['doc_id']);
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                            ),
+                                            const Text(
+                                              'Select All',
+                                              style: TextStyle(
+                                                  color: PalleteColor
+                                                      .primaryPurple),
+                                            )
+                                          ],
+                                        )
+                                      : Container(),
+                                  for (var doc in usgDocs)
+                                    Column(
+                                      children: [
+                                        const SizedBox(height: 10),
+                                        GestureDetector(
+                                            child: IndividualDoc(
+                                          docData: doc,
+                                          documentID: doc['doc_id'],
+                                          callback: (val, isSelectAll) {
+                                            selectedItems = val;
+                                            isSelectAllUSG = isSelectAll;
+                                            setState(() {});
+                                          },
+                                          selectedDocuments: selectedItems,
+                                          isSelectedDoc: isSelectAllUSG,
+                                          documentTitle: doc['doc_title'],
+                                          time: doc['timeline_time'],
+                                        )),
+                                      ],
+                                    )
+                                ],
+                              ),
+                            )
+                          : Lottie.network(
+                              'https://assets3.lottiefiles.com/packages/lf20_aBYmBC.json'),
+                      nonStressTestDocs.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: defaultPadding),
+                              child: Column(
+                                children: [
+                                  nonStressTestDocs.isNotEmpty
+                                      ? Row(
+                                          children: [
+                                            Checkbox(
+                                              checkColor: Colors.white,
+                                              activeColor:
+                                                  PalleteColor.primaryPurple,
+                                              value: isSelectNonStressThings,
+                                              shape: const CircleBorder(),
+                                              onChanged: (bool? value) {
+                                                setState(() {
+                                                  isSelectNonStressThings =
+                                                      value!;
+
+                                                  if (value == true) {
+                                                    setState(() {
+                                                      for (var item
+                                                          in nonStressTestDocs) {
+                                                        selectedItems.add(
+                                                            item["doc_id"]);
+                                                      }
+                                                    });
+                                                  } else {
+                                                    for (var item
+                                                        in nonStressTestDocs) {
+                                                      selectedItems.remove(
+                                                          item['doc_id']);
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                            ),
+                                            const Text(
+                                              'Select All',
+                                              style: TextStyle(
+                                                  color: PalleteColor
+                                                      .primaryPurple),
+                                            )
+                                          ],
+                                        )
+                                      : Container(),
+                                  for (var doc in nonStressTestDocs)
+                                    Column(
+                                      children: [
+                                        const SizedBox(height: 10),
+                                        GestureDetector(
+                                            child: IndividualDoc(
+                                          docData: doc,
+                                          documentID: doc['doc_id'],
+                                          callback: (val, isSelectAll) {
+                                            selectedItems = val;
+                                            isSelectNonStressThings =
+                                                isSelectAll;
+                                            setState(() {});
+                                          },
+                                          selectedDocuments: selectedItems,
+                                          isSelectedDoc:
+                                              isSelectNonStressThings,
+                                          documentTitle: doc['doc_title'],
+                                          time: doc['timeline_time'],
+                                        )),
+                                      ],
+                                    )
+                                ],
+                              ),
+                            )
+                          : Lottie.network(
+                              'https://assets3.lottiefiles.com/packages/lf20_aBYmBC.json'),
+                      contractionStressTestDocs.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: defaultPadding),
+                              child: Column(
+                                children: [
+                                  contractionStressTestDocs.isNotEmpty
+                                      ? Row(
+                                          children: [
+                                            Checkbox(
+                                              checkColor: Colors.white,
+                                              activeColor:
+                                                  PalleteColor.primaryPurple,
+                                              value:
+                                                  isSelectContractionStressThings,
+                                              shape: const CircleBorder(),
+                                              onChanged: (bool? value) {
+                                                setState(() {
+                                                  isSelectContractionStressThings =
+                                                      value!;
+
+                                                  if (value == true) {
+                                                    setState(() {
+                                                      for (var item
+                                                          in contractionStressTestDocs) {
+                                                        selectedItems.add(
+                                                            item["doc_id"]);
+                                                      }
+                                                    });
+                                                  } else {
+                                                    for (var item
+                                                        in contractionStressTestDocs) {
+                                                      selectedItems.remove(
+                                                          item['doc_id']);
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                            ),
+                                            const Text(
+                                              'Select All',
+                                              style: TextStyle(
+                                                  color: PalleteColor
+                                                      .primaryPurple),
+                                            )
+                                          ],
+                                        )
+                                      : Container(),
+                                  for (var doc in contractionStressTestDocs)
+                                    Column(
+                                      children: [
+                                        const SizedBox(height: 10),
+                                        GestureDetector(
+                                            child: IndividualDoc(
+                                          docData: doc,
+                                          documentID: doc['doc_id'],
+                                          callback: (val, isSelectAll) {
+                                            selectedItems = val;
+                                            isSelectContractionStressThings =
+                                                isSelectAll;
+                                            setState(() {});
+                                          },
+                                          selectedDocuments: selectedItems,
+                                          isSelectedDoc:
+                                              isSelectContractionStressThings,
+                                          documentTitle: doc['doc_title'],
+                                          time: doc['timeline_time'],
+                                        )),
+                                      ],
+                                    )
+                                ],
+                              ),
+                            )
+                          : Lottie.network(
+                              'https://assets3.lottiefiles.com/packages/lf20_aBYmBC.json'),
+                      dopplerUltraSoundReportDocs.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: defaultPadding),
+                              child: Column(
+                                children: [
+                                  dopplerUltraSoundReportDocs.isNotEmpty
+                                      ? Row(
+                                          children: [
+                                            Checkbox(
+                                              checkColor: Colors.white,
+                                              activeColor:
+                                                  PalleteColor.primaryPurple,
+                                              value:
+                                                  isSelectDopplerUltrasoundReport,
+                                              shape: const CircleBorder(),
+                                              onChanged: (bool? value) {
+                                                setState(() {
+                                                  isSelectDopplerUltrasoundReport =
+                                                      value!;
+
+                                                  if (value == true) {
+                                                    setState(() {
+                                                      for (var item
+                                                          in dopplerUltraSoundReportDocs) {
+                                                        selectedItems.add(
+                                                            item["doc_id"]);
+                                                      }
+                                                    });
+                                                  } else {
+                                                    for (var item
+                                                        in dopplerUltraSoundReportDocs) {
+                                                      selectedItems.remove(
+                                                          item['doc_id']);
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                            ),
+                                            const Text(
+                                              'Select All',
+                                              style: TextStyle(
+                                                  color: PalleteColor
+                                                      .primaryPurple),
+                                            )
+                                          ],
+                                        )
+                                      : Container(),
+                                  for (var doc in dopplerUltraSoundReportDocs)
+                                    Column(
+                                      children: [
+                                        const SizedBox(height: 10),
+                                        GestureDetector(
+                                            child: IndividualDoc(
+                                          docData: doc,
+                                          documentID: doc['doc_id'],
+                                          callback: (val, isSelectAll) {
+                                            selectedItems = val;
+                                            isSelectDopplerUltrasoundReport =
+                                                isSelectAll;
+
+                                            setState(() {});
+                                          },
+                                          selectedDocuments: selectedItems,
+                                          isSelectedDoc:
+                                              isSelectDopplerUltrasoundReport,
+                                          documentTitle: doc['doc_title'],
+                                          time: doc['timeline_time'],
+                                        )),
+                                      ],
+                                    )
+                                ],
+                              ),
+                            )
+                          : Lottie.network(
+                              'https://assets3.lottiefiles.com/packages/lf20_aBYmBC.json'),
+                      otherDocs.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: defaultPadding),
+                              child: Column(
+                                children: [
+                                  otherDocs.isNotEmpty
+                                      ? Row(
+                                          children: [
+                                            Checkbox(
+                                              checkColor: Colors.white,
+                                              activeColor:
+                                                  PalleteColor.primaryPurple,
+                                              value: isSelectOthers,
+                                              shape: const CircleBorder(),
+                                              onChanged: (bool? value) {
+                                                setState(() {
+                                                  isSelectOthers = value!;
+
+                                                  if (value == true) {
+                                                    setState(() {
+                                                      for (var item
+                                                          in otherDocs) {
+                                                        selectedItems.add(
+                                                            item["doc_id"]);
+                                                      }
+                                                    });
+                                                  } else {
+                                                    for (var item
+                                                        in otherDocs) {
+                                                      selectedItems.remove(
+                                                          item['doc_id']);
+                                                    }
+                                                  }
+                                                });
+                                              },
+                                            ),
+                                            const Text(
+                                              'Select All',
+                                              style: TextStyle(
+                                                  color: PalleteColor
+                                                      .primaryPurple),
+                                            )
+                                          ],
+                                        )
+                                      : Container(),
+                                  for (var doc in otherDocs)
+                                    Column(
+                                      children: [
+                                        const SizedBox(height: 10),
+                                        GestureDetector(
+                                          child: IndividualDoc(
+                                            docData: doc,
+                                            documentID: doc['doc_id'],
+                                            callback: (val, isSelectAll) {
+                                              selectedItems = val;
+                                              isSelectOthers = isSelectAll;
+                                              setState(() {});
+                                            },
+                                            selectedDocuments: selectedItems,
+                                            isSelectedDoc: isSelectOthers,
+                                            documentTitle: doc['doc_title'],
+                                            time: doc['timeline_time'],
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                ],
+                              ),
+                            )
+                          : Lottie.network(
+                              'https://assets3.lottiefiles.com/packages/lf20_aBYmBC.json'),
                     ],
                   ),
                 ),
               ],
             ),
-            Padding(
+            Container(
               padding: const EdgeInsets.all(8.0),
+              color: const Color.fromARGB(255, 245, 246, 254),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -205,15 +583,18 @@ class _DocListScreenState extends State<DocListScreen> {
                       Text('Share')
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.download,
-                        color: PalleteColor.primaryPurple,
-                      ),
-                      const Text('Download')
-                    ],
+                  InkWell(
+                    onTap: () {},
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Icons.download,
+                          color: PalleteColor.primaryPurple,
+                        ),
+                        Text('Download')
+                      ],
+                    ),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -233,36 +614,4 @@ class _DocListScreenState extends State<DocListScreen> {
       ),
     ));
   }
-}
-
-Widget documentIndividual(
-    {required String documentTitle, required String time}) {
-  return Container(
-    width: double.infinity,
-    height: 70,
-    padding: const EdgeInsets.all(8),
-    decoration: BoxDecoration(
-      color: const Color.fromARGB(255, 223, 223, 247),
-      border: Border.all(width: 2, color: PalleteColor.primaryPurple),
-      borderRadius: const BorderRadius.all(Radius.circular(8)),
-    ),
-    child: Row(
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              documentTitle,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              time,
-              style: const TextStyle(fontSize: 12),
-            ),
-          ],
-        )
-      ],
-    ),
-  );
 }

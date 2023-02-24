@@ -26,6 +26,7 @@ class UploadDoc extends StatefulWidget {
 }
 
 class _UploadDocState extends State<UploadDoc> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   List uploadedImageURL = [];
   final ImagePicker imagePicker = ImagePicker();
   final user = FirebaseAuth.instance.currentUser!;
@@ -115,9 +116,9 @@ class _UploadDocState extends State<UploadDoc> {
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
 
-    allData.forEach((data) {
+    for (var data in allData) {
       allTitleList.add(data['doc_type']);
-    });
+    }
   }
 
   @override
@@ -127,62 +128,67 @@ class _UploadDocState extends State<UploadDoc> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
         child: SingleChildScrollView(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 40,
-            ),
-            Text(
-              "Upload Document",
-              style: TextStyle(
-                fontSize: 32,
-                fontFamily:
-                    GoogleFonts.poppins(fontWeight: FontWeight.bold).fontFamily,
+            child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 40,
               ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Add Documents',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily:
-                          GoogleFonts.poppins(fontWeight: FontWeight.bold)
-                              .fontFamily,
-                    ),
-                  ),
-                  Text(
-                    'Minimum 1 Image required',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontFamily:
-                          GoogleFonts.poppins(fontWeight: FontWeight.w500)
-                              .fontFamily,
-                    ),
-                  ),
-                ],
+              Text(
+                "Upload Document",
+                style: TextStyle(
+                  fontSize: 32,
+                  fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
+                      .fontFamily,
+                ),
               ),
-              (imageFileList.length < 3)
-                  ? IconButton(
-                      color: PalleteColor.primaryPurple,
-                      icon: const Icon(Icons.add_a_photo),
-                      onPressed: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return StatefulBuilder(builder:
-                                  (BuildContext context, StateSetter setState) {
-                                return bottomSheet();
+              const SizedBox(
+                height: 30,
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Add Documents',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily:
+                            GoogleFonts.poppins(fontWeight: FontWeight.bold)
+                                .fontFamily,
+                      ),
+                    ),
+                    Text(
+                      'Minimum 1 Image required',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily:
+                            GoogleFonts.poppins(fontWeight: FontWeight.w500)
+                                .fontFamily,
+                      ),
+                    ),
+                  ],
+                ),
+                (imageFileList.length < 3)
+                    ? IconButton(
+                        color: PalleteColor.primaryPurple,
+                        icon: const Icon(Icons.add_a_photo),
+                        onPressed: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return StatefulBuilder(builder:
+                                    (BuildContext context,
+                                        StateSetter setState) {
+                                  return bottomSheet();
+                                });
                               });
-                            });
-                      },
-                    )
+                        },
+                      )
+        
+
                   : const Text('Max 3 Images!'),
             ]),
             const SizedBox(
@@ -226,31 +232,46 @@ class _UploadDocState extends State<UploadDoc> {
               controller: dateController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
+
+                  : Container(),
+              const SizedBox(height: 200),
+              const Text('Select Date'),
+              DateTimePicker(
+                dateHintText: 'Select Date',
+                calendarTitle: 'MamaVault',
+                type: DateTimePickerType.date,
+                controller: dateController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2100),
+                dateLabelText: 'Date',
+                onChanged: (val) {},
+                onSaved: (val) {},
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Date is required';
+                  } else {
+                    return null;
+                  }
+                },
+
               ),
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2100),
-              dateLabelText: 'Date',
-              onChanged: (val) {},
-              onSaved: (val) {},
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Date is required';
-                } else {
-                  return null;
-                }
-              },
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            PrimaryButton(
-              buttonTitle: "Upload",
-              onPressed: () async {
-                await uploadFile();
-                nameIndex = 0;
-              },
-            ),
-          ],
+              const SizedBox(
+                height: 30,
+              ),
+              PrimaryButton(
+                buttonTitle: "Upload",
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    await uploadFile();
+                    nameIndex = 0;
+                  }
+                },
+              ),
+            ],
+          ),
         )),
       ),
     );
