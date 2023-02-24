@@ -21,8 +21,7 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = [
-    Text('Hello'),
-    // const DashboardScreen(),
+    const DashboardScreen(),
     const DocsGalleryScreen(),
     const UploadDoc(),
     const Share(),

@@ -86,79 +86,81 @@ class _ShareState extends State<Share> {
   Widget build(BuildContext context) {
     List allExpireDocs = Provider.of<ExpireProvider>(context).getExpiryDetails;
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 40,
-              ),
-              Text(
-                "Share",
-                style: TextStyle(
-                  fontSize: 32,
-                  fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
-                      .fontFamily,
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 40,
                 ),
-              ),
-              const SizedBox(
-                height: 60,
-              ),
-              PrimaryIconButton(
-                buttonTitle: "Share Docs",
-                buttonIcon: const FaIcon(FontAwesomeIcons.share),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (_) => const DocListScreen()));
-                },
-              ),
-              const SizedBox(
-                height: 60,
-              ),
-              Container(
-                height: 3,
-                decoration: const BoxDecoration(color: Colors.black),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Text(
-                "Shared Links",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
-                      .fontFamily,
+                Text(
+                  "Share",
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
+                        .fontFamily,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              allExpireDocs.isNotEmpty
-                  ? Column(
-                      children: allExpireDocs.map<Widget>((data) {
-                        String formattedDate =
-                            format12hourTime(data['expiry_time']);
-                        return ExpireLink(
-                            sharedDocID: data['shared_doc_id'],
-                            link: data['shared_link'],
-                            date: formattedDate,
-                            views: data['views'].toString(),
-                            percentage: 0.72,
-                            centerText: "22:00");
-                      }).toList(),
-                    )
-                  : SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      child: const Center(
-                        child: Text('No Active Shared Links Available '),
-                      ),
-                    )
-            ],
+                const SizedBox(
+                  height: 60,
+                ),
+                PrimaryIconButton(
+                  buttonTitle: "Share Docs",
+                  buttonIcon: const FaIcon(FontAwesomeIcons.share),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (_) => const DocListScreen()));
+                  },
+                ),
+                const SizedBox(
+                  height: 60,
+                ),
+                Container(
+                  height: 3,
+                  decoration: const BoxDecoration(color: Colors.black),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  "Shared Links",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
+                        .fontFamily,
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                allExpireDocs.isNotEmpty
+                    ? Column(
+                        children: allExpireDocs.map<Widget>((data) {
+                          String formattedDate =
+                              format12hourTime(data['expiry_time']);
+                          return ExpireLink(
+                              sharedDocID: data['shared_doc_id'],
+                              link: data['shared_link'],
+                              date: formattedDate,
+                              views: data['views'].toString(),
+                              percentage: 0.72,
+                              centerText: "22:00");
+                        }).toList(),
+                      )
+                    : SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        child: const Center(
+                          child: Text('No Active Shared Links Available '),
+                        ),
+                      )
+              ],
+            ),
           ),
         ),
       ),

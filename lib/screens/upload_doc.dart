@@ -121,143 +121,147 @@ class _UploadDocState extends State<UploadDoc> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-        child: SingleChildScrollView(
-            child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 40,
-              ),
-              Text(
-                "Upload Document",
-                style: TextStyle(
-                  fontSize: 32,
-                  fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
-                      .fontFamily,
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+          child: SingleChildScrollView(
+              child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 40,
                 ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Add Documents',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily:
-                            GoogleFonts.poppins(fontWeight: FontWeight.bold)
-                                .fontFamily,
-                      ),
-                    ),
-                    Text(
-                      'Minimum 1 Document required',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily:
-                            GoogleFonts.poppins(fontWeight: FontWeight.w500)
-                                .fontFamily,
-                      ),
-                    ),
-                  ],
+                Text(
+                  "Upload Document",
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
+                        .fontFamily,
+                  ),
                 ),
-                (imageFileList.length < 3)
-                    ? IconButton(
-                        color: PalleteColor.primaryPurple,
-                        icon: const Icon(Icons.add_a_photo),
-                        onPressed: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return StatefulBuilder(builder:
-                                    (BuildContext context,
-                                        StateSetter setState) {
-                                  return bottomSheet();
-                                });
-                              });
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Add Documents',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.bold)
+                                  .fontFamily,
+                            ),
+                          ),
+                          Text(
+                            'Minimum 1 Document required',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500)
+                                  .fontFamily,
+                            ),
+                          ),
+                        ],
+                      ),
+                      (imageFileList.length < 3)
+                          ? IconButton(
+                              color: PalleteColor.primaryPurple,
+                              icon: const Icon(Icons.add_a_photo),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(builder:
+                                          (BuildContext context,
+                                              StateSetter setState) {
+                                        return bottomSheet();
+                                      });
+                                    });
+                              },
+                            )
+                          : const Text('Max 3 Images!'),
+                    ]),
+                const SizedBox(
+                  height: 20,
+                ),
+                (imageFileList.isNotEmpty)
+                    ? GridView.builder(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        itemCount: fileTitle.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3, crossAxisSpacing: 10),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            children: [
+                              const SizedBox(
+                                height: 80,
+                                child: Text('pdf'),
+                                // child: (fileExt == 'pdf')
+                                //     ? const Text("Pdf")
+                                //     : Image.file(
+                                //         io.File(imageFileList[index]!.path),
+                                //         fit: BoxFit.fitHeight,
+                                //       ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(fileTitle[index]),
+                            ],
+                          );
                         },
                       )
-                    : const Text('Max 3 Images!'),
-              ]),
-              const SizedBox(
-                height: 20,
-              ),
-              (imageFileList.isNotEmpty)
-                  ? GridView.builder(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemCount: fileTitle.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3, crossAxisSpacing: 10),
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: [
-                            const SizedBox(
-                              height: 80,
-                              child: Text('pdf'),
-                              // child: (fileExt == 'pdf')
-                              //     ? const Text("Pdf")
-                              //     : Image.file(
-                              //         io.File(imageFileList[index]!.path),
-                              //         fit: BoxFit.fitHeight,
-                              //       ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(fileTitle[index]),
-                          ],
-                        );
-                      },
-                    )
-                  : Container(),
-              const SizedBox(height: 200),
-              const Text('Select Date'),
-              DateTimePicker(
-                dateHintText: 'Select Date',
-                calendarTitle: 'MamaVault',
-                type: DateTimePickerType.date,
-                controller: dateController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                    : Container(),
+                const SizedBox(height: 200),
+                const Text('Select Date'),
+                DateTimePicker(
+                  dateHintText: 'Select Date',
+                  calendarTitle: 'MamaVault',
+                  type: DateTimePickerType.date,
+                  controller: dateController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                  dateLabelText: 'Date',
+                  onChanged: (val) {},
+                  onSaved: (val) {},
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Date is required';
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
-                firstDate: DateTime(2000),
-                lastDate: DateTime(2100),
-                dateLabelText: 'Date',
-                onChanged: (val) {},
-                onSaved: (val) {},
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Date is required';
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              PrimaryButton(
-                buttonTitle: "Upload",
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    await uploadFile();
-                    nameIndex = 0;
-                  }
-                },
-              ),
-            ],
-          ),
-        )),
+                const SizedBox(
+                  height: 30,
+                ),
+                PrimaryButton(
+                  buttonTitle: "Upload",
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      await uploadFile();
+                      nameIndex = 0;
+                    }
+                  },
+                ),
+              ],
+            ),
+          )),
+        ),
       ),
     );
   }
