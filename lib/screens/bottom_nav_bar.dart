@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:interrupt/screens/docs_gallery.dart';
-// import 'package:interrupt/screens/profile.dart';
 import 'package:interrupt/screens/settings.dart';
 import 'package:interrupt/screens/share.dart';
+import 'package:interrupt/screens/test.dart';
 import 'package:interrupt/screens/upload_doc.dart';
+import 'package:interrupt/screens/upload_document.dart';
 import 'package:provider/provider.dart';
-
 import '../provider/user_provider.dart';
 import '../provider/expire_provider.dart';
-import 'dashboard.dart';
+
+import '../provider/verified_number_provider.dart';
+
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -24,9 +26,9 @@ class _BottomNavState extends State<BottomNav> {
     Text('Hello'),
     // const DashboardScreen(),
     const DocsGalleryScreen(),
-    const UploadDoc(),
+    const DocumentUpload(),
     const Share(),
-    const SettingsPage(),
+    const MyWidget(),
   ];
   void _onItemTapped(int index) {
     setState(() {
@@ -44,11 +46,17 @@ class _BottomNavState extends State<BottomNav> {
     await userProvider.fetchExpiryDetails();
   }
 
+  fetchNumbers() async {
+    NumberProvider userProvider = Provider.of(context, listen: false);
+    await userProvider.fetchAllNumber();
+  }
+
   @override
   void initState() {
     super.initState();
     fetchDocs();
     fetchExpire();
+    fetchNumbers();
   }
 
   @override

@@ -111,10 +111,12 @@ class _ShareState extends State<Share> {
                 buttonTitle: "Share Docs",
                 buttonIcon: const FaIcon(FontAwesomeIcons.share),
                 onPressed: () {
+
                   Navigator.push(
                       context,
                       CupertinoPageRoute(
                           builder: (_) => const DocListScreen()));
+
                 },
               ),
               const SizedBox(
