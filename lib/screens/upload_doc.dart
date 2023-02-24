@@ -56,8 +56,6 @@ class _UploadDocState extends State<UploadDoc> {
       isSelected = false;
       fileExt = fileDetails.extension!;
     });
-    print(fileDetails.extension);
-    print(file);
   }
 
   void selectImages(BuildContext context) {

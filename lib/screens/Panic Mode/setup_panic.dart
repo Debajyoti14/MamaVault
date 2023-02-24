@@ -36,6 +36,12 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
     await userProvider.fetchAllNumber();
   }
 
+  void refresh() {
+    debugPrint("In Refresh");
+    fetchNumbers();
+    setState(() {});
+  }
+
   Future sendNumberDetails() async {
     var url = Uri.parse('https://verify-mobile-number-s6e4vwvwlq-el.a.run.app');
     Map data = {
@@ -119,7 +125,11 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
                     child: Column(
                       children: allNumbers.map<Widget>((data) {
                         return NumberVerify(
-                            number: data['number'], status: data['status']);
+                          number: data['number'],
+                          status: data['status'],
+                          verifyId: data['number_id'],
+                          refresh: refresh,
+                        );
                       }).toList(),
                     ),
                   ),

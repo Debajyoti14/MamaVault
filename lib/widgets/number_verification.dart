@@ -1,16 +1,43 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/color_pallete.dart';
+import 'package:http/http.dart' as http;
 
 class NumberVerify extends StatelessWidget {
   final String number;
   final String status;
+  final String verifyId;
+  final Function refresh;
 
   const NumberVerify({
     super.key,
     required this.number,
     required this.status,
+    required this.verifyId,
+    required this.refresh,
   });
+
+  Future sendPanicRequest() async {
+    final user = FirebaseAuth.instance.currentUser!;
+    var url =
+        Uri.parse('https://update-verification-status-s6e4vwvwlq-el.a.run.app');
+    Map data = {
+      "uid": user.uid, // user id
+      "verification_id": verifyId, // mobile number id
+      "action": "Delete"
+    };
+    var body = json.encode(data);
+    await http.post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,9 +107,15 @@ class NumberVerify extends StatelessWidget {
               const SizedBox(
                 width: 29,
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-                child: Image.asset('assets/delIcon.png'),
+              InkWell(
+                onTap: () async {
+                  await sendPanicRequest();
+                  refresh();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                  child: Image.asset('assets/delIcon.png'),
+                ),
               )
             ],
           ),
