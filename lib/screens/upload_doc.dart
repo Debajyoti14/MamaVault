@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,6 +16,7 @@ import 'package:interrupt/widgets/custom_text_field.dart';
 import 'package:interrupt/widgets/primary_button.dart';
 import 'package:interrupt/widgets/primary_icon_button.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 
 class UploadDoc extends StatefulWidget {
   const UploadDoc({super.key});
@@ -30,8 +32,8 @@ class _UploadDocState extends State<UploadDoc> {
   final user = FirebaseAuth.instance.currentUser!;
   final docTitle = TextEditingController();
   final dateController = TextEditingController();
-  List<XFile> imageFileList = [];
-  List<XFile> currentImages = [];
+  List<File?> imageFileList = [];
+  List<File?> currentImages = [];
   List<String> fileTitle = [];
   List<String> allTitleList = [];
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -39,38 +41,48 @@ class _UploadDocState extends State<UploadDoc> {
   late String displayImageUrl = "assets/imageUploadIcon.png";
   int nameIndex = 0;
   late String docType;
+  File? file;
+  late String fileExt;
 
   Future openPicker() async {
-    List<XFile> currentImage = await imagePicker.pickMultiImage();
-    if (currentImage.isNotEmpty) {
-      currentImages.addAll(currentImage);
-      setState(() {
-        isSelected = false;
-      });
-    }
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    if (result == null) return;
+    final path = result.files.single.path!;
+    file = File(path);
+    currentImages.add(file);
+    PlatformFile fileDetails = result.files.first;
+    setState(() {
+      imageFileList.add(file);
+      isSelected = false;
+      fileExt = fileDetails.extension!;
+    });
+    print(fileDetails.extension);
+    print(file);
   }
 
-  void selectImages() {
+  void selectImages(BuildContext context) {
     docTitle.clear();
     setState(() {
-      imageFileList.addAll(currentImages);
       currentImages = [];
       isSelected = true;
+      fileExt = "";
     });
     Navigator.pop(context);
   }
 
   Future uploadFile() async {
     imageFileList.forEach((image) async {
-      nameIndex++;
-      final finalFile = File(image.path);
+      var fileName = fileTitle[nameIndex];
+      print(fileName);
+      final finalFile = File(image!.path);
       final storageRef = FirebaseStorage.instance.ref();
       final uploadTask = await storageRef
-          .child("${user.uid}/documents/${image.name}")
+          .child("${user.uid}/documents/$fileName")
           .putFile(finalFile);
       var dowurl = await uploadTask.ref.getDownloadURL();
       var meta = await uploadTask.ref.getMetadata();
       await addDocDetails(dowurl, meta.contentType);
+      nameIndex++;
     });
   }
 
@@ -91,8 +103,8 @@ class _UploadDocState extends State<UploadDoc> {
       "timeline_time": dateController.text,
     };
     await finalUser.add(data).then((value) {
-      String doc_id = value.id;
-      finalUser.doc(doc_id).update({'doc_id': doc_id});
+      String docId = value.id;
+      finalUser.doc(docId).update({'doc_id': docId});
     });
   }
 
@@ -184,19 +196,22 @@ class _UploadDocState extends State<UploadDoc> {
                   ? GridView.builder(
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,
-                      itemCount: imageFileList.length,
+                      itemCount: fileTitle.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3, crossAxisSpacing: 10),
                       itemBuilder: (BuildContext context, int index) {
                         return Column(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 80,
-                              child: Image.file(
-                                io.File(imageFileList[index].path),
-                                fit: BoxFit.fitHeight,
-                              ),
+                              child: Text('pdf'),
+                              // child: (fileExt == 'pdf')
+                              //     ? const Text("Pdf")
+                              //     : Image.file(
+                              //         io.File(imageFileList[index]!.path),
+                              //         fit: BoxFit.fitHeight,
+                              //       ),
                             ),
                             const SizedBox(
                               height: 10,
@@ -208,7 +223,6 @@ class _UploadDocState extends State<UploadDoc> {
                     )
                   : Container(),
               const SizedBox(height: 200),
-              const Text('Select Date'),
               DateTimePicker(
                 dateHintText: 'Select Date',
                 calendarTitle: 'MamaVault',
@@ -305,10 +319,7 @@ class _UploadDocState extends State<UploadDoc> {
                               color: const Color.fromARGB(255, 224, 223, 223),
                             ),
                           ),
-                          child: Image.file(
-                            io.File(currentImages[0].path),
-                            fit: BoxFit.contain,
-                          ),
+                          child: const Text("Document Selected"),
                         ),
                   const SizedBox(
                     height: 20,
@@ -373,7 +384,9 @@ class _UploadDocState extends State<UploadDoc> {
                       await checkTitle();
                       if (formKey.currentState!.validate()) {
                         fileTitle.add(docTitle.text);
-                        selectImages();
+                        if (mounted) {
+                          selectImages(context);
+                        }
                       }
                     },
                   )
