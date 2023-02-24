@@ -31,83 +31,72 @@ class ExpireLink extends StatelessWidget {
             color: PalleteColor.primaryPurple,
           ),
         ),
-        child: Row(
-          children: [
-            CircularPercentIndicator(
-              startAngle: 180,
-              backgroundColor: const Color.fromARGB(255, 245, 246, 254),
-              center: Text(
-                centerText,
-                style: TextStyle(
-                  color: PalleteColor.primaryPurple,
-                  fontSize: 14,
-                  fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.w700)
-                      .fontFamily,
-                ),
+        child: SingleChildScrollView(
+          child: Row(
+            children: [
+              const SizedBox(
+                width: 15,
               ),
-              curve: Curves.easeIn,
-              radius: 45.0,
-              lineWidth: 8.0,
-              percent: percentage,
-              progressColor: PalleteColor.primaryPurple,
-            ),
-            const SizedBox(
-              width: 15,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  link,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.w700)
-                        .fontFamily,
-                  ),
-                ),
-                const SizedBox(
-                  height: 3,
-                ),
-                Text(
-                  date,
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 122, 122, 122),
-                    fontSize: 13,
-                    fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.w500)
-                        .fontFamily,
-                  ),
-                ),
-                const SizedBox(
-                  height: 3,
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.remove_red_eye_sharp),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Text(
-                      views,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 250,
+                    child: Text(
+                      link,
                       style: TextStyle(
-                        color: const Color.fromARGB(255, 122, 122, 122),
                         fontSize: 14,
                         fontFamily:
-                            GoogleFonts.poppins(fontWeight: FontWeight.w500)
+                            GoogleFonts.poppins(fontWeight: FontWeight.w700)
                                 .fontFamily,
                       ),
                     ),
-                  ],
-                )
-              ],
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-              child: Image.asset('assets/delIcon.png'),
-            )
-          ],
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Text(
+                    date,
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 122, 122, 122),
+                      fontSize: 13,
+                      fontFamily:
+                          GoogleFonts.poppins(fontWeight: FontWeight.w500)
+                              .fontFamily,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Row(
+                    children: [
+                      const Icon(Icons.remove_red_eye_sharp),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        views,
+                        style: TextStyle(
+                          color: const Color.fromARGB(255, 122, 122, 122),
+                          fontSize: 14,
+                          fontFamily:
+                              GoogleFonts.poppins(fontWeight: FontWeight.w500)
+                                  .fontFamily,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              const SizedBox(
+                width: 29,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                child: Image.asset('assets/delIcon.png'),
+              )
+            ],
+          ),
         ),
       ),
     );
