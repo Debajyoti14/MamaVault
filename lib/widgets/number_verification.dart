@@ -2,19 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/color_pallete.dart';
 
-class ExpireLink extends StatelessWidget {
-  final String link;
-  final String date;
-  final String views;
-  final double percentage;
-  final String centerText;
-  const ExpireLink({
+class NumberVerify extends StatelessWidget {
+  final String number;
+  final String status;
+
+  const NumberVerify({
     super.key,
-    required this.link,
-    required this.date,
-    required this.views,
-    required this.percentage,
-    required this.centerText,
+    required this.number,
+    required this.status,
   });
 
   @override
@@ -42,9 +37,9 @@ class ExpireLink extends StatelessWidget {
                   SizedBox(
                     width: 250,
                     child: Text(
-                      link,
+                      number,
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 18,
                         fontFamily:
                             GoogleFonts.poppins(fontWeight: FontWeight.w700)
                                 .fontFamily,
@@ -54,37 +49,32 @@ class ExpireLink extends StatelessWidget {
                   const SizedBox(
                     height: 3,
                   ),
-                  Text(
-                    date,
-                    style: TextStyle(
-                      color: const Color.fromARGB(255, 122, 122, 122),
-                      fontSize: 13,
-                      fontFamily:
-                          GoogleFonts.poppins(fontWeight: FontWeight.w500)
-                              .fontFamily,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 3,
-                  ),
                   Row(
                     children: [
-                      const Icon(Icons.remove_red_eye_sharp),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: (status == "Waiting for confirmation")
+                                ? Colors.yellow
+                                : Colors.green),
+                        height: 12,
+                        width: 12,
+                      ),
                       const SizedBox(
-                        width: 4,
+                        width: 8,
                       ),
                       Text(
-                        views,
+                        status,
                         style: TextStyle(
                           color: const Color.fromARGB(255, 122, 122, 122),
-                          fontSize: 14,
+                          fontSize: 13,
                           fontFamily:
                               GoogleFonts.poppins(fontWeight: FontWeight.w500)
                                   .fontFamily,
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
               const SizedBox(

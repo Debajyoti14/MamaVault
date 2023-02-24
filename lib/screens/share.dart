@@ -205,7 +205,7 @@ class _ShareState extends State<Share> {
                                             var res =
                                                 await sendDetails(allUserDocs);
                                             final Map parsed = json.decode(res);
-                                            print(parsed);
+
                                             fetchExpire();
                                             setState(() {});
                                             if (mounted) {
