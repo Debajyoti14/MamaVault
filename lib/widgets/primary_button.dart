@@ -39,7 +39,7 @@ class PrimaryButton extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(buttonTitle),
+          child: Text(buttonTitle, textAlign: TextAlign.center),
         ),
       ),
     );

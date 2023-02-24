@@ -12,6 +12,7 @@ class CustomTextField extends StatelessWidget {
   final InputDecoration? decoration;
   final double? width;
   final double? height;
+  final bool isNumber;
   const CustomTextField({
     super.key,
     this.obscureText = false,
@@ -24,6 +25,7 @@ class CustomTextField extends StatelessWidget {
     this.decoration,
     this.width,
     this.height,
+    this.isNumber = false,
   });
 
   @override
@@ -31,6 +33,7 @@ class CustomTextField extends StatelessWidget {
     return SizedBox(
       width: width,
       child: TextFormField(
+        keyboardType: isNumber ? TextInputType.number : TextInputType.text,
         controller: controller,
         decoration: InputDecoration(
             focusedBorder: const OutlineInputBorder(
