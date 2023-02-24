@@ -58,7 +58,7 @@ class _IndividualDocState extends State<IndividualDoc> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   widget.documentTitle,

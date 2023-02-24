@@ -69,24 +69,6 @@ class _DocListScreenState extends State<DocListScreen> {
     await userProvider.fetchExpiryDetails();
   }
 
-  Future testAPI(List allDocs) async {
-    var url = Uri.parse(
-        "https://us-central1-mamavault-019.cloudfunctions.net/getTimeline");
-    Map data = {
-      "documents": allDocs //array of all documents
-    };
-    var body = json.encode(data);
-    var response = await http.post(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: body,
-    );
-    await fetExpireDetails();
-    return response.body;
-  }
-
   Future sendDetails(List selectedDoc) async {
     for (var docID in selectedDoc) {
       allDocId.add(docID);
@@ -134,25 +116,6 @@ class _DocListScreenState extends State<DocListScreen> {
   @override
   Widget build(BuildContext context) {
     List allUserDocs = Provider.of<UserProvider>(context).getUserDocs;
-
-    // Future testAPI(List allDocs) async {
-    //   print(allDocs);
-    //   var url = Uri.parse(
-    //       "https://us-central1-mamavault-019.cloudfunctions.net/getTimeline");
-    //   Map data = {
-    //     "documents": allDocs //array of all documents
-    //   };
-    //   var body = json.encode(data);
-    //   var response = await http.post(
-    //     url,
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: body,
-    //   );
-    //   print(response.body);
-    //   return response.body;
-    // }
 
     BuildContext modalContext = context;
 
