@@ -187,55 +187,42 @@ class _UploadDocState extends State<UploadDoc> {
                               });
                         },
                       )
-        
-
-                  : const Text('Max 3 Images!'),
-            ]),
-            const SizedBox(
-              height: 20,
-            ),
-            (imageFileList.isNotEmpty)
-                ? GridView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    itemCount: fileTitle.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3, crossAxisSpacing: 10),
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          const SizedBox(
-                            height: 80,
-                            child: Text('pdf'),
-                            // child: (fileExt == 'pdf')
-                            //     ? const Text("Pdf")
-                            //     : Image.file(
-                            //         io.File(imageFileList[index]!.path),
-                            //         fit: BoxFit.fitHeight,
-                            //       ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(fileTitle[index]),
-                        ],
-                      );
-                    },
-                  )
-                : Container(),
-            const SizedBox(height: 200),
-            DateTimePicker(
-              dateHintText: 'Select Date',
-              calendarTitle: 'MamaVault',
-              type: DateTimePickerType.date,
-              controller: dateController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-
+                    : const Text('Max 3 Images!'),
+              ]),
+              const SizedBox(
+                height: 20,
+              ),
+              (imageFileList.isNotEmpty)
+                  ? GridView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: fileTitle.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3, crossAxisSpacing: 10),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            const SizedBox(
+                              height: 80,
+                              child: Text('pdf'),
+                              // child: (fileExt == 'pdf')
+                              //     ? const Text("Pdf")
+                              //     : Image.file(
+                              //         io.File(imageFileList[index]!.path),
+                              //         fit: BoxFit.fitHeight,
+                              //       ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(fileTitle[index]),
+                          ],
+                        );
+                      },
+                    )
                   : Container(),
               const SizedBox(height: 200),
-              const Text('Select Date'),
               DateTimePicker(
                 dateHintText: 'Select Date',
                 calendarTitle: 'MamaVault',
@@ -256,7 +243,6 @@ class _UploadDocState extends State<UploadDoc> {
                     return null;
                   }
                 },
-
               ),
               const SizedBox(
                 height: 30,
