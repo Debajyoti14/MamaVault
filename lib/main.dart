@@ -6,6 +6,7 @@ import 'package:interrupt/config/theme.dart';
 import 'package:interrupt/provider/expire_provider.dart';
 import 'package:interrupt/provider/google_signin.dart';
 import 'package:interrupt/provider/user_provider.dart';
+import 'package:interrupt/provider/verified_number_provider.dart';
 import 'package:interrupt/screens/home_page.dart';
 import 'package:interrupt/screens/onboarding/onboarding.dart';
 import 'package:interrupt/splash.dart';
@@ -59,6 +60,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (context) => ExpireProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NumberProvider(),
         ),
       ],
       child: MaterialApp(

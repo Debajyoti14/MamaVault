@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
 import 'package:interrupt/config/color_pallete.dart';
 import 'package:lottie/lottie.dart';
+import 'package:http/http.dart' as http;
 
 class PanicModeMessageScreen extends StatefulWidget {
   const PanicModeMessageScreen({super.key});
@@ -13,6 +17,31 @@ class PanicModeMessageScreen extends StatefulWidget {
 }
 
 class _PanicModeMessageScreenState extends State<PanicModeMessageScreen> {
+  final user = FirebaseAuth.instance.currentUser!;
+  @override
+  void initState() {
+    sendPanicRequest();
+    super.initState();
+  }
+
+  Future sendPanicRequest() async {
+    var url = Uri.parse('https://panic-s6e4vwvwlq-el.a.run.app');
+    Map data = {
+      "uid": user.uid,
+      "name": user.displayName,
+      "location_link": "Anadapur, Kolkata",
+    };
+    var body = json.encode(data);
+    var response = await http.post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body,
+    );
+    print(response.body);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

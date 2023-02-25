@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:interrupt/config/date_formatter.dart';
 import 'package:interrupt/provider/user_provider.dart';
+import 'package:interrupt/screens/Panic%20Mode/panic_mode_timer.dart';
 import 'package:interrupt/widgets/primary_icon_button.dart';
 import 'package:provider/provider.dart';
 
@@ -117,7 +119,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           backgroundColor: Colors.red,
                           buttonTitle: 'Panic',
                           buttonIcon: const FaIcon(FontAwesomeIcons.surprise),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (_) => const PanicModeScreen()));
+                          },
                         ),
                       )
                     ],
