@@ -115,27 +115,27 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
               const SizedBox(
                 height: 50,
               ),
-              InkWell(
-                onTap: () async {
-                  await openPicker();
-                },
-                child: Container(
-                  height: 150,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 224, 223, 223),
-                    ),
-                  ),
-                  child: (counter == 0)
-                      ? Image.asset("assets/imageUploadIcon.png")
-                      : Image.file(
-                          io.File(image!.path),
-                          fit: BoxFit.cover,
+              counter == 0
+                  ? InkWell(
+                      onTap: () async {
+                        await openPicker();
+                      },
+                      child: Container(
+                        height: 150,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: const Color.fromARGB(255, 224, 223, 223),
+                          ),
                         ),
-                ),
-              ),
+                        child: Image.asset("assets/imageUploadIcon.png"),
+                      ),
+                    )
+                  : Image.file(
+                      io.File(image!.path),
+                      fit: BoxFit.cover,
+                    ),
               const SizedBox(height: 60),
               const SizedBox(
                 height: 5,

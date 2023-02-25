@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:interrupt/config/theme.dart';
 import 'package:interrupt/provider/expire_provider.dart';
 import 'package:interrupt/provider/google_signin.dart';
+import 'package:interrupt/provider/memory_provider.dart';
 import 'package:interrupt/provider/user_provider.dart';
 import 'package:interrupt/provider/verified_number_provider.dart';
 import 'package:interrupt/screens/home_page.dart';
@@ -63,6 +64,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (context) => NumberProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MemoryProvider(),
         ),
       ],
       child: MaterialApp(

@@ -5,6 +5,7 @@ import 'package:interrupt/screens/settings.dart';
 import 'package:interrupt/screens/share.dart';
 import 'package:interrupt/screens/upload_document.dart';
 import 'package:provider/provider.dart';
+import '../provider/memory_timeline.dart';
 import '../provider/user_provider.dart';
 import '../provider/expire_provider.dart';
 
@@ -23,7 +24,7 @@ class _BottomNavState extends State<BottomNav> {
   static final List<Widget> _widgetOptions = [
     const DashboardScreen(),
     const DocsGalleryScreen(),
-    const DocumentUpload(),
+    const MemoryTimeline(),
     const Share(),
     const SettingsPage(),
   ];
