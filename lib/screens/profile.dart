@@ -76,12 +76,7 @@ class _ProfileState extends State<Profile> {
                               elevation: 0,
                               backgroundColor: PalleteColor.bodyTextColorLight,
                             ),
-                            onPressed: () {
-                              // print(data['diseases']);
-                              // print(data['age']);
-                              // print(data['allegies']);
-                              // print(data);
-                            },
+                            onPressed: () {},
                             icon: const FaIcon(
                               FontAwesomeIcons.pen,
                               color: Colors.black,
@@ -241,7 +236,7 @@ class _ProfileState extends State<Profile> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      data['diseases'].toString(),
+                                      data['medicines '].toString(),
                                       style: TextStyle(
                                         color: const Color.fromARGB(
                                             255, 73, 72, 72),
