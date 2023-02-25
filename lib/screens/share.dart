@@ -80,6 +80,8 @@ class _ShareState extends State<Share> {
   initState() {
     super.initState();
     fetExpireDetails();
+    fetchExpire();
+    setState(() {});
   }
 
   @override

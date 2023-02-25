@@ -763,7 +763,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                                         selectedItems);
                                                     final Map parsed =
                                                         json.decode(res);
-                                                    print(parsed);
+
                                                     fetchExpire();
                                                     setState(() {});
                                                     if (mounted) {

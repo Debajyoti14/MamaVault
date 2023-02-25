@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
-import 'package:interrupt/screens/Panic%20Mode/panic_mode_timer.dart';
 import 'package:interrupt/screens/Panic%20Mode/setup_panic.dart';
 import 'package:interrupt/widgets/setting_component.dart';
 import 'package:provider/provider.dart';
@@ -52,14 +51,9 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(
               height: 20,
             ),
-            SettingComponent(
+            const SettingComponent(
               imagePath: 'assets/setting2.png',
               settingTitle: 'Export And Backup',
-              onPressed: () {
-                Navigator.of(context).push(CupertinoPageRoute(
-                  builder: (context) => const PanicModeScreen(),
-                ));
-              },
             ),
             const SizedBox(
               height: 20,
