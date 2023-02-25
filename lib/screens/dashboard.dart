@@ -143,9 +143,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return const Center(
-                              child: CircularProgressIndicator(
-                            color: PalleteColor.primaryPurple,
-                          ));
+                            child: CircularProgressIndicator(
+                              color: PalleteColor.primaryPurple,
+                            ),
+                          );
                         } else if (snapshot.connectionState ==
                             ConnectionState.done) {
                           if (snapshot.hasError) {
@@ -158,111 +159,126 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   final singletimeline = snapshot.data[index];
                                   final formattedTime =
                                       format12hourTime(singletimeline['time']);
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        formattedTime,
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Container(
-                                        width: double.infinity,
-                                        padding: const EdgeInsets.all(16.0),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 2,
-                                              color:
-                                                  PalleteColor.primaryPurple),
-                                          color: const Color.fromARGB(
-                                              255, 231, 231, 255),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(8)),
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          formattedTime,
+                                          style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w500),
                                         ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              'Document Attached',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            const SizedBox(height: 15),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                for (var doc in singletimeline[
-                                                    'document'])
-                                                  Column(
-                                                    children: [
-                                                      doc['doc_format'] ==
-                                                              'image/jpeg'
-                                                          ? Container(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(5),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                border:
-                                                                    Border.all(
-                                                                  width: 2,
-                                                                  color: PalleteColor
-                                                                      .primaryPurple,
+                                        const SizedBox(height: 10),
+                                        Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.all(16.0),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                width: 2,
+                                                color:
+                                                    PalleteColor.primaryPurple),
+                                            color: const Color.fromARGB(
+                                                255, 231, 231, 255),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(8)),
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                'Document Attached',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              const SizedBox(height: 15),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  for (var doc
+                                                      in singletimeline[
+                                                          'document'])
+                                                    Column(
+                                                      children: [
+                                                        doc['doc_format'] ==
+                                                                'image/jpeg'
+                                                            ? Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(5),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  border: Border
+                                                                      .all(
+                                                                    width: 2,
+                                                                    color: PalleteColor
+                                                                        .primaryPurple,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      const BorderRadius
+                                                                          .all(
+                                                                    Radius
+                                                                        .circular(
+                                                                            10),
+                                                                  ),
                                                                 ),
-                                                                borderRadius:
-                                                                    const BorderRadius
-                                                                        .all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10),
+                                                                child: Image
+                                                                    .network(
+                                                                  doc['doc_url'],
+                                                                  width: 83,
+                                                                  height: 64,
+                                                                ),
+                                                              )
+                                                            : Container(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(8),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      const BorderRadius
+                                                                          .all(
+                                                                    Radius
+                                                                        .circular(
+                                                                            10),
+                                                                  ),
+                                                                  border: Border
+                                                                      .all(
+                                                                    width: 2,
+                                                                    color: PalleteColor
+                                                                        .primaryPurple,
+                                                                  ),
+                                                                ),
+                                                                child: Image
+                                                                    .network(
+                                                                  'https://www.woschool.com/wp-content/uploads/2020/09/png-transparent-pdf-icon-illustration-adobe-acrobat-portable-document-format-computer-icons-adobe-reader-file-pdf-icon-miscellaneous-text-logo.png',
+                                                                  width: 93,
+                                                                  height: 64,
                                                                 ),
                                                               ),
-                                                              child:
-                                                                  Image.network(
-                                                                doc['doc_url'],
-                                                                width: 83,
-                                                                height: 64,
-                                                              ),
-                                                            )
-                                                          : Container(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(8),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                border:
-                                                                    Border.all(
-                                                                  width: 5,
-                                                                  color: PalleteColor
-                                                                      .primaryPurple,
-                                                                ),
-                                                              ),
-                                                              child:
-                                                                  Image.network(
-                                                                'https://www.woschool.com/wp-content/uploads/2020/09/png-transparent-pdf-icon-illustration-adobe-acrobat-portable-document-format-computer-icons-adobe-reader-file-pdf-icon-miscellaneous-text-logo.png',
-                                                                width: 93,
-                                                                height: 64,
-                                                              ),
-                                                            ),
-                                                      const SizedBox(height: 5),
-                                                      Text(
-                                                        doc['doc_title'],
-                                                      )
-                                                    ],
-                                                  )
-                                              ],
-                                            )
-                                          ],
+                                                        const SizedBox(
+                                                            height: 5),
+                                                        Text(
+                                                          doc['doc_title'],
+                                                        )
+                                                      ],
+                                                    )
+                                                ],
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   );
                                 });
                           } else {

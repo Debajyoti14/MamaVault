@@ -43,7 +43,7 @@ class _UploadDocState extends State<UploadDoc> {
   late String fileExt;
 
   Future openPicker() async {
-    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    final result = await FilePicker.platform.pickFiles(allowMultiple: true);
     if (result == null) return;
     final path = result.files.single.path!;
     file = File(path);
@@ -170,7 +170,7 @@ class _UploadDocState extends State<UploadDoc> {
                           ),
                         ],
                       ),
-                      (imageFileList.length < 3)
+                      (currentImages.length < 3)
                           ? IconButton(
                               color: PalleteColor.primaryPurple,
                               icon: const Icon(Icons.add_a_photo),
