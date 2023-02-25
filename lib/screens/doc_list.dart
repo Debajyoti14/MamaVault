@@ -655,6 +655,7 @@ class _DocListScreenState extends State<DocListScreen> {
                       onTap: () {
                         showModalBottomSheet(
                           context: context,
+                          isScrollControlled: true,
                           builder: (BuildContext context) {
                             return StatefulBuilder(
                               builder:
@@ -666,11 +667,15 @@ class _DocListScreenState extends State<DocListScreen> {
                                       height: 350,
                                       child: SingleChildScrollView(
                                         child: Padding(
-                                          padding: const EdgeInsets.only(
+                                          padding: EdgeInsets.only(
                                             left: defaultPadding,
                                             right: defaultPadding,
+                                            bottom: MediaQuery.of(context)
+                                                .viewInsets
+                                                .bottom,
                                           ),
                                           child: Column(
+                                            mainAxisSize: MainAxisSize.min,
                                             children: [
                                               const SizedBox(
                                                 height: 30,

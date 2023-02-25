@@ -9,7 +9,6 @@ import 'package:interrupt/config/date_formatter.dart';
 import 'package:interrupt/provider/user_provider.dart';
 import 'package:interrupt/screens/Panic%20Mode/panic_mode_timer.dart';
 import 'package:interrupt/screens/profile.dart';
-import 'package:interrupt/screens/upload_doc.dart';
 import 'package:interrupt/screens/upload_document.dart';
 import 'package:interrupt/widgets/primary_icon_button.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +29,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late List<dynamic> timelineData;
 
   Future fetchTimeline(List allDocs) async {
-    // print(allDocs.length);
     var url = Uri.parse(
         "https://us-central1-mamavault-019.cloudfunctions.net/getTimeline");
     Map data = {
@@ -83,9 +81,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     InkWell(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (_) => const Profile()));
+                          context,
+                          CupertinoPageRoute(
+                            builder: (_) => const Profile(),
+                          ),
+                        );
                       },
                       child: CircleAvatar(
                         radius: 30,
