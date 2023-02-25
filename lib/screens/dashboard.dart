@@ -4,9 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/date_formatter.dart';
 import 'package:interrupt/provider/user_provider.dart';
 import 'package:interrupt/screens/Panic%20Mode/panic_mode_timer.dart';
+import 'package:interrupt/screens/profile.dart';
+import 'package:interrupt/screens/upload_doc.dart';
+import 'package:interrupt/screens/upload_document.dart';
 import 'package:interrupt/widgets/primary_icon_button.dart';
 import 'package:provider/provider.dart';
 
@@ -63,23 +67,35 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Align(
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Dashboard',
                         style: TextStyle(
-                            fontSize: 32, fontWeight: FontWeight.bold),
+                          fontSize: 32,
+                          fontFamily: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                          ).fontFamily,
+                        ),
                         textAlign: TextAlign.left,
                       ),
                     ),
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundColor: PalleteColor.primaryPurple,
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (_) => const Profile()));
+                      },
                       child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          user.photoURL!,
+                        radius: 30,
+                        backgroundColor: PalleteColor.primaryPurple,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            user.photoURL!,
+                          ),
+                          radius: 27,
                         ),
-                        radius: 27,
                       ),
                     ),
                   ],
@@ -118,7 +134,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         child: PrimaryIconButton(
                           backgroundColor: Colors.red,
                           buttonTitle: 'Panic',
-                          buttonIcon: const FaIcon(FontAwesomeIcons.surprise),
+                          buttonIcon: const FaIcon(FontAwesomeIcons.bell),
                           onPressed: () {
                             Navigator.push(
                                 context,
@@ -168,9 +184,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       children: [
                                         Text(
                                           formattedTime,
-                                          style: const TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w500),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontFamily: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w500,
+                                            ).fontFamily,
+                                          ),
                                         ),
                                         const SizedBox(height: 10),
                                         Container(
@@ -294,6 +313,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             ),
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(CupertinoPageRoute(
+              builder: (context) => const DocumentUpload(),
+            ));
+          },
+          backgroundColor: PalleteColor.primaryPurple,
+          child: const Icon(Icons.add),
         ),
       ),
     );
