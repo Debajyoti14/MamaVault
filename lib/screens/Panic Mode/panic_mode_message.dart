@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
 import 'package:interrupt/config/color_pallete.dart';
+import 'package:interrupt/screens/Panic%20Mode/hospital_details.dart';
 import 'package:lottie/lottie.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,14 +34,21 @@ class _PanicModeMessageScreenState extends State<PanicModeMessageScreen> {
       "location_link": "Anadapur, Kolkata",
     };
     var body = json.encode(data);
-    var response = await http.post(
+    await http.post(
       url,
       headers: {
         "Content-Type": "application/json",
       },
       body: body,
     );
-    print(response.body);
+    if (mounted) {
+      Navigator.push(
+        context,
+        CupertinoPageRoute(
+          builder: (_) => const HospitalDetails(),
+        ),
+      );
+    }
   }
 
   @override
