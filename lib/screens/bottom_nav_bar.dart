@@ -72,19 +72,19 @@ class _BottomNavState extends State<BottomNav> {
           items: const [
             BottomNavigationBarItem(
               label: 'Home',
-              icon: FaIcon(FontAwesomeIcons.home),
+              icon: Icon(FontAwesomeIcons.atom),
             ),
             BottomNavigationBarItem(
               label: 'Memories',
-              icon: FaIcon(FontAwesomeIcons.baby),
+              icon: FaIcon(FontAwesomeIcons.vault),
             ),
             BottomNavigationBarItem(
               label: 'Documents',
-              icon: FaIcon(FontAwesomeIcons.paperclip),
+              icon: FaIcon(FontAwesomeIcons.baby),
             ),
             BottomNavigationBarItem(
               label: 'Feeds',
-              icon: FaIcon(FontAwesomeIcons.database),
+              icon: FaIcon(FontAwesomeIcons.share),
             ),
             BottomNavigationBarItem(
               label: 'Settings',
