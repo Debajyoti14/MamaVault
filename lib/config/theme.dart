@@ -7,12 +7,12 @@ final lightThemeData = ThemeData(
   brightness: Brightness.light,
   primaryColor: PalleteColor.primaryPurple,
   textTheme: GoogleFonts.poppinsTextTheme(ThemeData.light().textTheme),
-  backgroundColor: PalleteColor.bodyTextColorLight,
+  scaffoldBackgroundColor: PalleteColor.bodyTextColorLight,
 );
 
 final darkThemeData = ThemeData(
   brightness: Brightness.dark,
   primaryColor: PalleteColor.primaryPurple,
-  backgroundColor: PalleteColor.backgroundDark,
   textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
+  scaffoldBackgroundColor: PalleteColor.backgroundDark,
 );

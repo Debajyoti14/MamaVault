@@ -806,7 +806,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                                                           ),
                                                                         ),
                                                                         child:
-                                                                            QrImage(
+                                                                            QrImageView(
                                                                           data:
                                                                               parsed['share_doc_link'],
                                                                           size:
@@ -919,9 +919,9 @@ class _DocListScreenState extends State<DocListScreen> {
                           },
                         );
                       },
-                      child: Column(
+                      child: const Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(
                             Icons.share,
                             color: PalleteColor.primaryPurple,
@@ -932,9 +932,9 @@ class _DocListScreenState extends State<DocListScreen> {
                     ),
                     InkWell(
                       onTap: () {},
-                      child: Column(
+                      child: const Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(
                             Icons.download,
                             color: PalleteColor.primaryPurple,
@@ -943,9 +943,9 @@ class _DocListScreenState extends State<DocListScreen> {
                         ],
                       ),
                     ),
-                    Column(
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
+                      children: [
                         Icon(
                           Icons.delete,
                           color: Colors.red,

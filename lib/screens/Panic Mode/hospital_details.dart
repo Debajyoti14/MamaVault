@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
 import 'package:interrupt/widgets/hospital_details_widget.dart';
-import 'package:interrupt/widgets/primary_button.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HospitalDetails extends StatelessWidget {
   const HospitalDetails({super.key});

@@ -52,10 +52,10 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 20),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(

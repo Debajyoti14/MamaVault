@@ -39,10 +39,13 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
     final finalFile = File(image!.path);
     final fileName = image!.name;
     final storageRef = FirebaseStorage.instance.ref();
+    print("Working1");
     final uploadTask = await storageRef
         .child("${user.uid}/memories/$fileName")
         .putFile(finalFile);
+    print("Working2");
     var dowurl = await uploadTask.ref.getDownloadURL();
+    print(dowurl);
     await addDocDetails(dowurl);
     setState(() {
       counter = 0;

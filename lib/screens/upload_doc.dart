@@ -75,7 +75,9 @@ class _UploadDocState extends State<UploadDoc> {
       final uploadTask = await storageRef
           .child("${user.uid}/documents/$fileName")
           .putFile(finalFile);
+
       var dowurl = await uploadTask.ref.getDownloadURL();
+      print(dowurl);
       var meta = await uploadTask.ref.getMetadata();
       await addDocDetails(dowurl, meta.contentType);
       nameIndex++;

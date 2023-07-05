@@ -234,8 +234,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: defaultPadding, vertical: 50),
                   color: PalleteColor.bodyTextColorLight,
-                  child: Column(
-                    children: const [
+                  child: const Column(
+                    children: [
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
