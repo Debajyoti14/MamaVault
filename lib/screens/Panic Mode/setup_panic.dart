@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/provider/verified_number_provider.dart';
 import 'package:interrupt/widgets/custom_text_field.dart';
@@ -65,7 +66,7 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
     List allNumbers = Provider.of<NumberProvider>(context).gerVerifiedNumber;
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+        padding: EdgeInsets.symmetric(horizontal: defaultPadding),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -147,8 +148,9 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
                               onClosing: () {},
                               builder: (builder) {
                                 return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: defaultPadding, vertical: 40),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: defaultPadding,
+                                      vertical: 40.h),
                                   child: SizedBox(
                                     height: 240,
                                     child: Column(

@@ -22,7 +22,7 @@ class DocsGalleryScreen extends StatelessWidget {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: SizedBox(

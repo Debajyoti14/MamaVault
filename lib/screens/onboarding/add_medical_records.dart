@@ -203,7 +203,7 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
         child: Form(
           key: formKey,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
             height: MediaQuery.of(context).size.height * 1.1,
             width: MediaQuery.of(context).size.width,
             child: SizedBox(

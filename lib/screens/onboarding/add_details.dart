@@ -53,7 +53,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
         child: Form(
           key: formKey,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
             height: MediaQuery.of(context).size.height * 1.05,
             width: MediaQuery.of(context).size.width,
             child: SizedBox(

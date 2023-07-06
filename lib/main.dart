@@ -2,6 +2,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:interrupt/config/theme.dart';
 import 'package:interrupt/provider/expire_provider.dart';
 import 'package:interrupt/provider/google_signin.dart';
@@ -69,19 +70,26 @@ class _MyAppState extends State<MyApp> {
           create: (context) => MemoryProvider(),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'MamaVault',
-        theme: lightThemeData,
-        // darkTheme: darkThemeData,
-        home: AnimatedSplashScreen(
-            backgroundColor: Colors.white,
-            centered: true,
-            duration: 2000,
-            splashTransition: SplashTransition.fadeTransition,
-            splash: const SplashScreen(),
-            nextScreen: isOnboarded ? const Home() : const OnboardingScreen()),
-      ),
+      child: ScreenUtilInit(
+          designSize: const Size(393, 852),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, child) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'MamaVault',
+              theme: lightThemeData,
+              // darkTheme: darkThemeData,
+              home: AnimatedSplashScreen(
+                  backgroundColor: Colors.white,
+                  centered: true,
+                  duration: 2000,
+                  splashTransition: SplashTransition.fadeTransition,
+                  splash: const SplashScreen(),
+                  nextScreen:
+                      isOnboarded ? const Home() : const OnboardingScreen()),
+            );
+          }),
     );
   }
 }

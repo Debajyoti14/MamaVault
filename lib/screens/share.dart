@@ -92,7 +92,7 @@ class _ShareState extends State<Share> {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

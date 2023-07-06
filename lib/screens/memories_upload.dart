@@ -97,7 +97,7 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+        padding: EdgeInsets.symmetric(horizontal: defaultPadding),
         child: SingleChildScrollView(
           child: Column(
             children: [

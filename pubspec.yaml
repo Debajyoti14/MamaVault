@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   date_time_picker: ^2.1.0
   file_picker: ^5.2.5
+  flutter_screenutil: ^5.8.4
   firebase_auth: ^4.2.8
   firebase_core: ^2.6.1
   firebase_storage: ^11.0.14

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
 import 'package:interrupt/screens/signin_page.dart';
@@ -20,247 +21,190 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   late int index;
   final onboardingPagesList = [
     PageModel(
-      widget: DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 0.0,
-            color: PalleteColor.bodyTextColorLight,
-          ),
-        ),
-        child: SingleChildScrollView(
-          controller: ScrollController(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 45.0,
-                  vertical: 90.0,
-                ),
-                child: Image.asset(
-                  'assets/onboarding-1.png',
-                  height: 200,
+      widget: SingleChildScrollView(
+        controller: ScrollController(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/onboarding-1.png',
+              height: 200.h,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Keep all your Doctors Docs under one roof',
+                  style: TextStyle(
+                    fontSize: 28.sp,
+                    fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
+                        .fontFamily,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.left,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Keep all your Doctors Docs under one roof',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontFamily:
-                          GoogleFonts.poppins(fontWeight: FontWeight.bold)
-                              .fontFamily,
-                      color: Colors.black,
-                    ),
-                    textAlign: TextAlign.left,
+            ),
+            SizedBox(height: 30.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Categorize and store all your Doctors Document and also share it by one click',
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontFamily: GoogleFonts.poppins().fontFamily,
+                    color: const Color.fromARGB(203, 108, 108, 108),
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Categorize and store all your Doctors Document and also share it by one click',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: GoogleFonts.poppins().fontFamily,
-                      color: const Color.fromARGB(203, 108, 108, 108),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     ),
     PageModel(
-      widget: DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 0.0,
-            color: PalleteColor.bodyTextColorLight,
-          ),
-        ),
-        child: SingleChildScrollView(
-          controller: ScrollController(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 45.0,
-                  vertical: 90.0,
-                ),
-                child: Image.asset(
-                  'assets/onboarding-2.png',
-                  height: 200,
+      widget: SingleChildScrollView(
+        controller: ScrollController(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/onboarding-2.png',
+              height: 200,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Inform Close ones in distress',
+                  style: TextStyle(
+                    fontSize: 28.sp,
+                    fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
+                        .fontFamily,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.left,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Inform Close ones in distress',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontFamily:
-                          GoogleFonts.poppins(fontWeight: FontWeight.bold)
-                              .fontFamily,
-                      color: Colors.black,
-                    ),
-                    textAlign: TextAlign.left,
+            ),
+            SizedBox(height: 30.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'In time of distress or any panic situation, inform your closest one at click',
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontFamily: GoogleFonts.poppins().fontFamily,
+                    color: const Color.fromARGB(203, 108, 108, 108),
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'In time of distress or any panic situation, inform your closest one at click',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: GoogleFonts.poppins().fontFamily,
-                      color: const Color.fromARGB(203, 108, 108, 108),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     ),
     PageModel(
-      widget: DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 0.0,
-            color: PalleteColor.bodyTextColorLight,
-          ),
-        ),
-        child: SingleChildScrollView(
-          controller: ScrollController(),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 45.0,
-                  vertical: 90.0,
-                ),
-                child: Image.asset(
-                  'assets/onboarding-3.png',
-                  height: 200,
+      widget: SingleChildScrollView(
+        controller: ScrollController(),
+        child: Column(
+          children: [
+            Image.asset(
+              'assets/onboarding-3.png',
+              height: 200.h,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Create Memories and Cherish them',
+                  style: TextStyle(
+                    fontSize: 28.sp,
+                    fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
+                        .fontFamily,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.left,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Create Memories and Cherish them',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontFamily:
-                          GoogleFonts.poppins(fontWeight: FontWeight.bold)
-                              .fontFamily,
-                      color: Colors.black,
-                    ),
-                    textAlign: TextAlign.left,
+            ),
+            SizedBox(height: 30.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Add your sweet times in our apps so that later you can cherish it.',
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontFamily: GoogleFonts.poppins().fontFamily,
+                    color: const Color.fromARGB(203, 108, 108, 108),
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Add your sweet times in our apps so that later you can cherish it.',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: GoogleFonts.poppins().fontFamily,
-                      color: const Color.fromARGB(203, 108, 108, 108),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     ),
     PageModel(
       widget: SizedBox(
         height: double.infinity,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            border: Border.all(
-              width: 0.0,
-              color: PalleteColor.bodyTextColorLight,
-            ),
-          ),
-          child: SingleChildScrollView(
-            controller: ScrollController(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30),
-                  ),
-                  child: Container(
-                    color: PalleteColor.primaryPurple,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 55.0,
-                      vertical: 90.0,
-                    ),
-                    child: Image.asset(
-                      'assets/onboarding-4.png',
-                    ),
+        child: SingleChildScrollView(
+          controller: ScrollController(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+                child: Container(
+                  color: PalleteColor.primaryPurple,
+                  child: Image.asset(
+                    'assets/onboarding-4.png',
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: defaultPadding, vertical: 50),
-                  color: PalleteColor.bodyTextColorLight,
-                  child: const Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'All time friend in Pregnancy',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 28,
-                              color: Colors.black),
-                          textAlign: TextAlign.left,
-                        ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: defaultPadding, vertical: 50.h),
+                color: PalleteColor.bodyTextColorLight,
+                child: const Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'All time friend in Pregnancy',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 28,
+                            color: Colors.black),
+                        textAlign: TextAlign.left,
                       ),
-                      SizedBox(height: 30),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'The only app you need in time of your pregnancy.',
-                          style: TextStyle(color: Colors.black45),
-                        ),
+                    ),
+                    SizedBox(height: 30),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'The only app you need in time of your pregnancy.',
+                        style: TextStyle(color: Colors.black45),
                       ),
-                      SizedBox(height: 50),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 50),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

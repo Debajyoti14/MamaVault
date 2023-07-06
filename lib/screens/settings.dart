@@ -23,7 +23,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return SafeArea(
         child: Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(
+        padding: EdgeInsets.symmetric(
           horizontal: defaultPadding,
         ),
         child: SingleChildScrollView(

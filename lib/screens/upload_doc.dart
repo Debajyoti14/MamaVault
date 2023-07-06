@@ -125,7 +125,7 @@ class _UploadDocState extends State<UploadDoc> {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
           child: SingleChildScrollView(
               child: Form(
             key: _formKey,

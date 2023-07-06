@@ -43,8 +43,7 @@ class _ProfileState extends State<Profile> {
               backgroundColor: PalleteColor.bodyTextColorLight,
               body: SingleChildScrollView(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: defaultPadding),
+                  padding: EdgeInsets.symmetric(horizontal: defaultPadding),
                   child: Column(
                     children: [
                       const SizedBox(

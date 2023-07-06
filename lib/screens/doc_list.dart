@@ -205,7 +205,7 @@ class _DocListScreenState extends State<DocListScreen> {
                         allUserDocs.isNotEmpty
                             ? SingleChildScrollView(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
+                                  padding: EdgeInsets.symmetric(
                                     horizontal: defaultPadding,
                                   ),
                                   child: Column(
@@ -275,7 +275,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                 'https://assets3.lottiefiles.com/packages/lf20_aBYmBC.json'),
                         usgDocs.isNotEmpty
                             ? Padding(
-                                padding: const EdgeInsets.symmetric(
+                                padding: EdgeInsets.symmetric(
                                     horizontal: defaultPadding),
                                 child: Column(
                                   children: [
@@ -345,7 +345,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                 'https://assets3.lottiefiles.com/packages/lf20_aBYmBC.json'),
                         nonStressTestDocs.isNotEmpty
                             ? Padding(
-                                padding: const EdgeInsets.symmetric(
+                                padding: EdgeInsets.symmetric(
                                     horizontal: defaultPadding),
                                 child: Column(
                                   children: [
@@ -419,7 +419,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                 'https://assets3.lottiefiles.com/packages/lf20_aBYmBC.json'),
                         contractionStressTestDocs.isNotEmpty
                             ? Padding(
-                                padding: const EdgeInsets.symmetric(
+                                padding: EdgeInsets.symmetric(
                                     horizontal: defaultPadding),
                                 child: Column(
                                   children: [
@@ -494,7 +494,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                 'https://assets3.lottiefiles.com/packages/lf20_aBYmBC.json'),
                         dopplerUltraSoundReportDocs.isNotEmpty
                             ? Padding(
-                                padding: const EdgeInsets.symmetric(
+                                padding: EdgeInsets.symmetric(
                                     horizontal: defaultPadding),
                                 child: Column(
                                   children: [
@@ -570,7 +570,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                 'https://assets3.lottiefiles.com/packages/lf20_aBYmBC.json'),
                         otherDocs.isNotEmpty
                             ? Padding(
-                                padding: const EdgeInsets.symmetric(
+                                padding: EdgeInsets.symmetric(
                                     horizontal: defaultPadding),
                                 child: Column(
                                   children: [
@@ -779,10 +779,10 @@ class _DocListScreenState extends State<DocListScreen> {
                                                             return SizedBox(
                                                               height: 500,
                                                               child: Padding(
-                                                                padding: const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal:
-                                                                        defaultPadding),
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            defaultPadding),
                                                                 child: Column(
                                                                     children: [
                                                                       const SizedBox(
