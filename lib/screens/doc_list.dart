@@ -738,18 +738,20 @@ class _DocListScreenState extends State<DocListScreen> {
                                                               .fontFamily,
                                                     ),
                                                   ),
-                                                  Switch(
-                                                    value: shareProfile,
-                                                    activeColor: PalleteColor
-                                                        .primaryPurple,
-                                                    onChanged: (bool value) {
-                                                      if (mounted) {
-                                                        setState(() {
-                                                          shareProfile = value;
-                                                        });
-                                                      }
-                                                    },
-                                                  ),
+                                                  StatefulBuilder(builder:
+                                                      (BuildContext context,
+                                                          StateSetter
+                                                              stateSetter) {
+                                                    return Switch(
+                                                      value: shareProfile,
+                                                      activeColor: PalleteColor
+                                                          .primaryPurple,
+                                                      onChanged: (val) {
+                                                        stateSetter(() =>
+                                                            shareProfile = val);
+                                                      },
+                                                    );
+                                                  }),
                                                 ],
                                               ),
                                               SizedBox(

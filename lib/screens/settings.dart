@@ -83,7 +83,7 @@ class _SettingsPageState extends State<SettingsPage> {
               settingTitle: 'About',
             ),
             SizedBox(
-              height: 130.h,
+              height: MediaQuery.of(context).size.height * 0.075,
             ),
             PrimaryIconButton(
               buttonTitle: "Logout",

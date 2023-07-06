@@ -71,71 +71,73 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
                 SingleChildScrollView(
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,
-                    child: ListView.builder(
-                      itemCount: allUserMemories.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        final memory = allUserMemories[index];
-                        // final formattedTime =
-                        //     format12hourTime(memory['timeline_time']);
-                        return Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0.h),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                memory['timeline_time'],
-                                style: TextStyle(
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox(height: 10.h),
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(16.0),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 2,
-                                      color: PalleteColor.primaryPurple),
-                                  color:
-                                      const Color.fromARGB(255, 231, 231, 255),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(8)),
-                                ),
-                                child: Row(
+                    child: allUserMemories.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: allUserMemories.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              final memory = allUserMemories[index];
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: 8.0.h),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(5),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          width: 2,
-                                          color: PalleteColor.primaryPurple,
-                                        ),
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(10),
-                                        ),
-                                      ),
-                                      child: Image.network(
-                                        memory['doc_url'],
-                                        width: 83.w,
-                                        height: 64.h,
-                                      ),
-                                    ),
-                                    SizedBox(width: 15.w),
                                     Text(
-                                      memory['doc_title'],
+                                      memory['timeline_time'],
                                       style: TextStyle(
                                           fontSize: 20.sp,
                                           fontWeight: FontWeight.w500),
                                     ),
+                                    SizedBox(height: 10.h),
+                                    Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.all(16.0),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: 2,
+                                            color: PalleteColor.primaryPurple),
+                                        color: const Color.fromARGB(
+                                            255, 231, 231, 255),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(8)),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.all(5),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                width: 2,
+                                                color:
+                                                    PalleteColor.primaryPurple,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(10),
+                                              ),
+                                            ),
+                                            child: Image.network(
+                                              memory['doc_url'],
+                                              width: 83.w,
+                                              height: 64.h,
+                                            ),
+                                          ),
+                                          SizedBox(width: 15.w),
+                                          Text(
+                                            memory['doc_title'],
+                                            style: TextStyle(
+                                                fontSize: 20.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+                              );
+                            },
+                          )
+                        : const Center(child: Text("No Memories so far...")),
                   ),
                 ),
               ],
