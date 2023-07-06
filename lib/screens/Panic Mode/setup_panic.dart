@@ -152,7 +152,10 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
                                       horizontal: defaultPadding,
                                       vertical: 40.h),
                                   child: SizedBox(
-                                    height: 240.h,
+                                    height: 150.h +
+                                        MediaQuery.of(context)
+                                            .viewInsets
+                                            .bottom,
                                     child: Column(
                                       children: [
                                         Row(

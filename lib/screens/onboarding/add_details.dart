@@ -182,7 +182,6 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       buttonTitle: 'Next',
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          print(dateController.text);
                           addDetailsUser();
                           Navigator.push(
                             context,
