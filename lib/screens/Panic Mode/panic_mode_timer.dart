@@ -1,6 +1,7 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
 import 'package:interrupt/config/color_pallete.dart';
@@ -27,12 +28,12 @@ class _PanicModeScreenState extends State<PanicModeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 30),
-            const Align(
+            SizedBox(height: 30.h),
+            Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Panic Mode',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left,
               ),
             ),
@@ -50,10 +51,11 @@ class _PanicModeScreenState extends State<PanicModeScreen> {
               backgroundGradient: null,
               strokeWidth: 20.0,
               strokeCap: StrokeCap.round,
-              textStyle: const TextStyle(
-                  fontSize: 33.0,
-                  color: PalleteColor.primaryPurple,
-                  fontWeight: FontWeight.bold),
+              textStyle: TextStyle(
+                fontSize: 33.0.sp,
+                color: PalleteColor.primaryPurple,
+                fontWeight: FontWeight.bold,
+              ),
               textFormat: CountdownTextFormat.S,
               isReverse: true,
               isReverseAnimation: true,
@@ -83,18 +85,19 @@ class _PanicModeScreenState extends State<PanicModeScreen> {
               },
             ),
             SizedBox(
-              width: 153,
-              height: 60,
+              width: 153.w,
+              height: 60.h,
               child: ElevatedButton.icon(
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
-                      CupertinoPageRoute(builder: (_) => const BottomNav()),
-                      (route) => false);
+                    CupertinoPageRoute(builder: (_) => const BottomNav()),
+                    (route) => false,
+                  );
                 },
                 icon: const Icon(Icons.cancel, color: Colors.red),
-                label: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
+                label: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w),
+                  child: const Text(
                     'Cancel',
                     style: TextStyle(color: Colors.red),
                   ),
@@ -107,7 +110,7 @@ class _PanicModeScreenState extends State<PanicModeScreen> {
                   textStyle: TextStyle(
                     fontFamily: GoogleFonts.poppins().fontFamily,
                     fontWeight: FontWeight.w600,
-                    fontSize: 16,
+                    fontSize: 16.sp,
                   ),
                 ),
               ),

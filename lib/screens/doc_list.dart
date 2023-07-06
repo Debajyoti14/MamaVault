@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
@@ -172,13 +173,13 @@ class _DocListScreenState extends State<DocListScreen> {
             bottom: TabBar(
               indicatorColor: PalleteColor.primaryPurple,
               labelStyle: TextStyle(
-                fontSize: 24.0,
+                fontSize: 24.0.sp,
                 fontWeight: FontWeight.bold,
                 fontFamily:
                     GoogleFonts.poppins(fontWeight: FontWeight.bold).fontFamily,
               ),
               unselectedLabelStyle: TextStyle(
-                fontSize: 14.0,
+                fontSize: 14.0.sp,
                 fontFamily: GoogleFonts.poppins().fontFamily,
               ),
               labelColor: Colors.black,
@@ -250,7 +251,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                       for (var doc in allUserDocs)
                                         Column(
                                           children: [
-                                            const SizedBox(height: 10),
+                                            SizedBox(height: 10.h),
                                             GestureDetector(
                                                 child: IndividualDoc(
                                               docData: doc,
@@ -321,7 +322,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                     for (var doc in usgDocs)
                                       Column(
                                         children: [
-                                          const SizedBox(height: 10),
+                                          SizedBox(height: 10.h),
                                           GestureDetector(
                                               child: IndividualDoc(
                                             docData: doc,
@@ -393,7 +394,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                     for (var doc in nonStressTestDocs)
                                       Column(
                                         children: [
-                                          const SizedBox(height: 10),
+                                          SizedBox(height: 10.h),
                                           GestureDetector(
                                               child: IndividualDoc(
                                             docData: doc,
@@ -468,7 +469,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                     for (var doc in contractionStressTestDocs)
                                       Column(
                                         children: [
-                                          const SizedBox(height: 10),
+                                          SizedBox(height: 10.h),
                                           GestureDetector(
                                               child: IndividualDoc(
                                             docData: doc,
@@ -543,7 +544,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                     for (var doc in dopplerUltraSoundReportDocs)
                                       Column(
                                         children: [
-                                          const SizedBox(height: 10),
+                                          SizedBox(height: 10.h),
                                           GestureDetector(
                                               child: IndividualDoc(
                                             docData: doc,
@@ -617,7 +618,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                     for (var doc in otherDocs)
                                       Column(
                                         children: [
-                                          const SizedBox(height: 10),
+                                          SizedBox(height: 10.h),
                                           GestureDetector(
                                             child: IndividualDoc(
                                               docData: doc,
@@ -664,7 +665,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                   onClosing: () {},
                                   builder: (BuildContext context) {
                                     return SizedBox(
-                                      height: 350,
+                                      height: 350.h,
                                       child: SingleChildScrollView(
                                         child: Padding(
                                           padding: EdgeInsets.only(
@@ -677,13 +678,13 @@ class _DocListScreenState extends State<DocListScreen> {
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              const SizedBox(
-                                                height: 30,
+                                              SizedBox(
+                                                height: 30.h,
                                               ),
                                               Text(
                                                 'Expiry Time',
                                                 style: TextStyle(
-                                                  fontSize: 18,
+                                                  fontSize: 18.sp,
                                                   fontFamily:
                                                       GoogleFonts.poppins(
                                                               fontWeight:
@@ -692,8 +693,8 @@ class _DocListScreenState extends State<DocListScreen> {
                                                           .fontFamily,
                                                 ),
                                               ),
-                                              const SizedBox(
-                                                height: 20,
+                                              SizedBox(
+                                                height: 20.h,
                                               ),
                                               Form(
                                                 key: _formKey,
@@ -717,8 +718,8 @@ class _DocListScreenState extends State<DocListScreen> {
                                                   },
                                                 ),
                                               ),
-                                              const SizedBox(
-                                                height: 20,
+                                              SizedBox(
+                                                height: 20.h,
                                               ),
                                               Row(
                                                 mainAxisAlignment:
@@ -728,7 +729,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                                   Text(
                                                     "Share Profile",
                                                     style: TextStyle(
-                                                      fontSize: 20,
+                                                      fontSize: 20.sp,
                                                       fontFamily:
                                                           GoogleFonts.poppins(
                                                                   fontWeight:
@@ -751,14 +752,14 @@ class _DocListScreenState extends State<DocListScreen> {
                                                   ),
                                                 ],
                                               ),
-                                              const SizedBox(
-                                                height: 50,
+                                              SizedBox(
+                                                height: 50.h,
                                               ),
                                               PrimaryIconButton(
                                                 buttonTitle: "Next",
-                                                buttonIcon: const FaIcon(
+                                                buttonIcon: FaIcon(
                                                   FontAwesomeIcons.link,
-                                                  size: 18,
+                                                  size: 18.w,
                                                 ),
                                                 onPressed: () async {
                                                   if (_formKey.currentState!
@@ -777,7 +778,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                                           builder: (BuildContext
                                                               context) {
                                                             return SizedBox(
-                                                              height: 500,
+                                                              height: 500.h,
                                                               child: Padding(
                                                                 padding: EdgeInsets
                                                                     .symmetric(
@@ -785,9 +786,9 @@ class _DocListScreenState extends State<DocListScreen> {
                                                                             defaultPadding),
                                                                 child: Column(
                                                                     children: [
-                                                                      const SizedBox(
+                                                                      SizedBox(
                                                                         height:
-                                                                            40,
+                                                                            40.h,
                                                                       ),
                                                                       Container(
                                                                         padding:
@@ -810,12 +811,12 @@ class _DocListScreenState extends State<DocListScreen> {
                                                                           data:
                                                                               parsed['share_doc_link'],
                                                                           size:
-                                                                              200,
+                                                                              200.h,
                                                                         ),
                                                                       ),
-                                                                      const SizedBox(
+                                                                      SizedBox(
                                                                           height:
-                                                                              30),
+                                                                              30.h),
                                                                       Container(
                                                                           padding: const EdgeInsets.all(
                                                                               8),
@@ -834,7 +835,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                                                                 MainAxisAlignment.spaceBetween,
                                                                             children: [
                                                                               SizedBox(
-                                                                                width: 300,
+                                                                                width: 300.w,
                                                                                 child: Text(parsed['share_doc_link']),
                                                                               ),
                                                                               InkWell(
@@ -848,9 +849,9 @@ class _DocListScreenState extends State<DocListScreen> {
                                                                               )
                                                                             ],
                                                                           )),
-                                                                      const SizedBox(
+                                                                      SizedBox(
                                                                         height:
-                                                                            20,
+                                                                            20.h,
                                                                       ),
                                                                       Row(
                                                                         mainAxisAlignment:
@@ -858,9 +859,9 @@ class _DocListScreenState extends State<DocListScreen> {
                                                                         children: [
                                                                           SizedBox(
                                                                             width:
-                                                                                153,
+                                                                                153.w,
                                                                             height:
-                                                                                60,
+                                                                                60.h,
                                                                             child:
                                                                                 ElevatedButton.icon(
                                                                               onPressed: null,
@@ -881,16 +882,16 @@ class _DocListScreenState extends State<DocListScreen> {
                                                                                 textStyle: TextStyle(
                                                                                   fontFamily: GoogleFonts.poppins().fontFamily,
                                                                                   fontWeight: FontWeight.w600,
-                                                                                  fontSize: 16,
+                                                                                  fontSize: 16.sp,
                                                                                 ),
                                                                               ),
                                                                             ),
                                                                           ),
-                                                                          const SizedBox(
-                                                                              width: 20),
+                                                                          SizedBox(
+                                                                              width: 20.w),
                                                                           SizedBox(
                                                                             width:
-                                                                                153,
+                                                                                153.w,
                                                                             child: PrimaryButton(
                                                                                 buttonTitle: 'View Shared Links',
                                                                                 onPressed: () {

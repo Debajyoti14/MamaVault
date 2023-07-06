@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
@@ -30,33 +31,33 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: 40.h,
             ),
             Text(
               "Settings",
               style: TextStyle(
-                fontSize: 32,
+                fontSize: 32.sp,
                 fontFamily:
                     GoogleFonts.poppins(fontWeight: FontWeight.bold).fontFamily,
               ),
             ),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: 40.h,
             ),
             const SettingComponent(
               imagePath: 'assets/setting1.png',
               settingTitle: 'Theme',
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: 20.h,
             ),
             const SettingComponent(
               imagePath: 'assets/setting2.png',
               settingTitle: 'Export And Backup',
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: 20.h,
             ),
             SettingComponent(
               imagePath: 'assets/setting3.png',
@@ -67,22 +68,22 @@ class _SettingsPageState extends State<SettingsPage> {
                 ));
               },
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: 20.h,
             ),
             const SettingComponent(
               imagePath: 'assets/setting4.png',
               settingTitle: 'Terms and Conditions',
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: 20.h,
             ),
             const SettingComponent(
               imagePath: 'assets/setting5.png',
               settingTitle: 'About',
             ),
-            const SizedBox(
-              height: 130,
+            SizedBox(
+              height: 130.h,
             ),
             PrimaryIconButton(
               buttonTitle: "Logout",

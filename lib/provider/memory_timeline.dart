@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:interrupt/provider/memory_provider.dart';
 import 'package:interrupt/screens/memories_upload.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,6 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
   @override
   Widget build(BuildContext context) {
     List allUserMemories = Provider.of<MemoryProvider>(context).getUserMemories;
-    print(allUserMemories);
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -51,8 +51,8 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 20),
-                const Row(
+                SizedBox(height: 20.h),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -61,13 +61,13 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
                       child: Text(
                         'Memories',
                         style: TextStyle(
-                            fontSize: 32, fontWeight: FontWeight.bold),
+                            fontSize: 32.sp, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.left,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 SingleChildScrollView(
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,
@@ -79,16 +79,17 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
                         // final formattedTime =
                         //     format12hourTime(memory['timeline_time']);
                         return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          padding: EdgeInsets.symmetric(vertical: 8.0.h),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 memory['timeline_time'],
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w500),
                               ),
-                              const SizedBox(height: 10),
+                              SizedBox(height: 10.h),
                               Container(
                                 width: double.infinity,
                                 padding: const EdgeInsets.all(16.0),
@@ -116,15 +117,15 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
                                       ),
                                       child: Image.network(
                                         memory['doc_url'],
-                                        width: 83,
-                                        height: 64,
+                                        width: 83.w,
+                                        height: 64.h,
                                       ),
                                     ),
-                                    const SizedBox(width: 15),
+                                    SizedBox(width: 15.w),
                                     Text(
                                       memory['doc_title'],
-                                      style: const TextStyle(
-                                          fontSize: 20,
+                                      style: TextStyle(
+                                          fontSize: 20.sp,
                                           fontWeight: FontWeight.w500),
                                     ),
                                   ],

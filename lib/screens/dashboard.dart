@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/date_formatter.dart';
@@ -60,7 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,7 +71,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       child: Text(
                         'Dashboard',
                         style: TextStyle(
-                          fontSize: 32,
+                          fontSize: 32.sp,
                           fontFamily: GoogleFonts.poppins(
                             fontWeight: FontWeight.bold,
                           ).fontFamily,
@@ -100,46 +101,48 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Container(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0.w),
                   decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 255, 235, 233),
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                   ),
-                  height: 104,
+                  height: 104.h,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Panic Button',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                                fontWeight: FontWeight.bold, fontSize: 16.sp),
                           ),
                           SizedBox(
-                            width: 153,
+                            width: 153.w,
                             child: Text(
                               'Panic Button is made for emergency situation so be careful',
-                              style: TextStyle(fontSize: 10),
+                              style: TextStyle(fontSize: 10.sp),
                             ),
                           )
                         ],
                       ),
                       SizedBox(
-                        width: 136,
-                        height: 50,
+                        width: 136.w,
+                        height: 50.h,
                         child: PrimaryIconButton(
                           backgroundColor: Colors.red,
                           buttonTitle: 'Panic',
                           buttonIcon: const FaIcon(FontAwesomeIcons.bell),
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (_) => const PanicModeScreen()));
+                              context,
+                              CupertinoPageRoute(
+                                builder: (_) => const PanicModeScreen(),
+                              ),
+                            );
                           },
                         ),
                       )

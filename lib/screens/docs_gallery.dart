@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:interrupt/config/color_pallete.dart';
 
@@ -30,17 +31,17 @@ class DocsGalleryScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 40),
-                  const Align(
+                  SizedBox(height: 40.h),
+                  Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Docs Gallery',
-                      style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 32.sp, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  SizedBox(height: 40.h),
                   GridView.builder(
                     shrinkWrap: true,
                     gridDelegate:
@@ -59,16 +60,16 @@ class DocsGalleryScreen extends StatelessWidget {
                         },
                         child: Column(
                           children: [
-                            const FaIcon(
+                            FaIcon(
                               FontAwesomeIcons.solidFolder,
                               color: PalleteColor.primaryPurple,
-                              size: 122,
+                              size: 122.w,
                             ),
-                            const SizedBox(height: 5),
+                            SizedBox(height: 5.h),
                             Text(
                               docCategories[index],
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w400),
+                              style: TextStyle(
+                                  fontSize: 14.sp, fontWeight: FontWeight.w400),
                               textAlign: TextAlign.center,
                             )
                           ],

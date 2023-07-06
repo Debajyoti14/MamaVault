@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
@@ -96,19 +97,19 @@ class _ShareState extends State<Share> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 40,
+                SizedBox(
+                  height: 40.h,
                 ),
                 Text(
                   "Share",
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 32.sp,
                     fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
                         .fontFamily,
                   ),
                 ),
-                const SizedBox(
-                  height: 60,
+                SizedBox(
+                  height: 60.h,
                 ),
                 PrimaryIconButton(
                   buttonTitle: "Share Docs",
@@ -120,26 +121,26 @@ class _ShareState extends State<Share> {
                             builder: (_) => const DocListScreen()));
                   },
                 ),
-                const SizedBox(
-                  height: 60,
+                SizedBox(
+                  height: 60.h,
                 ),
                 Container(
-                  height: 3,
+                  height: 3.h,
                   decoration: const BoxDecoration(color: Colors.black),
                 ),
-                const SizedBox(
-                  height: 30,
+                SizedBox(
+                  height: 30.h,
                 ),
                 Text(
                   "Shared Links",
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 24.sp,
                     fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
                         .fontFamily,
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
+                SizedBox(
+                  height: 30.h,
                 ),
                 allExpireDocs.isNotEmpty
                     ? Column(
