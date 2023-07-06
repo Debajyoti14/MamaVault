@@ -318,10 +318,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               },
                             );
                           } else {
-                            return const Text('Empty data');
+                            return const Center(child: Text('Empty data'));
                           }
                         } else {
-                          return Text('State: ${snapshot.connectionState}');
+                          return Center(
+                            child: Text('State: ${snapshot.connectionState}'),
+                          );
                         }
                       },
                     ),

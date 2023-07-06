@@ -72,20 +72,20 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 50),
+            SizedBox(height: 50.h),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Setup Panic Button',
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: 32.sp,
                   fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
                       .fontFamily,
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              height: 10.h,
             ),
             Align(
               alignment: Alignment.centerLeft,
@@ -94,35 +94,35 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
                 child: Text(
                   'Add numbers to send them message with your location in one click in case of emergency.',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.w500)
                         .fontFamily,
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             (allNumbers.isEmpty)
                 ? Column(children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 70),
+                      padding: EdgeInsets.only(top: 70.h),
                       child: Image.asset('assets/panicPic.png'),
                     ),
                     Text(
                       'Add a number now',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontFamily:
                             GoogleFonts.poppins(fontWeight: FontWeight.w500)
                                 .fontFamily,
                       ),
                     ),
-                    const SizedBox(
-                      height: 200,
+                    SizedBox(
+                      height: 200.h,
                     ),
                   ])
                 : SizedBox(
-                    height: 550,
+                    height: 550.h,
                     child: Column(
                       children: allNumbers.map<Widget>((data) {
                         return NumberVerify(
@@ -152,33 +152,33 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
                                       horizontal: defaultPadding,
                                       vertical: 40.h),
                                   child: SizedBox(
-                                    height: 240,
+                                    height: 240.h,
                                     child: Column(
                                       children: [
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text(
+                                            Text(
                                               '+91',
-                                              style: TextStyle(fontSize: 20),
+                                              style: TextStyle(fontSize: 20.sp),
                                             ),
                                             CustomTextField(
                                               hintText: 'Enter Phone Number',
                                               controller:
                                                   _phoneNumber1Controller,
-                                              width: 300,
+                                              width: 300.w,
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(
-                                          height: 30,
+                                        SizedBox(
+                                          height: 30.h,
                                         ),
                                         PrimaryButton(
                                           buttonTitle: "Add Number",
                                           onPressed: () async {
                                             await sendNumberDetails();
-                                            fetchNumbers();
+                                            await fetchNumbers();
                                             if (mounted) {
                                               Navigator.pop(modalContext);
                                             }
@@ -195,7 +195,7 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
                     })
                 : SizedBox(
                     width: double.infinity,
-                    height: 57,
+                    height: 57.h,
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
@@ -205,12 +205,12 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
                         textStyle: TextStyle(
                           fontFamily: GoogleFonts.poppins().fontFamily,
                           fontWeight: FontWeight.w600,
-                          fontSize: 16,
+                          fontSize: 16.sp,
                         ),
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: Text("3 Number Done"),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child: const Text("3 Number Done"),
                       ),
                     ),
                   ),
