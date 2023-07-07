@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../config/color_pallete.dart';
@@ -26,7 +27,10 @@ class _PrimaryButtonState extends State<PrimaryButton> {
       width: double.infinity,
       height: 57,
       child: ElevatedButton(
-        onPressed: widget.onPressed,
+        onPressed: () {
+          HapticFeedback.lightImpact();
+          widget.onPressed;
+        },
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
@@ -39,7 +43,9 @@ class _PrimaryButtonState extends State<PrimaryButton> {
         ),
         child: widget.isLoading
             ? const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
               )
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),

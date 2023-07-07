@@ -39,6 +39,8 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
   List<String> _allergyValues = [];
   List<bool> _allergySelected = [];
 
+  bool isLoading = false;
+
   @override
   void dispose() {
     _descriptionController.dispose();
@@ -51,6 +53,8 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
   Future addMedicalDetailsUser() async {
     final user = FirebaseAuth.instance.currentUser!;
     try {
+      isLoading = true;
+      setState(() {});
       final finalUser =
           FirebaseFirestore.instance.collection('users').doc(user.uid);
 
@@ -61,6 +65,8 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
         'allegies ': _allergyValues,
       };
       await finalUser.update(data);
+      isLoading = false;
+      setState(() {});
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -343,6 +349,7 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
                         width: 153.w,
                         child: PrimaryButton(
                             buttonTitle: 'Save',
+                            isLoading: isLoading,
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
                                 addMedicalDetailsUser().then((value) async {

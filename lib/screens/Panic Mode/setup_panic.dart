@@ -24,6 +24,7 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
   String button1State = 'Initial';
   String button2State = 'Processing';
   String button3State = 'Approved';
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -33,6 +34,8 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
   }
 
   fetchNumbers() async {
+    isLoading = true;
+    setState(() {});
     NumberProvider userProvider = Provider.of(context, listen: false);
     await userProvider.fetchAllNumber();
   }
@@ -58,6 +61,8 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
       },
       body: body,
     );
+    isLoading = false;
+    setState(() {});
   }
 
   @override
@@ -179,6 +184,7 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
                                         ),
                                         PrimaryButton(
                                           buttonTitle: "Add Number",
+                                          isLoading: isLoading,
                                           onPressed: () async {
                                             await sendNumberDetails();
                                             await fetchNumbers();

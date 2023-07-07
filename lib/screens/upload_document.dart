@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/config/UI_constraints.dart';
+import 'package:interrupt/config/date_formatter.dart';
 import 'package:interrupt/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
@@ -33,13 +33,14 @@ class _DocumentUploadState extends State<DocumentUpload> {
 
   List<File> files = [];
   bool isSelected = true;
+  bool isLoading = false;
   late String fileExt;
   List<File?> currentFiles = [];
+  DateTime? _selectedDate;
 
   List<String> allTitleList = [];
   final user = FirebaseAuth.instance.currentUser!;
   final docTitle = TextEditingController();
-  final dateController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Future openPicker() async {
@@ -61,6 +62,8 @@ class _DocumentUploadState extends State<DocumentUpload> {
   }
 
   Future uploadFile(File? image) async {
+    isLoading = true;
+    setState(() {});
     var fileName = docTitle.text;
 
     final finalFile = File(image!.path);
@@ -79,6 +82,8 @@ class _DocumentUploadState extends State<DocumentUpload> {
   fetchDocs() async {
     UserProvider userProvider = Provider.of(context, listen: false);
     await userProvider.fetchUserDocs();
+    isLoading = false;
+    setState(() {});
   }
 
   Future checkTitle() async {
@@ -108,13 +113,41 @@ class _DocumentUploadState extends State<DocumentUpload> {
           (fileList.length > 1) ? "${docTitle.text}$nameIndex" : docTitle.text,
       'doc_format': metaData,
       "doc_download_url": imageURL,
-      "upload_time": dateController.text,
-      "timeline_time": dateController.text,
+      "upload_time": _selectedDate,
+      "timeline_time": _selectedDate,
     };
     await finalUser.add(data).then((value) {
       String docId = value.id;
       finalUser.doc(docId).update({'doc_id': docId});
     });
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            // Customize the date picker theme properties
+            primaryColor: PalleteColor.primaryPurple, // Customize primary color
+            // Add more customizations as needed
+            colorScheme: Theme.of(context)
+                .colorScheme
+                .copyWith(secondary: PalleteColor.primaryPurple),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
   }
 
   @override
@@ -220,26 +253,36 @@ class _DocumentUploadState extends State<DocumentUpload> {
                 const SizedBox(
                   height: 5,
                 ),
-                DateTimePicker(
-                  dateHintText: 'Select Date',
-                  calendarTitle: 'MamaVault',
-                  type: DateTimePickerType.date,
-                  controller: dateController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2100),
-                  dateLabelText: 'Date',
-                  onChanged: (val) {},
-                  onSaved: (val) {},
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Date is required';
-                    } else {
-                      return null;
-                    }
+                GestureDetector(
+                  onTap: () async {
+                    await _selectDate(context);
                   },
+                  child: TextFormField(
+                    validator: (value) {
+                      if (_selectedDate == null) {
+                        return "Select Date";
+                      } else {
+                        return null;
+                      }
+                    },
+                    enabled: false,
+                    decoration: InputDecoration(
+                      hintText: _selectedDate != null
+                          ? formatDate(_selectedDate!)
+                          : 'Enter Date',
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: PalleteColor.primaryPurple),
+                      ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: 13,
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -298,6 +341,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                 ),
                 PrimaryButton(
                     buttonTitle: "Upload",
+                    isLoading: isLoading,
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         for (var file in fileList) {

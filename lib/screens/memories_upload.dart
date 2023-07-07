@@ -2,13 +2,15 @@ import 'dart:io' as io;
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:interrupt/config/UI_constraints.dart';
+import 'package:interrupt/config/color_pallete.dart';
+import 'package:interrupt/config/date_formatter.dart';
 import 'package:interrupt/widgets/primary_button.dart';
 
 import '../widgets/custom_text_field.dart';
@@ -22,10 +24,10 @@ class MemoriesUpload extends StatefulWidget {
 
 class _MemoriesUploadState extends State<MemoriesUpload> {
   late final XFile? image;
-  bool isLoading = true;
+  bool isLoading = false;
+  DateTime? _selectedDate;
   final user = FirebaseAuth.instance.currentUser!;
   final docTitle = TextEditingController();
-  final dateController = TextEditingController();
   var counter = 0;
   Future openPicker() async {
     final ImagePicker picker = ImagePicker();
@@ -36,16 +38,15 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
   }
 
   Future uploadImage() async {
+    isLoading = true;
+    setState(() {});
     final finalFile = File(image!.path);
     final fileName = image!.name;
     final storageRef = FirebaseStorage.instance.ref();
-    print("Working1");
     final uploadTask = await storageRef
         .child("${user.uid}/memories/$fileName")
         .putFile(finalFile);
-    print("Working2");
     var dowurl = await uploadTask.ref.getDownloadURL();
-    print(dowurl);
     await addDocDetails(dowurl);
     setState(() {
       counter = 0;
@@ -61,8 +62,8 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
     final data = {
       'doc_url': imageURL,
       'doc_title': docTitle.text,
-      "upload_time": dateController.text,
-      "timeline_time": dateController.text,
+      "upload_time": _selectedDate,
+      "timeline_time": _selectedDate,
     };
     await finalUser.add(data).then((value) {
       String docId = value.id;
@@ -93,6 +94,34 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
     );
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            // Customize the date picker theme properties
+            primaryColor: PalleteColor.primaryPurple, // Customize primary color
+            // Add more customizations as needed
+            colorScheme: Theme.of(context)
+                .colorScheme
+                .copyWith(secondary: PalleteColor.primaryPurple),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,22 +130,22 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(
-                height: 40,
+              SizedBox(
+                height: 40.h,
               ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Upload Memories',
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 32.sp,
                     fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
                         .fontFamily,
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 50,
+              SizedBox(
+                height: 50.h,
               ),
               counter == 0
                   ? InkWell(
@@ -124,7 +153,7 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
                         await openPicker();
                       },
                       child: Container(
-                        height: 150,
+                        height: 150.h,
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 255, 255, 255),
                           borderRadius: BorderRadius.circular(10),
@@ -138,13 +167,14 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
                   : Image.file(
                       io.File(image!.path),
                       fit: BoxFit.cover,
+                      width: 200.w,
                     ),
-              const SizedBox(height: 60),
-              const SizedBox(
-                height: 5,
+              SizedBox(height: 60.h),
+              SizedBox(
+                height: 5.h,
               ),
               CustomTextField(
-                height: 20,
+                height: 20.h,
                 hintText: "Enter Title",
                 controller: docTitle,
                 validator: (value) {
@@ -155,41 +185,51 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
                   }
                 },
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: 20.h,
               ),
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text("Choose Date"),
               ),
-              const SizedBox(
-                height: 5,
+              SizedBox(
+                height: 5.h,
               ),
-              DateTimePicker(
-                dateHintText: 'Select Date',
-                calendarTitle: 'MamaVault',
-                type: DateTimePickerType.date,
-                controller: dateController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-                firstDate: DateTime(2000),
-                lastDate: DateTime(2100),
-                dateLabelText: 'Date',
-                onChanged: (val) {},
-                onSaved: (val) {},
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Date is required';
-                  } else {
-                    return null;
-                  }
+              GestureDetector(
+                onTap: () async {
+                  await _selectDate(context);
                 },
+                child: TextFormField(
+                  validator: (value) {
+                    if (_selectedDate == null) {
+                      return "Select Date";
+                    } else {
+                      return null;
+                    }
+                  },
+                  enabled: false,
+                  decoration: InputDecoration(
+                    hintText: _selectedDate != null
+                        ? formatDate(_selectedDate!)
+                        : 'Enter Date',
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: PalleteColor.primaryPurple),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 13,
+                    ),
+                  ),
+                ),
               ),
-              const SizedBox(
-                height: 80,
+              SizedBox(
+                height: 80.h,
               ),
               PrimaryButton(
+                  isLoading: isLoading,
                   buttonTitle: "Upload",
                   onPressed: () async {
                     await uploadImage();

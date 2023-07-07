@@ -28,8 +28,11 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
   final dateController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   DateTime? _selectedDate;
+  bool isLoading = false;
 
   Future addDetailsUser() async {
+    isLoading = true;
+    setState(() {});
     final user = FirebaseAuth.instance.currentUser!;
 
     final finalUser =
@@ -44,6 +47,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
       'image': user.photoURL
     };
     await finalUser.update(data);
+    isLoading = false;
+    setState(() {});
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -231,20 +236,22 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                   ),
                   SizedBox(height: 100.h),
                   PrimaryButton(
-                      buttonTitle: 'Next',
-                      onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          await addDetailsUser();
-                          if (context.mounted) {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (_) => const AddMedicalRecordsScreen(),
-                              ),
-                            );
-                          }
+                    buttonTitle: 'Next',
+                    isLoading: isLoading,
+                    onPressed: () async {
+                      if (formKey.currentState!.validate()) {
+                        await addDetailsUser();
+                        if (context.mounted) {
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (_) => const AddMedicalRecordsScreen(),
+                            ),
+                          );
                         }
-                      }),
+                      }
+                    },
+                  ),
                 ],
               ),
             ),
