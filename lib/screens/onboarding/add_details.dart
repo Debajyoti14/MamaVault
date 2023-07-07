@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:interrupt/config/UI_constraints.dart';
+import 'package:interrupt/config/date_formatter.dart';
 import 'package:interrupt/widgets/custom_text_field.dart';
 
 import '../../config/color_pallete.dart';
@@ -26,6 +27,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
   String bloodGroup = '';
   final dateController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  DateTime? _selectedDate;
 
   Future addDetailsUser() async {
     final user = FirebaseAuth.instance.currentUser!;
@@ -37,16 +39,46 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
       'name': nameController.text,
       'email': emailController.text,
       'age': ageController.text,
-      'date_of_pregnancy': dateController.text,
+      'date_of_pregnancy': _selectedDate,
       'uid': user.uid,
       'image': user.photoURL
     };
     await finalUser.update(data);
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            // Customize the date picker theme properties
+            primaryColor: PalleteColor.primaryPurple, // Customize primary color
+            // Add more customizations as needed
+            colorScheme: Theme.of(context)
+                .colorScheme
+                .copyWith(secondary: PalleteColor.primaryPurple),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
+
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -54,24 +86,24 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
           key: formKey,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-            height: MediaQuery.of(context).size.height * 1.05,
-            width: MediaQuery.of(context).size.width,
+            height: size.height,
+            width: size.width,
             child: SizedBox(
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 40),
-                  const Align(
+                  SizedBox(height: 40.h),
+                  Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Add Details',
-                      style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 32.sp, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  SizedBox(height: 40.h),
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: PalleteColor.primaryPurple,
@@ -82,25 +114,25 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       radius: 45,
                     ),
                   ),
-                  const SizedBox(height: 50),
+                  SizedBox(height: 50.h),
                   CustomTextField(
                     hintText: 'Enter Your Name',
                     controller: nameController,
-                    height: 20,
+                    height: 20.h,
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   CustomTextField(
                     hintText: 'Enter Your Email',
                     controller: emailController,
-                    height: 20,
+                    height: 20.h,
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   Row(
                     children: [
                       Flexible(
                         child: CustomTextField(
-                          width: 166,
-                          height: 20,
+                          width: 170.w,
+                          height: 23.h,
                           hintText: 'Enter Your Age',
                           controller: ageController,
                           validator: (value) {
@@ -112,12 +144,22 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                           },
                         ),
                       ),
-                      const SizedBox(width: 20),
+                      SizedBox(width: 13.w),
                       SizedBox(
-                        width: 165,
+                        width: 172.w,
                         child: DropdownButtonFormField<String>(
                           decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: PalleteColor.primaryPurple),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 20,
+                              horizontal: 13,
+                            ),
                           ),
                           hint: const Text('Blood Group'),
                           isExpanded: true,
@@ -150,45 +192,57 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text('Select Pregnancy Starting Time'),
                   ),
-                  const SizedBox(height: 5),
-                  DateTimePicker(
-                    dateHintText: 'Select Date',
-                    calendarTitle: 'MamaVault',
-                    type: DateTimePickerType.date,
-                    controller: dateController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                    ),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                    dateLabelText: 'Date',
-                    onChanged: (val) {},
-                    onSaved: (val) => print(val),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Date is required';
-                      } else {
-                        return null;
-                      }
+                  SizedBox(height: 5.h),
+                  GestureDetector(
+                    onTap: () async {
+                      await _selectDate(context);
                     },
+                    child: TextFormField(
+                      validator: (value) {
+                        if (_selectedDate == null) {
+                          return "Select Date";
+                        } else {
+                          return null;
+                        }
+                      },
+                      enabled: false,
+                      decoration: InputDecoration(
+                        hintText: _selectedDate != null
+                            ? formatDate(_selectedDate!)
+                            : 'Enter Date',
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: PalleteColor.primaryPurple),
+                        ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 20,
+                          horizontal: 13,
+                        ),
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 150),
+                  SizedBox(height: 100.h),
                   PrimaryButton(
                       buttonTitle: 'Next',
-                      onPressed: () {
+                      onPressed: () async {
                         if (formKey.currentState!.validate()) {
-                          addDetailsUser();
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (_) => const AddMedicalRecordsScreen(),
-                            ),
-                          );
+                          await addDetailsUser();
+                          if (context.mounted) {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (_) => const AddMedicalRecordsScreen(),
+                              ),
+                            );
+                          }
                         }
                       }),
                 ],
@@ -200,5 +254,3 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
     );
   }
 }
-
-class DateFormat {}

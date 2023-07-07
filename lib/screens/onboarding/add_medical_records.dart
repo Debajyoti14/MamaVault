@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/screens/home_page.dart';
 import 'package:interrupt/widgets/primary_button.dart';
@@ -61,130 +62,43 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
       };
       await finalUser.update(data);
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 
-  Widget buildChipsDisease() {
+  Widget buildChips(List<String> values, List<bool> selectedValues) {
     List<Widget> chips = [];
 
-    for (int i = 0; i < _diseasesValues.length; i++) {
-      InputChip actionChip = InputChip(
-        selectedColor: PalleteColor.primaryPurple,
-        deleteIconColor: PalleteColor.bodyTextColorLight,
-        showCheckmark: false,
-        backgroundColor: PalleteColor.bodyTextColorLight,
-        selected: _diseaseSelected[i],
-        label: Text(
-          _diseasesValues[i],
-          style: const TextStyle(color: PalleteColor.bodyTextColorLight),
+    for (int i = 0; i < values.length; i++) {
+      Widget actionChip = Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 3.0),
+        child: InputChip(
+          selectedColor: PalleteColor.primaryPurple,
+          deleteIconColor: PalleteColor.bodyTextColorLight,
+          showCheckmark: false,
+          backgroundColor: PalleteColor.bodyTextColorLight,
+          selected: selectedValues[i],
+          label: Text(
+            values[i],
+            style: const TextStyle(color: PalleteColor.bodyTextColorLight),
+          ),
+          elevation: 0,
+          pressElevation: 5,
+          onPressed: () {
+            setState(() {
+              selectedValues[i] = !selectedValues[i];
+            });
+          },
+          onDeleted: () {
+            values.removeAt(i);
+            selectedValues.removeAt(i);
+
+            setState(() {
+              values = values;
+              selectedValues = selectedValues;
+            });
+          },
         ),
-        // avatar: FlutterLogo(),
-        elevation: 10,
-        pressElevation: 5,
-        shadowColor: Colors.teal,
-        onPressed: () {
-          setState(() {
-            _diseaseSelected[i] = !_diseaseSelected[i];
-          });
-        },
-        onDeleted: () {
-          _diseasesValues.removeAt(i);
-          _diseaseSelected.removeAt(i);
-
-          setState(() {
-            _diseasesValues = _diseasesValues;
-            _diseaseSelected = _diseaseSelected;
-          });
-        },
-      );
-
-      chips.add(actionChip);
-    }
-
-    return ListView(
-      // This next line does the trick.
-      scrollDirection: Axis.horizontal,
-      children: chips,
-    );
-  }
-
-  Widget buildChipsMedicine() {
-    List<Widget> chips = [];
-
-    for (int i = 0; i < _medicineValues.length; i++) {
-      InputChip actionChip = InputChip(
-        selectedColor: PalleteColor.primaryPurple,
-        deleteIconColor: PalleteColor.bodyTextColorLight,
-        showCheckmark: false,
-        backgroundColor: PalleteColor.bodyTextColorLight,
-        selected: _diseaseSelected[i],
-        label: Text(
-          _medicineValues[i],
-          style: const TextStyle(color: PalleteColor.bodyTextColorLight),
-        ),
-        // avatar: FlutterLogo(),
-        elevation: 10,
-        pressElevation: 5,
-        shadowColor: Colors.teal,
-        onPressed: () {
-          setState(() {
-            _medicineSelected[i] = !_medicineSelected[i];
-          });
-        },
-        onDeleted: () {
-          _medicineValues.removeAt(i);
-          _medicineSelected.removeAt(i);
-
-          setState(() {
-            _medicineValues = _medicineValues;
-            _medicineSelected = _medicineSelected;
-          });
-        },
-      );
-
-      chips.add(actionChip);
-    }
-
-    return ListView(
-      // This next line does the trick.
-      scrollDirection: Axis.horizontal,
-      children: chips,
-    );
-  }
-
-  Widget buildChipsAllergy() {
-    List<Widget> chips = [];
-
-    for (int i = 0; i < _allergyValues.length; i++) {
-      InputChip actionChip = InputChip(
-        selectedColor: PalleteColor.primaryPurple,
-        deleteIconColor: PalleteColor.bodyTextColorLight,
-        showCheckmark: false,
-        backgroundColor: PalleteColor.bodyTextColorLight,
-        selected: _allergySelected[i],
-        label: Text(
-          _allergyValues[i],
-          style: const TextStyle(color: PalleteColor.bodyTextColorLight),
-        ),
-        // avatar: FlutterLogo(),
-        elevation: 10,
-        pressElevation: 5,
-        shadowColor: Colors.teal,
-        onPressed: () {
-          setState(() {
-            _allergySelected[i] = !_allergySelected[i];
-          });
-        },
-        onDeleted: () {
-          _allergyValues.removeAt(i);
-          _allergySelected.removeAt(i);
-
-          setState(() {
-            _allergyValues = _allergyValues;
-            _allergySelected = _allergySelected;
-          });
-        },
       );
 
       chips.add(actionChip);
@@ -203,146 +117,195 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
         child: Form(
           key: formKey,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-            height: MediaQuery.of(context).size.height * 1.1,
+            padding: EdgeInsets.symmetric(
+                horizontal: defaultPadding, vertical: 30.h),
+            height: MediaQuery.of(context).size.height * 1,
             width: MediaQuery.of(context).size.width,
             child: SizedBox(
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(height: 40),
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Medical Records',
-                      style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Image.asset('assets/add_medical_records.png'),
-                  const SizedBox(height: 40),
-                  CustomTextField(
-                    hintText: 'Enter Description',
-                    controller: _descriptionController,
-                    height: 40,
-                    validator: (value) {
-                      if (value.toString().isEmpty) {
-                        return 'Description is required';
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  // const SizedBox(height: 20),
-                  //For Diseases
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 30,
-                          child: buildChipsDisease(),
+                  Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Medical Records',
+                          style: TextStyle(
+                              fontSize: 32.sp, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.left,
                         ),
-                        TextFormField(
-                          controller: _diseaseEditingController,
-                          decoration: InputDecoration(
-                            hintText: 'Diseases',
-                            suffixIcon: IconButton(
-                              icon: const Icon(Icons.check),
-                              onPressed: () {
-                                _diseasesValues
-                                    .add(_diseaseEditingController.text);
-                                _diseaseSelected.add(true);
-                                _diseaseEditingController.clear();
-
-                                setState(() {
-                                  _diseasesValues = _diseasesValues;
-                                  _diseaseSelected = _diseaseSelected;
-                                  print(_diseasesValues);
-                                });
-                              },
+                      ),
+                      // SizedBox(height: 20.h),
+                      // Image.asset('assets/add_medical_records.png'),
+                      SizedBox(height: 40.h),
+                      CustomTextField(
+                        hintText: 'Enter Description',
+                        controller: _descriptionController,
+                        height: 40.h,
+                        validator: (value) {
+                          if (value.toString().isEmpty) {
+                            return 'Description is required';
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5.0.h),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              height: 44.h,
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child:
+                                  buildChips(_diseasesValues, _diseaseSelected),
                             ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  //For Medicines
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 30,
-                          child: buildChipsMedicine(),
-                        ),
-                        TextFormField(
-                          controller: _medicineEditingController,
-                          decoration: InputDecoration(
-                            hintText: 'Medicines',
-                            suffixIcon: IconButton(
-                              icon: const Icon(Icons.check),
-                              onPressed: () {
-                                _medicineValues
-                                    .add(_medicineEditingController.text);
-                                _medicineSelected.add(true);
-                                _medicineEditingController.clear();
+                            TextFormField(
+                              controller: _diseaseEditingController,
+                              decoration: InputDecoration(
+                                hintText: 'Diseases',
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: PalleteColor.primaryPurple),
+                                ),
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 20,
+                                  horizontal: 13,
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: const Icon(
+                                    Icons.check,
+                                    color: PalleteColor.primaryPurple,
+                                  ),
+                                  onPressed: () {
+                                    _diseasesValues
+                                        .add(_diseaseEditingController.text);
+                                    _diseaseSelected.add(true);
+                                    _diseaseEditingController.clear();
 
-                                setState(() {
-                                  _medicineValues = _medicineValues;
-                                  _medicineSelected = _medicineSelected;
-                                  print(_medicineValues);
-                                });
-                              },
+                                    setState(() {
+                                      _diseasesValues = _diseasesValues;
+                                      _diseaseSelected = _diseaseSelected;
+                                      debugPrint(_diseasesValues.toString());
+                                    });
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  //For Allergies
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 30,
-                          child: buildChipsAllergy(),
-                        ),
-                        TextFormField(
-                          controller: _allergyEditingController,
-                          decoration: InputDecoration(
-                            hintText: 'Allergies',
-                            suffixIcon: IconButton(
-                              icon: const Icon(Icons.check),
-                              onPressed: () {
-                                _allergyValues
-                                    .add(_allergyEditingController.text);
-                                _allergySelected.add(true);
-                                _allergyEditingController.clear();
+                      ),
+                      //For Medicines
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5.0.h),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              height: 44.h,
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: buildChips(
+                                  _medicineValues, _medicineSelected),
+                            ),
+                            TextFormField(
+                              controller: _medicineEditingController,
+                              decoration: InputDecoration(
+                                hintText: 'Medicines',
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: PalleteColor.primaryPurple),
+                                ),
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 20,
+                                  horizontal: 13,
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: const Icon(
+                                    Icons.check,
+                                    color: PalleteColor.primaryPurple,
+                                  ),
+                                  onPressed: () {
+                                    _medicineValues
+                                        .add(_medicineEditingController.text);
+                                    _medicineSelected.add(true);
+                                    _medicineEditingController.clear();
 
-                                setState(() {
-                                  _allergyValues = _allergyValues;
-                                  _allergySelected = _allergySelected;
-                                  print(_allergyValues);
-                                });
-                              },
+                                    setState(() {
+                                      _medicineValues = _medicineValues;
+                                      _medicineSelected = _medicineSelected;
+                                      debugPrint(_medicineValues.toString());
+                                    });
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      //For Allergies
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5.0.h),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              height: 44.h,
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child:
+                                  buildChips(_allergyValues, _allergySelected),
+                            ),
+                            TextFormField(
+                              controller: _allergyEditingController,
+                              decoration: InputDecoration(
+                                hintText: 'Allergies',
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: PalleteColor.primaryPurple),
+                                ),
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 20,
+                                  horizontal: 13,
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: const Icon(Icons.check,
+                                      color: PalleteColor.primaryPurple),
+                                  onPressed: () {
+                                    _allergyValues
+                                        .add(_allergyEditingController.text);
+                                    _allergySelected.add(true);
+                                    _allergyEditingController.clear();
+
+                                    setState(() {
+                                      _allergyValues = _allergyValues;
+                                      _allergySelected = _allergySelected;
+                                      debugPrint(_allergyValues.toString());
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 40.h),
+                    ],
                   ),
-                  const SizedBox(height: 40),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: 153,
-                        height: 60,
+                        width: 153.w,
+                        height: 60.h,
                         child: ElevatedButton.icon(
                           onPressed: () async {
                             Navigator.of(context).pushAndRemoveUntil(
@@ -370,14 +333,14 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
                             textStyle: TextStyle(
                               fontFamily: GoogleFonts.poppins().fontFamily,
                               fontWeight: FontWeight.w600,
-                              fontSize: 16,
+                              fontSize: 16.sp,
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 20),
+                      SizedBox(width: 20.w),
                       SizedBox(
-                        width: 153,
+                        width: 153.w,
                         child: PrimaryButton(
                             buttonTitle: 'Save',
                             onPressed: () async {

@@ -24,13 +24,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       widget: SingleChildScrollView(
         controller: ScrollController(),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
               'assets/onboarding-1.png',
-              height: 200.h,
+              height: 400.h,
             ),
+            SizedBox(height: 30.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: defaultPadding),
               child: Align(
@@ -74,8 +75,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             Image.asset(
               'assets/onboarding-2.png',
-              height: 200,
+              height: 400.h,
             ),
+            SizedBox(height: 30.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: defaultPadding),
               child: Align(
@@ -118,8 +120,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             Image.asset(
               'assets/onboarding-3.png',
-              height: 200.h,
+              height: 400.h,
             ),
+            SizedBox(height: 30.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: defaultPadding),
               child: Align(
@@ -170,6 +173,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 child: Container(
                   color: PalleteColor.primaryPurple,
+                  width: double.infinity,
                   child: Image.asset(
                     'assets/onboarding-4.png',
                   ),
@@ -227,16 +231,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         borderRadius: defaultSkipButtonBorderRadius,
         onTap: () {
           if (setIndex != null) {
-            index = 3;
-            setIndex(3);
+            index++;
+            setIndex(index);
           }
         },
         child: const Padding(
-            padding: EdgeInsets.all(15),
-            child: Icon(
-              Icons.navigate_next,
-              color: PalleteColor.bodyTextColorLight,
-            )),
+          padding: EdgeInsets.all(15),
+          child: Icon(
+            Icons.navigate_next,
+            color: PalleteColor.bodyTextColorLight,
+          ),
+        ),
       ),
     );
   }
@@ -269,17 +274,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         startPageIndex: 0,
         footerBuilder: (context, dragDistance, pagesLength, setIndex) {
           return DecoratedBox(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: PalleteColor.bodyTextColorLight,
-              border: Border.all(
-                width: 0.0,
-                color: PalleteColor.bodyTextColorLight,
-              ),
             ),
             child: ColoredBox(
               color: PalleteColor.bodyTextColorLight,
               child: Padding(
-                padding: const EdgeInsets.all(45.0),
+                padding: EdgeInsets.all(defaultPadding),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -287,13 +288,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       netDragPercent: dragDistance,
                       pagesLength: pagesLength,
                       indicator: Indicator(
-                        closedIndicator:
-                            const ClosedIndicator(color: Colors.white),
+                        closedIndicator: const ClosedIndicator(
+                            color: Colors.white, borderWidth: 4),
                         activeIndicator: const ActiveIndicator(
-                            color: PalleteColor.primaryPurple, borderWidth: 2),
+                            color: PalleteColor.primaryPurple, borderWidth: 6),
                         indicatorDesign: IndicatorDesign.line(
                           lineDesign: LineDesign(
                             lineType: DesignType.line_uniform,
+                            lineWidth: MediaQuery.of(context).size.width * 0.05,
                           ),
                         ),
                       ),
