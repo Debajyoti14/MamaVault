@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../config/color_pallete.dart';
@@ -27,10 +26,7 @@ class _PrimaryButtonState extends State<PrimaryButton> {
       width: double.infinity,
       height: 57,
       child: ElevatedButton(
-        onPressed: () {
-          HapticFeedback.lightImpact();
-          widget.onPressed;
-        },
+        onPressed: widget.onPressed,
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),

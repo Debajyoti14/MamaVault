@@ -1,42 +1,41 @@
 {
   "project_info": {
-    "project_number": "301873991935",
-    "project_id": "mamavault-019",
-    "storage_bucket": "mamavault-019.appspot.com"
+    "project_number": "439513873786",
+    "project_id": "mamavault",
+    "storage_bucket": "mamavault.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:301873991935:android:50702765a68c819359fcca",
+        "mobilesdk_app_id": "1:439513873786:android:743d5cb1c40ef3f52e2ac3",
         "android_client_info": {
-          "package_name": "com.example.interrupt"
+          "package_name": "com.example.mamavault"
         }
       },
       "oauth_client": [
         {
-          "client_id": "301873991935-86mtvh0u7bqdj3uct321ai5ctab7he66.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.interrupt",
-            "certificate_hash": "2d9758b6e3a8b39522a653177664acf84ba09ee3"
-          }
-        },
-        {
-          "client_id": "301873991935-e7e2jeh25q97njqunaarsmiab470o2be.apps.googleusercontent.com",
+          "client_id": "439513873786-bmblmsnt1t7dd6oghu11rooauh17085r.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAgot0ZbNkYZ6oJVDjIHMqvXaj42xYXQlI"
+          "current_key": "AIzaSyDlvCuC8Z10iM9VoMbqhxA8BMF_3FNx1DU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "301873991935-e7e2jeh25q97njqunaarsmiab470o2be.apps.googleusercontent.com",
+              "client_id": "439513873786-2itqui0mfk4c5589eohrlrenol5r471t.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "439513873786-d4808jorbteqpoa64k9slrcbjp1htk80.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mamavault.RunnerTests"
+              }
             }
           ]
         }

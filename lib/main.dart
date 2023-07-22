@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:interrupt/config/theme.dart';
+import 'package:interrupt/firebase_options.dart';
 import 'package:interrupt/provider/expire_provider.dart';
 import 'package:interrupt/provider/google_signin.dart';
 import 'package:interrupt/provider/memory_provider.dart';
@@ -21,7 +22,9 @@ Future main() async {
     SystemUiOverlay.bottom, //This line is used for showing the bottom bar
   ]);
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

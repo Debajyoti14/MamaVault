@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>439513873786-nd0tsgh2dalocp1bqnlb8o2k9rg2kp73.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.439513873786-nd0tsgh2dalocp1bqnlb8o2k9rg2kp73</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>439513873786-h5lbfq0eo8sg9828ih5rh0gn77nttvev.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCCImuA_y4T_YEInJX0uGO5OBiM8hpQauA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>439513873786</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.mamavault</string>
+	<key>PROJECT_ID</key>
+	<string>mamavault</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mamavault.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:439513873786:ios:2e07f607af95dce42e2ac3</string>
+</dict>
+</plist>

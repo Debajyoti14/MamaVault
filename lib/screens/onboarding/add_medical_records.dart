@@ -130,19 +130,18 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
             child: SizedBox(
               width: double.infinity,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Medical Records',
-                          style: TextStyle(
-                              fontSize: 32.sp, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.left,
-                        ),
+                      SizedBox(height: 40.h),
+                      Text(
+                        'Medical Records',
+                        style: TextStyle(
+                            fontSize: 32.sp, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.left,
                       ),
                       // SizedBox(height: 20.h),
                       // Image.asset('assets/add_medical_records.png'),
