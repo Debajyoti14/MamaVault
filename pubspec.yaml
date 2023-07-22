@@ -15,7 +15,6 @@ dependencies:
   cloud_firestore: ^4.4.2
   cupertino_icons: ^1.0.2
   file_picker: ^5.2.5
-  flutter_screenutil: ^5.8.4
   firebase_auth: ^4.2.8
   firebase_core: ^2.6.1
   firebase_storage: ^11.0.14
@@ -23,9 +22,11 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.3.0
-  flutter_dotenv: ^5.0.2
+  flutter_dotenv: ^5.1.0
   flutter_launcher_icons: ^0.11.0
+  flutter_screenutil: ^5.8.4
   flutter_svg: ^2.0.1
+  fluttertoast: ^8.2.2
   font_awesome_flutter: ^10.4.0
   gallery_saver: ^2.3.2
   google_fonts: ^4.0.3

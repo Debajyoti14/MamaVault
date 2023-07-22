@@ -2,29 +2,31 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:interrupt/config/theme.dart';
+import 'package:interrupt/resources/theme.dart';
 import 'package:interrupt/firebase_options.dart';
-import 'package:interrupt/provider/expire_provider.dart';
-import 'package:interrupt/provider/google_signin.dart';
-import 'package:interrupt/provider/memory_provider.dart';
-import 'package:interrupt/provider/user_provider.dart';
-import 'package:interrupt/provider/verified_number_provider.dart';
-import 'package:interrupt/screens/home_page.dart';
-import 'package:interrupt/screens/onboarding/onboarding.dart';
-import 'package:interrupt/splash.dart';
+import 'package:interrupt/view_model/expire_provider.dart';
+import 'package:interrupt/view_model/google_signin.dart';
+import 'package:interrupt/view_model/memory_provider.dart';
+import 'package:interrupt/view_model/user_provider.dart';
+import 'package:interrupt/view_model/verified_number_provider.dart';
+import 'package:interrupt/view/home_page.dart';
+import 'package:interrupt/view/onboarding/onboarding.dart';
+import 'package:interrupt/view/splash.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
-    SystemUiOverlay.bottom, //This line is used for showing the bottom bar
+    SystemUiOverlay.bottom,
   ]);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
