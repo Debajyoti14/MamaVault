@@ -1,4 +1,3 @@
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +10,6 @@ import 'package:interrupt/view_model/google_signin.dart';
 import 'package:interrupt/view_model/memory_provider.dart';
 import 'package:interrupt/view_model/user_provider.dart';
 import 'package:interrupt/view_model/verified_number_provider.dart';
-import 'package:interrupt/view/home_page.dart';
-import 'package:interrupt/view/onboarding/onboarding.dart';
 import 'package:interrupt/view/splash.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -81,19 +78,11 @@ class _MyAppState extends State<MyApp> {
           splitScreenMode: true,
           builder: (context, child) {
             return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'MamaVault',
-              theme: lightThemeData,
-              // darkTheme: darkThemeData,
-              home: AnimatedSplashScreen(
-                  backgroundColor: Colors.white,
-                  centered: true,
-                  duration: 2000,
-                  splashTransition: SplashTransition.fadeTransition,
-                  splash: const SplashScreen(),
-                  nextScreen:
-                      isOnboarded ? const Home() : const OnboardingScreen()),
-            );
+                debugShowCheckedModeBanner: false,
+                title: 'MamaVault',
+                theme: lightThemeData,
+                // darkTheme: darkThemeData,
+                home: const SplashScreen());
           }),
     );
   }
