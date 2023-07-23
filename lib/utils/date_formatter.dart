@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 String format12hourTime(int lastSeen) {
@@ -28,4 +29,14 @@ String formatDate(DateTime dateTime) {
   String year = dateTime.year.toString().substring(2);
 
   return '$day $month, $year';
+}
+
+String convertFirebaseTimestampToFormattedString(Timestamp timestamp) {
+  // Convert the Timestamp to a DateTime object
+  DateTime dateTime = timestamp.toDate();
+
+  // Format the DateTime object as "03 Jul 23 07:56"
+  String formattedDate = DateFormat('dd MMM yy HH:mm').format(dateTime);
+
+  return formattedDate;
 }

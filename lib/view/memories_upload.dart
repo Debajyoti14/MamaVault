@@ -125,14 +125,16 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: AppColors.primaryPurple),
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                height: 40.h,
-              ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(

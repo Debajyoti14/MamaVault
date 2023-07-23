@@ -6,6 +6,7 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 
 import '../resources/UI_constraints.dart';
+import '../resources/colors.dart';
 import '../resources/components/primary_button.dart';
 
 class PreviewDocScreen extends StatefulWidget {
@@ -28,6 +29,11 @@ class _PreviewDocScreenState extends State<PreviewDocScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: AppColors.primaryPurple),
+      ),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -38,7 +44,6 @@ class _PreviewDocScreenState extends State<PreviewDocScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 40),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(

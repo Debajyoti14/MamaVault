@@ -1,13 +1,12 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:interrupt/data/response/status.dart';
 import 'package:interrupt/resources/colors.dart';
-import 'package:interrupt/utils/date_formatter.dart';
+import 'package:interrupt/view_model/dashboard_view_model.dart';
 import 'package:interrupt/view_model/user_provider.dart';
 import 'package:interrupt/view/Panic%20Mode/panic_mode_timer.dart';
 import 'package:interrupt/view/profile.dart';
@@ -16,7 +15,7 @@ import 'package:interrupt/resources/components/primary_icon_button.dart';
 import 'package:provider/provider.dart';
 
 import '../resources/UI_constraints.dart';
-import 'package:http/http.dart' as http;
+import '../utils/date_formatter.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -27,33 +26,13 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final user = FirebaseAuth.instance.currentUser!;
-  late List<dynamic> timelineData;
-
-  Future fetchTimeline(List allDocs) async {
-    try {
-      var url = Uri.parse(
-          "https://us-central1-mamavault-019.cloudfunctions.net/getTimeline");
-      Map data = {
-        "documents": allDocs //array of all documents
-      };
-      var body = json.encode(data);
-      var response = await http.post(
-        url,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: body,
-      );
-      final responseData = json.decode(response.body);
-      return responseData;
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
+  DashboardViewModel dashboardViewModel = DashboardViewModel();
 
   @override
   Widget build(BuildContext context) {
     List allUserDocs = Provider.of<UserProvider>(context).getUserDocs;
+    dashboardViewModel.getTimeline(allUserDocs.toString());
+    final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -156,176 +135,172 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 const SizedBox(height: 20),
                 SingleChildScrollView(
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    child: FutureBuilder<dynamic>(
-                      future: fetchTimeline(allUserDocs),
-                      builder: (
-                        BuildContext context,
-                        AsyncSnapshot<dynamic> snapshot,
-                      ) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: AppColors.primaryPurple,
-                            ),
-                          );
-                        } else if (snapshot.connectionState ==
-                            ConnectionState.done) {
-                          if (snapshot.hasError) {
-                            return const Text('Error');
-                          } else if (snapshot.hasData) {
-                            return ListView.builder(
-                              itemCount: snapshot.data.length,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                final singletimeline = snapshot.data[index];
-                                final formattedTime =
-                                    format12hourTime(singletimeline['time']);
-                                return snapshot.data.length > 0
-                                    ? Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              formattedTime,
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontFamily: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w500,
-                                                ).fontFamily,
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: ChangeNotifierProvider<DashboardViewModel>(
+                      create: (BuildContext context) => dashboardViewModel,
+                      child: Consumer<DashboardViewModel>(
+                        builder: (context, value, child) {
+                          switch (value.timeline.status) {
+                            case Status.LOADING:
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.primaryPurple,
+                                ),
+                              );
+                            case Status.ERROR:
+                              print("=======================");
+                              return Center(
+                                child: Text(value.timeline.message.toString()),
+                              );
+                            case Status.COMPLETED:
+                              print(value.timeline.data?.length.runtimeType);
+                              print("=======================");
+                              return ListView.builder(
+                                itemCount: value.timeline.data?.length ?? 0,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final singletimeline =
+                                      value.timeline.data?[index];
+                                  final formattedTime =
+                                      format12hourTime(singletimeline['time']);
+                                  return value.timeline.data.length > 0
+                                      ? Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0,
+                                          ),
+                                          width: size.width,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                formattedTime,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily:
+                                                      GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.w500,
+                                                  ).fontFamily,
+                                                ),
                                               ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            Container(
-                                              width: double.infinity,
-                                              padding:
-                                                  const EdgeInsets.all(16.0),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    width: 2,
-                                                    color: AppColors
-                                                        .primaryPurple),
-                                                color: const Color.fromARGB(
-                                                    255, 231, 231, 255),
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(8)),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const Text(
-                                                    'Document Attached',
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  const SizedBox(height: 15),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      for (var doc
-                                                          in singletimeline[
-                                                              'document'])
-                                                        Column(
-                                                          children: [
-                                                            doc['doc_format'] ==
-                                                                    'image/jpeg'
-                                                                ? Container(
-                                                                    padding:
-                                                                        const EdgeInsets
-                                                                            .all(5),
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      border:
-                                                                          Border
-                                                                              .all(
+                                              const SizedBox(height: 10),
+                                              Container(
+                                                width: double.infinity,
+                                                padding:
+                                                    const EdgeInsets.all(16.0),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      width: 2,
+                                                      color: AppColors
+                                                          .primaryPurple),
+                                                  color: const Color.fromARGB(
+                                                      255, 231, 231, 255),
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(8)),
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      'Document Attached',
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    ),
+                                                    const SizedBox(height: 15),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        for (var doc
+                                                            in singletimeline[
+                                                                'document'])
+                                                          Column(
+                                                            children: [
+                                                              doc['doc_format'] ==
+                                                                      'image/jpeg'
+                                                                  ? Container(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                              5),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        border:
+                                                                            Border.all(
+                                                                          width:
+                                                                              2,
+                                                                          color:
+                                                                              AppColors.primaryPurple,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            const BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              10),
+                                                                        ),
+                                                                      ),
+                                                                      child: Image
+                                                                          .network(
+                                                                        doc['doc_url'],
                                                                         width:
-                                                                            2,
-                                                                        color: AppColors
-                                                                            .primaryPurple,
+                                                                            83,
+                                                                        height:
+                                                                            64,
                                                                       ),
-                                                                      borderRadius:
-                                                                          const BorderRadius
-                                                                              .all(
-                                                                        Radius.circular(
-                                                                            10),
+                                                                    )
+                                                                  : Container(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                              8),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            const BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              10),
+                                                                        ),
+                                                                        border:
+                                                                            Border.all(
+                                                                          width:
+                                                                              2,
+                                                                          color:
+                                                                              AppColors.primaryPurple,
+                                                                        ),
                                                                       ),
-                                                                    ),
-                                                                    child: Image
-                                                                        .network(
-                                                                      doc['doc_url'],
-                                                                      width: 83,
-                                                                      height:
-                                                                          64,
-                                                                    ),
-                                                                  )
-                                                                : Container(
-                                                                    padding:
-                                                                        const EdgeInsets
-                                                                            .all(8),
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      borderRadius:
-                                                                          const BorderRadius
-                                                                              .all(
-                                                                        Radius.circular(
-                                                                            10),
-                                                                      ),
-                                                                      border:
-                                                                          Border
-                                                                              .all(
+                                                                      child: Image
+                                                                          .network(
+                                                                        'https://www.woschool.com/wp-content/uploads/2020/09/png-transparent-pdf-icon-illustration-adobe-acrobat-portable-document-format-computer-icons-adobe-reader-file-pdf-icon-miscellaneous-text-logo.png',
                                                                         width:
-                                                                            2,
-                                                                        color: AppColors
-                                                                            .primaryPurple,
+                                                                            93,
+                                                                        height:
+                                                                            64,
                                                                       ),
                                                                     ),
-                                                                    child: Image
-                                                                        .network(
-                                                                      'https://www.woschool.com/wp-content/uploads/2020/09/png-transparent-pdf-icon-illustration-adobe-acrobat-portable-document-format-computer-icons-adobe-reader-file-pdf-icon-miscellaneous-text-logo.png',
-                                                                      width: 93,
-                                                                      height:
-                                                                          64,
-                                                                    ),
-                                                                  ),
-                                                            const SizedBox(
-                                                                height: 5),
-                                                            Text(
-                                                              doc['doc_title'],
-                                                            )
-                                                          ],
-                                                        )
-                                                    ],
-                                                  )
-                                                ],
+                                                              const SizedBox(
+                                                                  height: 5),
+                                                              Text(
+                                                                doc['doc_title'],
+                                                              )
+                                                            ],
+                                                          )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : const Center(
-                                        child: Text("No Documents Uploaded"),
-                                      );
-                              },
-                            );
-                          } else {
-                            return const Center(child: Text('Empty data'));
+                                            ],
+                                          ),
+                                        )
+                                      : const SizedBox();
+                                },
+                              );
+                            default:
+                              return Container();
                           }
-                        } else {
-                          return Center(
-                            child: Text('State: ${snapshot.connectionState}'),
-                          );
-                        }
-                      },
+                        },
+                      ),
                     ),
                   ),
                 ),

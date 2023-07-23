@@ -150,157 +150,155 @@ class _UploadDocState extends State<UploadDoc> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-          child: SingleChildScrollView(
-              child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 40,
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: AppColors.primaryPurple),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+        child: SingleChildScrollView(
+            child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Upload Document",
+                style: TextStyle(
+                  fontSize: 32,
+                  fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
+                      .fontFamily,
                 ),
-                Text(
-                  "Upload Document",
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
-                        .fontFamily,
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Add Documents',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.bold)
-                                  .fontFamily,
-                            ),
-                          ),
-                          Text(
-                            'Minimum 1 Document required',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w500)
-                                  .fontFamily,
-                            ),
-                          ),
-                        ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Add Documents',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily:
+                            GoogleFonts.poppins(fontWeight: FontWeight.bold)
+                                .fontFamily,
                       ),
-                      (currentImages.length < 3)
-                          ? IconButton(
-                              color: AppColors.primaryPurple,
-                              icon: const Icon(Icons.add_a_photo),
-                              onPressed: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(builder:
-                                          (BuildContext context,
-                                              StateSetter setState) {
-                                        return bottomSheet();
-                                      });
-                                    });
-                              },
-                            )
-                          : const Text('Max 3 Images!'),
-                    ]),
-                const SizedBox(
-                  height: 20,
+                    ),
+                    Text(
+                      'Minimum 1 Document required',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily:
+                            GoogleFonts.poppins(fontWeight: FontWeight.w500)
+                                .fontFamily,
+                      ),
+                    ),
+                  ],
                 ),
-                (imageFileList.isNotEmpty)
-                    ? GridView.builder(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        itemCount: fileTitle.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3, crossAxisSpacing: 10),
-                        itemBuilder: (BuildContext context, int index) {
-                          return Column(
-                            children: [
-                              const SizedBox(
-                                height: 80,
-                                child: Text('pdf'),
-                                // child: (fileExt == 'pdf')
-                                //     ? const Text("Pdf")
-                                //     : Image.file(
-                                //         io.File(imageFileList[index]!.path),
-                                //         fit: BoxFit.fitHeight,
-                                //       ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(fileTitle[index]),
-                            ],
-                          );
+                (currentImages.length < 3)
+                    ? IconButton(
+                        color: AppColors.primaryPurple,
+                        icon: const Icon(Icons.add_a_photo),
+                        onPressed: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return StatefulBuilder(builder:
+                                    (BuildContext context,
+                                        StateSetter setState) {
+                                  return bottomSheet();
+                                });
+                              });
                         },
                       )
-                    : Container(),
-                const SizedBox(height: 200),
-                const Text('Select Date'),
-                GestureDetector(
-                  onTap: () async {
-                    await _selectDate(context);
+                    : const Text('Max 3 Images!'),
+              ]),
+              const SizedBox(
+                height: 20,
+              ),
+              (imageFileList.isNotEmpty)
+                  ? GridView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: fileTitle.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3, crossAxisSpacing: 10),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            const SizedBox(
+                              height: 80,
+                              child: Text('pdf'),
+                              // child: (fileExt == 'pdf')
+                              //     ? const Text("Pdf")
+                              //     : Image.file(
+                              //         io.File(imageFileList[index]!.path),
+                              //         fit: BoxFit.fitHeight,
+                              //       ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(fileTitle[index]),
+                          ],
+                        );
+                      },
+                    )
+                  : Container(),
+              const SizedBox(height: 200),
+              const Text('Select Date'),
+              GestureDetector(
+                onTap: () async {
+                  await _selectDate(context);
+                },
+                child: TextFormField(
+                  validator: (value) {
+                    if (_selectedDate == null) {
+                      return "Select Date";
+                    } else {
+                      return null;
+                    }
                   },
-                  child: TextFormField(
-                    validator: (value) {
-                      if (_selectedDate == null) {
-                        return "Select Date";
-                      } else {
-                        return null;
-                      }
-                    },
-                    enabled: false,
-                    decoration: InputDecoration(
-                      hintText: _selectedDate != null
-                          ? formatDate(_selectedDate!)
-                          : 'Enter Date',
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.primaryPurple),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 20,
-                        horizontal: 13,
-                      ),
+                  enabled: false,
+                  decoration: InputDecoration(
+                    hintText: _selectedDate != null
+                        ? formatDate(_selectedDate!)
+                        : 'Enter Date',
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: AppColors.primaryPurple),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 13,
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
-                PrimaryButton(
-                  buttonTitle: "Upload",
-                  isLoading: isLoading,
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      await uploadFile();
-                      nameIndex = 0;
-                    }
-                  },
-                ),
-              ],
-            ),
-          )),
-        ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              PrimaryButton(
+                buttonTitle: "Upload",
+                isLoading: isLoading,
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    await uploadFile();
+                    nameIndex = 0;
+                  }
+                },
+              ),
+            ],
+          ),
+        )),
       ),
     );
   }

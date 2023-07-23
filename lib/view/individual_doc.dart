@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/view/preview_doc.dart';
 
+import '../utils/date_formatter.dart';
+
 // ignore: must_be_immutable
 class IndividualDoc extends StatefulWidget {
   final Map<String, dynamic> docData;
@@ -38,7 +40,7 @@ class _IndividualDocState extends State<IndividualDoc> {
             context,
             CupertinoPageRoute(
                 builder: (_) => PreviewDocScreen(
-                      uploadTime: widget.docData['upload_time'],
+                      uploadTime: convertFirebaseTimestampToFormattedString(widget.docData['upload_time']),
                       docName: widget.documentTitle,
                       docType: widget.docData['doc_format'],
                       docURL: widget.docData['doc_url'],

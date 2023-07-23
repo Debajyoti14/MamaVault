@@ -153,6 +153,11 @@ class _DocumentUploadState extends State<DocumentUpload> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: AppColors.primaryPurple),
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
         child: SingleChildScrollView(
@@ -160,9 +165,6 @@ class _DocumentUploadState extends State<DocumentUpload> {
             key: formKey,
             child: Column(
               children: [
-                const SizedBox(
-                  height: 40,
-                ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
