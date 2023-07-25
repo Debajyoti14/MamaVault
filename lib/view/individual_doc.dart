@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:interrupt/model/document_model.dart';
 import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/view/preview_doc.dart';
 
-import '../utils/date_formatter.dart';
-
 // ignore: must_be_immutable
 class IndividualDoc extends StatefulWidget {
-  final Map<String, dynamic> docData;
+  final DocumentModel docData;
   final String documentTitle;
   final String documentID;
   final String time;
@@ -40,10 +39,10 @@ class _IndividualDocState extends State<IndividualDoc> {
             context,
             CupertinoPageRoute(
                 builder: (_) => PreviewDocScreen(
-                      uploadTime: convertFirebaseTimestampToFormattedString(widget.docData['upload_time']),
+                      uploadTime: widget.docData.uploadTime,
                       docName: widget.documentTitle,
-                      docType: widget.docData['doc_format'],
-                      docURL: widget.docData['doc_url'],
+                      docType: widget.docData.docFormat,
+                      docURL: widget.docData.docUrl,
                     )));
       },
       child: Container(

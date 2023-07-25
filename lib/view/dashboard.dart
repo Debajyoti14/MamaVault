@@ -30,8 +30,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List allUserDocs = Provider.of<UserProvider>(context).getUserDocs;
-    dashboardViewModel.getTimeline(allUserDocs.toString());
+    final allUserDocs = Provider.of<UserProvider>(context).getUserDocs;
+    dashboardViewModel.getTimeline(allUserDocs);
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(

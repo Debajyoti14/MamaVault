@@ -40,7 +40,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
     final data = {
       'name': nameController.text,
       'email': emailController.text,
-      'age': ageController.text,
+      'age': int.parse(ageController.text),
       'date_of_pregnancy': _selectedDate,
       'uid': user.uid,
       'image': user.photoURL
@@ -59,9 +59,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            // Customize the date picker theme properties
-            primaryColor: AppColors.primaryPurple, // Customize primary color
-            // Add more customizations as needed
+            primaryColor: AppColors.primaryPurple,
             colorScheme: Theme.of(context)
                 .colorScheme
                 .copyWith(secondary: AppColors.primaryPurple),

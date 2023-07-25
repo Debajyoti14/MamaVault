@@ -33,9 +33,10 @@ class _BottomNavState extends State<BottomNav> {
     });
   }
 
-  fetchDocs() async {
+  fetchDocsAndUser() async {
     UserProvider userProvider = Provider.of(context, listen: false);
     await userProvider.fetchUserDocs();
+    await userProvider.fetchUser();
   }
 
   fetchExpire() async {
@@ -51,7 +52,7 @@ class _BottomNavState extends State<BottomNav> {
   @override
   void initState() {
     super.initState();
-    fetchDocs();
+    fetchDocsAndUser();
     fetchExpire();
     fetchNumbers();
   }

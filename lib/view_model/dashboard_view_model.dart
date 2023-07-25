@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:interrupt/model/document_model.dart';
 import 'package:interrupt/repository/dashboard_repository.dart';
 
 import '../data/response/api_response.dart';
@@ -13,7 +14,7 @@ class DashboardViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getTimeline(String allDocs) async {
+  Future<void> getTimeline(List<DocumentModel> allDocs) async {
     setDashboardTimeline(ApiResponse.loading());
     _dashboardRepo.getTimeline(allDocs).then((value) {
       setDashboardTimeline(ApiResponse.complete(value));

@@ -59,10 +59,10 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
           FirebaseFirestore.instance.collection('users').doc(user.uid);
 
       final data = {
-        'complications_description ': _descriptionController.text,
-        'medicines ': _medicineValues,
-        'diseases ': _diseasesValues,
-        'allegies ': _allergyValues,
+        'complications_description': _descriptionController.text,
+        'medicines': _medicineValues,
+        'diseases': _diseasesValues,
+        'allegies': _allergyValues,
       };
       await finalUser.update(data);
       isLoading = false;

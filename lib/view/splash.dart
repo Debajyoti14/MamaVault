@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             SvgPicture.asset(
               'assets/logoSvg.svg',
-              height: 200.h,
+              height: 150.h,
             ),
             SizedBox(height: 30.h),
             Text(

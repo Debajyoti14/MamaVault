@@ -3,4 +3,5 @@ class AppUrl {
       "https://6uhblhr9j5.execute-api.eu-north-1.amazonaws.com/dev";
 
   static var getTimeline = "$baseUrl/get-timeline";
+  static var getSharableLink = "$baseUrl/get-sharable-link";
 }

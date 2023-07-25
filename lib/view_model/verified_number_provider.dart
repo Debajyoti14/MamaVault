@@ -18,9 +18,7 @@ class NumberProvider extends ChangeNotifier {
           .collection('panic_info');
       QuerySnapshot querySnapshot = await docRef.get();
       final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-      print("In Number Provider");
       _userNumber = allData;
-      print(_userNumber);
       notifyListeners();
     } catch (e) {
       print(e.toString());
