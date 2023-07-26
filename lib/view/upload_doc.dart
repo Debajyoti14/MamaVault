@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -168,13 +169,13 @@ class _UploadDocState extends State<UploadDoc> {
               Text(
                 "Upload Document",
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: 32.sp,
                   fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
                       .fontFamily,
                 ),
               ),
-              const SizedBox(
-                height: 30,
+              SizedBox(
+                height: 30.h,
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Column(
@@ -183,7 +184,7 @@ class _UploadDocState extends State<UploadDoc> {
                     Text(
                       'Add Documents',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 18.sp,
                         fontFamily:
                             GoogleFonts.poppins(fontWeight: FontWeight.bold)
                                 .fontFamily,
@@ -192,7 +193,7 @@ class _UploadDocState extends State<UploadDoc> {
                     Text(
                       'Minimum 1 Document required',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontFamily:
                             GoogleFonts.poppins(fontWeight: FontWeight.w500)
                                 .fontFamily,
@@ -218,8 +219,8 @@ class _UploadDocState extends State<UploadDoc> {
                       )
                     : const Text('Max 3 Images!'),
               ]),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: 20.h,
               ),
               (imageFileList.isNotEmpty)
                   ? GridView.builder(
@@ -232,9 +233,9 @@ class _UploadDocState extends State<UploadDoc> {
                       itemBuilder: (BuildContext context, int index) {
                         return Column(
                           children: [
-                            const SizedBox(
-                              height: 80,
-                              child: Text('pdf'),
+                            SizedBox(
+                              height: 80.h,
+                              child: const Text('pdf'),
                               // child: (fileExt == 'pdf')
                               //     ? const Text("Pdf")
                               //     : Image.file(
@@ -242,8 +243,8 @@ class _UploadDocState extends State<UploadDoc> {
                               //         fit: BoxFit.fitHeight,
                               //       ),
                             ),
-                            const SizedBox(
-                              height: 10,
+                            SizedBox(
+                              height: 10.h,
                             ),
                             Text(fileTitle[index]),
                           ],
@@ -251,7 +252,7 @@ class _UploadDocState extends State<UploadDoc> {
                       },
                     )
                   : Container(),
-              const SizedBox(height: 200),
+              SizedBox(height: 200.h),
               const Text('Select Date'),
               GestureDetector(
                 onTap: () async {
@@ -283,8 +284,8 @@ class _UploadDocState extends State<UploadDoc> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 30,
+              SizedBox(
+                height: 30.h,
               ),
               PrimaryButton(
                 buttonTitle: "Upload",
@@ -308,7 +309,7 @@ class _UploadDocState extends State<UploadDoc> {
       onClosing: () {},
       builder: (BuildContext context) {
         return SizedBox(
-          height: 700,
+          height: 700.h,
           child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(
@@ -317,20 +318,20 @@ class _UploadDocState extends State<UploadDoc> {
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 30,
+                  SizedBox(
+                    height: 30.h,
                   ),
                   Text(
                     'Choose Image',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 18.h,
                       fontFamily:
                           GoogleFonts.poppins(fontWeight: FontWeight.bold)
                               .fontFamily,
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: 20.h,
                   ),
                   (isSelected)
                       ? InkWell(
@@ -339,7 +340,7 @@ class _UploadDocState extends State<UploadDoc> {
                             await checkTitle();
                           },
                           child: Container(
-                            height: 150,
+                            height: 150.h,
                             decoration: BoxDecoration(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               borderRadius: BorderRadius.circular(10),
@@ -351,7 +352,7 @@ class _UploadDocState extends State<UploadDoc> {
                           ),
                         )
                       : Container(
-                          height: 150,
+                          height: 150.h,
                           decoration: BoxDecoration(
                             color: const Color.fromARGB(255, 255, 255, 255),
                             borderRadius: BorderRadius.circular(10),
@@ -361,8 +362,8 @@ class _UploadDocState extends State<UploadDoc> {
                           ),
                           child: const Text("Document Selected"),
                         ),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: 20.h,
                   ),
                   Form(
                     key: formKey,
@@ -380,8 +381,8 @@ class _UploadDocState extends State<UploadDoc> {
                       },
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: 10.h,
                   ),
                   SizedBox(
                     child: DropdownButtonFormField<String>(
@@ -414,8 +415,8 @@ class _UploadDocState extends State<UploadDoc> {
                       },
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: 10.h,
                   ),
                   PrimaryIconButton(
                     buttonTitle: "Next",

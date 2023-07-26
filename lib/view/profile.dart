@@ -1,5 +1,6 @@
 import 'package:accordion/accordion.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/resources/UI_constraints.dart';
@@ -34,7 +35,7 @@ class Profile extends StatelessWidget {
                   Text(
                     "Profile",
                     style: TextStyle(
-                      fontSize: 32,
+                      fontSize: 32.sp,
                       fontFamily:
                           GoogleFonts.poppins(fontWeight: FontWeight.bold)
                               .fontFamily,
@@ -42,9 +43,9 @@ class Profile extends StatelessWidget {
                   ),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 22,
-                        vertical: 8,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 22.w,
+                        vertical: 8.h,
                       ),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
@@ -64,7 +65,7 @@ class Profile extends StatelessWidget {
                       "Edit",
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         fontFamily:
                             GoogleFonts.poppins(fontWeight: FontWeight.w700)
                                 .fontFamily,
@@ -73,8 +74,8 @@ class Profile extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 40,
+              SizedBox(
+                height: 40.h,
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -91,8 +92,8 @@ class Profile extends StatelessWidget {
                         radius: 45,
                       ),
                     ),
-                    const SizedBox(
-                      width: 35,
+                    SizedBox(
+                      width: 35.w,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,7 +101,7 @@ class Profile extends StatelessWidget {
                         Text(
                           userData.name,
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 18.sp,
                             fontFamily:
                                 GoogleFonts.poppins(fontWeight: FontWeight.w500)
                                     .fontFamily,
@@ -110,7 +111,7 @@ class Profile extends StatelessWidget {
                           "${userData.age} years",
                           style: TextStyle(
                             color: const Color.fromARGB(255, 113, 112, 112),
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontFamily:
                                 GoogleFonts.poppins(fontWeight: FontWeight.w400)
                                     .fontFamily,
@@ -120,7 +121,7 @@ class Profile extends StatelessWidget {
                           "B+ Blood Group",
                           style: TextStyle(
                             color: const Color.fromARGB(255, 113, 112, 112),
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontFamily:
                                 GoogleFonts.poppins(fontWeight: FontWeight.w400)
                                     .fontFamily,
@@ -131,8 +132,8 @@ class Profile extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 40,
+              SizedBox(
+                height: 40.h,
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -145,8 +146,8 @@ class Profile extends StatelessWidget {
                       percent: 0.7,
                       progressColor: AppColors.primaryPurple,
                     ),
-                    const SizedBox(
-                      width: 30,
+                    SizedBox(
+                      width: 30.h,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +155,7 @@ class Profile extends StatelessWidget {
                         Text(
                           "7 weeks 2 days",
                           style: TextStyle(
-                            fontSize: 21,
+                            fontSize: 21.sp,
                             fontFamily:
                                 GoogleFonts.poppins(fontWeight: FontWeight.w500)
                                     .fontFamily,
@@ -166,7 +167,7 @@ class Profile extends StatelessWidget {
                         Text(
                           "Your baby just got a heart ❤️",
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 12.sp,
                             color: const Color.fromARGB(255, 91, 89, 89),
                             fontFamily:
                                 GoogleFonts.poppins(fontWeight: FontWeight.w500)
@@ -178,8 +179,8 @@ class Profile extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 50,
+              SizedBox(
+                height: 50.h,
               ),
               Accordion(
                   contentBackgroundColor:
@@ -200,7 +201,7 @@ class Profile extends StatelessWidget {
                         "Medicines",
                         style: TextStyle(
                           color: const Color.fromARGB(255, 73, 72, 72),
-                          fontSize: 21,
+                          fontSize: 21.sp,
                           fontFamily:
                               GoogleFonts.poppins(fontWeight: FontWeight.w500)
                                   .fontFamily,
@@ -216,7 +217,7 @@ class Profile extends StatelessWidget {
                                     style: TextStyle(
                                       color:
                                           const Color.fromARGB(255, 73, 72, 72),
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       fontFamily: GoogleFonts.poppins(
                                               fontWeight: FontWeight.w500)
                                           .fontFamily,
@@ -239,7 +240,7 @@ class Profile extends StatelessWidget {
                         "Allergies",
                         style: TextStyle(
                           color: const Color.fromARGB(255, 73, 72, 72),
-                          fontSize: 21,
+                          fontSize: 21.sp,
                           fontFamily:
                               GoogleFonts.poppins(fontWeight: FontWeight.w500)
                                   .fontFamily,
@@ -255,7 +256,7 @@ class Profile extends StatelessWidget {
                                     style: TextStyle(
                                       color:
                                           const Color.fromARGB(255, 73, 72, 72),
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       fontFamily: GoogleFonts.poppins(
                                               fontWeight: FontWeight.w500)
                                           .fontFamily,
@@ -278,7 +279,7 @@ class Profile extends StatelessWidget {
                         "Diseases",
                         style: TextStyle(
                           color: const Color.fromARGB(255, 73, 72, 72),
-                          fontSize: 21,
+                          fontSize: 21.sp,
                           fontFamily:
                               GoogleFonts.poppins(fontWeight: FontWeight.w500)
                                   .fontFamily,
@@ -294,7 +295,7 @@ class Profile extends StatelessWidget {
                                     style: TextStyle(
                                       color:
                                           const Color.fromARGB(255, 73, 72, 72),
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       fontFamily: GoogleFonts.poppins(
                                               fontWeight: FontWeight.w500)
                                           .fontFamily,

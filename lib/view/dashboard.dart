@@ -15,6 +15,7 @@ import 'package:interrupt/resources/components/primary_icon_button.dart';
 import 'package:provider/provider.dart';
 
 import '../resources/UI_constraints.dart';
+import '../resources/components/shimmer_list.dart';
 import '../utils/date_formatter.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -142,19 +143,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         builder: (context, value, child) {
                           switch (value.timeline.status) {
                             case Status.LOADING:
-                              return const Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColors.primaryPurple,
-                                ),
+                              return const ShimmerList(
+                                length: 3,
+                                padding: EdgeInsets.symmetric(vertical: 20),
                               );
                             case Status.ERROR:
-                              print("=======================");
                               return Center(
                                 child: Text(value.timeline.message.toString()),
                               );
                             case Status.COMPLETED:
-                              print(value.timeline.data?.length.runtimeType);
-                              print("=======================");
                               return ListView.builder(
                                 itemCount: value.timeline.data?.length ?? 0,
                                 itemBuilder: (BuildContext context, int index) {

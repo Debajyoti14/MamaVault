@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 
@@ -48,15 +49,15 @@ class _PreviewDocScreenState extends State<PreviewDocScreen> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     widget.docName,
-                    style: const TextStyle(
-                        fontSize: 32, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.left,
                   ),
                 ),
                 Align(
                     alignment: Alignment.centerLeft,
                     child: Text('Uploaded on: ${widget.uploadTime}')),
-                const SizedBox(height: 40),
+                SizedBox(height: 40.h),
                 widget.docType == 'image/jpeg'
                     ? Image.network(widget.docURL,
                         height: MediaQuery.of(context).size.height * 0.5)
@@ -67,8 +68,8 @@ class _PreviewDocScreenState extends State<PreviewDocScreen> {
                         builder: (context, snapshot) => snapshot.hasData
                             ? SingleChildScrollView(
                                 child: SizedBox(
-                                  height: 500,
-                                  width: 300,
+                                  height: 500.h,
+                                  width: 300.w,
                                   child: PdfViewer.openFile(
                                     snapshot.data!.path,
                                   ),
@@ -76,7 +77,7 @@ class _PreviewDocScreenState extends State<PreviewDocScreen> {
                               )
                             : Container(),
                       ),
-                const SizedBox(height: 40),
+                SizedBox(height: 40.h),
                 PrimaryButton(
                   buttonTitle: 'Download',
                   onPressed: () async {
