@@ -35,7 +35,6 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> fetchUser() async {
-    print("Fetch User Calling");
     final FirebaseAuth auth = FirebaseAuth.instance;
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     User currentUser = auth.currentUser!;

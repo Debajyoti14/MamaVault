@@ -30,6 +30,7 @@ class NetworkAPIService implements BaseApiServices {
         body: data,
         headers: {
           'x-api-key': dotenv.env['API_KEY']!,
+          'content-type': 'application/json'
         },
       ).timeout(const Duration(seconds: 10));
       return returnResponse(response);

@@ -217,8 +217,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                                 'document'])
                                                           Column(
                                                             children: [
-                                                              doc['doc_format'] ==
-                                                                      'image/jpeg'
+                                                              (doc['doc_format'] ==
+                                                                          'image/jpeg' ||
+                                                                      doc['doc_format'] ==
+                                                                          'image/png')
                                                                   ? Container(
                                                                       padding:
                                                                           const EdgeInsets.all(
@@ -268,7 +270,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                                       ),
                                                                       child: Image
                                                                           .network(
-                                                                        'https://www.woschool.com/wp-content/uploads/2020/09/png-transparent-pdf-icon-illustration-adobe-acrobat-portable-document-format-computer-icons-adobe-reader-file-pdf-icon-miscellaneous-text-logo.png',
+                                                                        'https://www.iconpacks.net/icons/2/free-pdf-icon-1512-thumb.png',
                                                                         width:
                                                                             93,
                                                                         height:

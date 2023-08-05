@@ -12,7 +12,9 @@ class DashboardRepository {
   Future<dynamic> getTimeline(List<DocumentModel> alldocs) async {
     try {
       dynamic response = await _apiServices.postApiResponse(
-          AppUrl.getTimeline, {"documents": json.encode(alldocs)});
+          AppUrl.getTimeline,
+          jsonEncode(
+              {"documents": alldocs.map((doc) => doc.toJson()).toList()}));
       return response;
     } catch (e) {
       debugPrint(e.toString());

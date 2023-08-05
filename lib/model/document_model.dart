@@ -23,13 +23,13 @@ class DocumentModel {
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'docId': docId,
-      'docTitle': docTitle,
-      'docType': docType,
-      'docFormat': docFormat,
-      'docUrl': docUrl,
-      'timelineTime': timelineTime,
-      'uploadTime': uploadTime,
+      'doc_id': docId,
+      'doc_title': docTitle,
+      'doc_type': docType,
+      'doc_format': docFormat,
+      'doc_url': docUrl,
+      'timeline_time': timelineTime,
+      'upload_time': uploadTime,
     };
   }
 

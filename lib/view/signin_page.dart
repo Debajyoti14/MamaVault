@@ -61,11 +61,11 @@ class SignInPage extends StatelessWidget {
                 onPressed: () async {
                   final provider =
                       Provider.of<GoogleSignInProvider>(context, listen: false);
-                  provider.googleLogin();
-
-                  Navigator.of(context).pushAndRemoveUntil(
-                      CupertinoPageRoute(builder: (_) => const Home()),
-                      (route) => false);
+                  provider.googleLogin().then(
+                        (value) => Navigator.of(context).pushAndRemoveUntil(
+                            CupertinoPageRoute(builder: (_) => const Home()),
+                            (route) => false),
+                      );
                 },
               ),
               const SizedBox(

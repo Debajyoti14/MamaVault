@@ -76,10 +76,10 @@ class UserModel {
       age: map['age'] as int,
       dateOfPregrancy:
           convertFirebaseTimestampToFormattedString(map['date_of_pregnancy']),
-      complicationDesc: map['complications_description '] as String,
-      medicines: List<String>.from(map['medicines ']),
-      diseases: List<String>.from(map['diseases ']),
-      allergies: List<String>.from(map['allegies ']),
+      complicationDesc: map['complications_description'] as String,
+      medicines: List<String>.from(map['medicines']),
+      diseases: List<String>.from(map['diseases']),
+      allergies: List<String>.from(map['allegies']),
     );
   }
 
