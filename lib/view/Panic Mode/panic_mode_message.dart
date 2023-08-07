@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,14 +24,16 @@ class _PanicModeMessageScreenState extends State<PanicModeMessageScreen> {
   @override
   void initState() {
     panicRepository.sendPanicRequest(name: user.displayName!, uid: user.uid);
-    if (context.mounted) {
-      Navigator.push(
-        context,
-        CupertinoPageRoute(
-          builder: (_) => const HospitalDetails(),
-        ),
-      );
-    }
+    Timer(const Duration(seconds: 3), () {
+      if (context.mounted) {
+        Navigator.push(
+          context,
+          CupertinoPageRoute(
+            builder: (_) => const HospitalDetails(),
+          ),
+        );
+      }
+    });
     super.initState();
   }
 

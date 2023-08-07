@@ -14,7 +14,7 @@ class PanicRepository {
     Map data = {
       "uid": uid,
       "name": name,
-      "location_link": "Anadapur, Kolkata", // get the location from the user
+      "location_link": "Anandapur, Kolkata", // get the location from the user
     };
     dynamic response = await _apiServices.postApiResponse(
         AppUrl.sendPanicRequest, jsonEncode(data));

@@ -36,7 +36,7 @@ class _PanicModeScreenState extends State<PanicModeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 30.h),
+            SizedBox(height: 40.h),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
