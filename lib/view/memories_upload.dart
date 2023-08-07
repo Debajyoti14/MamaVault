@@ -170,6 +170,7 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
                       io.File(image!.path),
                       fit: BoxFit.cover,
                       width: 200.w,
+                      height: 200.h,
                     ),
               SizedBox(height: 60.h),
               SizedBox(
