@@ -7,4 +7,5 @@ class AppUrl {
   static var deleteSharableLink = "$baseUrl/delete-shared-doc";
   static var addEmergencyMobileNo = "$baseUrl/add-emergency-mobile-number";
   static var deleteEmergencyMobileNo = "$baseUrl/update-verification-status";
+  static var sendPanicRequest = "$baseUrl/panic";
 }

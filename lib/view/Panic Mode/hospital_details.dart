@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/resources/UI_constraints.dart';
+import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/resources/components/hospital_details_widget.dart';
+import 'package:interrupt/view/bottom_nav_bar.dart';
 
 class HospitalDetails extends StatelessWidget {
   const HospitalDetails({super.key});
@@ -9,20 +13,31 @@ class HospitalDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primaryPurple,
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            CupertinoPageRoute(builder: (context) => const BottomNav()),
+            (Route<dynamic> route) => false,
+          );
+        },
+        child: const Icon(Icons.home),
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(
-                height: 30,
+              SizedBox(
+                height: 30.h,
               ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Nearest Hospital Details',
                   style: TextStyle(
-                    fontSize: 26,
+                    fontSize: 26.sp,
                     fontFamily: GoogleFonts.poppins(
                       fontWeight: FontWeight.bold,
                     ).fontFamily,
@@ -30,7 +45,7 @@ class HospitalDetails extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
               const HospitalDetailsWidget(
                 hospitalName: "ECHS Polyclinic Salt Lake",
                 address:
@@ -38,7 +53,7 @@ class HospitalDetails extends StatelessWidget {
                 distance: "2.1",
                 url: "https://goo.gl/maps/tc1i49JPdjUicaDTA",
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
               const HospitalDetailsWidget(
                 hospitalName: "Care Hospital",
                 address:
@@ -46,7 +61,7 @@ class HospitalDetails extends StatelessWidget {
                 distance: "1.7",
                 url: "https://goo.gl/maps/azDR4rvrpCU6CC5A6",
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
               const HospitalDetailsWidget(
                 hospitalName: "Matri Sadan Bidhannagar Municipal Hospital",
                 address:
@@ -54,7 +69,7 @@ class HospitalDetails extends StatelessWidget {
                 distance: "1.9",
                 url: "https://goo.gl/maps/z4WvvKSnMZ8gUhEF8",
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
               const HospitalDetailsWidget(
                 hospitalName: "Calcutta Heart Clinic & Hospital",
                 address:
@@ -62,7 +77,7 @@ class HospitalDetails extends StatelessWidget {
                 distance: "2.2",
                 url: "https://goo.gl/maps/5oaCfTWLqx1tPmW49",
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
               const HospitalDetailsWidget(
                 hospitalName: "AMRI Hospital - Salt Lake",
                 address:
@@ -70,7 +85,7 @@ class HospitalDetails extends StatelessWidget {
                 distance: "3.8",
                 url: "https://goo.gl/maps/U24q2b3ZfhFU3kfa7",
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
             ],
           ),
         ),

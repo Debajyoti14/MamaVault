@@ -1,14 +1,13 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:interrupt/repository/panic_repository.dart';
 import 'package:interrupt/resources/UI_constraints.dart';
 import 'package:interrupt/resources/colors.dart';
-
 import 'package:interrupt/view/Panic%20Mode/hospital_details.dart';
+
 import 'package:lottie/lottie.dart';
-import 'package:http/http.dart' as http;
 
 class PanicModeMessageScreen extends StatefulWidget {
   const PanicModeMessageScreen({super.key});
@@ -19,28 +18,11 @@ class PanicModeMessageScreen extends StatefulWidget {
 
 class _PanicModeMessageScreenState extends State<PanicModeMessageScreen> {
   final user = FirebaseAuth.instance.currentUser!;
+  PanicRepository panicRepository = PanicRepository();
   @override
   void initState() {
-    sendPanicRequest();
-    super.initState();
-  }
-
-  Future sendPanicRequest() async {
-    var url = Uri.parse('https://panic-s6e4vwvwlq-el.a.run.app');
-    Map data = {
-      "uid": user.uid,
-      "name": user.displayName,
-      "location_link": "Anadapur, Kolkata",
-    };
-    var body = json.encode(data);
-    await http.post(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: body,
-    );
-    if (mounted) {
+    panicRepository.sendPanicRequest(name: user.displayName!, uid: user.uid);
+    if (context.mounted) {
       Navigator.push(
         context,
         CupertinoPageRoute(
@@ -48,6 +30,7 @@ class _PanicModeMessageScreenState extends State<PanicModeMessageScreen> {
         ),
       );
     }
+    super.initState();
   }
 
   @override
@@ -60,24 +43,24 @@ class _PanicModeMessageScreenState extends State<PanicModeMessageScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 30),
-            const Align(
+            SizedBox(height: 30.h),
+            Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Panic Mode',
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(height: 50),
+            SizedBox(height: 50.h),
             Lottie.network(
               'https://assets7.lottiefiles.com/private_files/lf30_dfxejf4d.json',
-              width: 300,
+              width: 300.w,
             ),
-            const SizedBox(height: 30),
-            const Text(
+            SizedBox(height: 30.h),
+            Text(
               'Sending Emergency Message',
               style: TextStyle(
-                fontSize: 32,
+                fontSize: 32.sp,
                 fontWeight: FontWeight.bold,
                 color: AppColors.primaryPurple,
               ),
