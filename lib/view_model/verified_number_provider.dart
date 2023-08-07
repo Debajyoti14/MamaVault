@@ -21,7 +21,7 @@ class NumberProvider extends ChangeNotifier {
       _userNumber = allData;
       notifyListeners();
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 }

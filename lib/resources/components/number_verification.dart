@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
+import 'package:interrupt/repository/panic_repository.dart';
 
 import '../colors.dart';
 
@@ -21,27 +19,10 @@ class NumberVerify extends StatelessWidget {
     required this.refresh,
   });
 
-  Future sendPanicRequest() async {
-    final user = FirebaseAuth.instance.currentUser!;
-    var url =
-        Uri.parse('https://update-verification-status-s6e4vwvwlq-el.a.run.app');
-    Map data = {
-      "uid": user.uid, // user id
-      "verification_id": verifyId, // mobile number id
-      "action": "Delete"
-    };
-    var body = json.encode(data);
-    await http.post(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: body,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    PanicRepository panicRepository = PanicRepository();
+    final user = FirebaseAuth.instance.currentUser!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Container(
@@ -108,9 +89,13 @@ class NumberVerify extends StatelessWidget {
               const SizedBox(
                 width: 29,
               ),
+              // TODO add Delete Confirmation and loading state
               InkWell(
                 onTap: () async {
-                  await sendPanicRequest();
+                  await panicRepository.deleteNumber(
+                    uid: user.uid,
+                    verificationID: verifyId,
+                  );
                   refresh();
                 },
                 child: Padding(

@@ -118,7 +118,7 @@ class Profile extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "B+ Blood Group",
+                          "${userData.bloodGroup} Blood Group",
                           style: TextStyle(
                             color: const Color.fromARGB(255, 113, 112, 112),
                             fontSize: 16.sp,

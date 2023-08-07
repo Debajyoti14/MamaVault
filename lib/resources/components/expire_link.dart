@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:interrupt/repository/shareDoc_repository.dart';
 
-import 'package:http/http.dart' as http;
 import 'package:interrupt/resources/colors.dart';
+import 'package:interrupt/utils/utils.dart';
 
 class ExpireLink extends StatefulWidget {
   final String sharedDocID;
@@ -29,68 +28,51 @@ class ExpireLink extends StatefulWidget {
 }
 
 class _ExpireLinkState extends State<ExpireLink> {
+  ShareDocrepository shareDocRepository = ShareDocrepository();
+
+  Future<void> showMyDialogForDeleteLinks(
+      String sharedDocID, String uid) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Are you sure?',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          content: const Text('The Shared Link will be deleted permanently'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel',
+                  style: TextStyle(color: AppColors.primaryPurple)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text(
+                'Confirm',
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                shareDocRepository
+                    .deleteSharedDoc(sharedDocID, uid)
+                    .then((value) {
+                  Utils.toastMessage("Shared Document Deleted");
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
-    Future deleteSharedDoc(String sharedDocID, String uid) async {
-      try {
-        var url =
-            Uri.parse("https://delete-shared-doc-s6e4vwvwlq-el.a.run.app/");
-        Map data = {
-          "uid": uid, // user id
-          "share_doc_id": sharedDocID
-        };
-        var body = json.encode(data);
-        var response = await http.post(
-          url,
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: body,
-        );
-        return response.statusCode;
-      } catch (e) {
-        print(e.toString());
-      }
-    }
-
-    Future<void> _showMyDialogForDeleteLinks(
-        String sharedDocID, String uid) async {
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text(
-              'Are you sure?',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            content: const Text('The Shared Link will be deleted permanently'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Cancel',
-                    style: TextStyle(color: AppColors.primaryPurple)),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: const Text(
-                  'Confirm',
-                  style: TextStyle(color: Colors.red),
-                ),
-                onPressed: () {
-                  deleteSharedDoc(sharedDocID, uid).then((value) {
-                    print(value);
-                  });
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -167,13 +149,13 @@ class _ExpireLinkState extends State<ExpireLink> {
                 padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                 child: InkWell(
                   onTap: () {
-                    _showMyDialogForDeleteLinks(widget.sharedDocID, user.uid)
-                        .then((value) {
-                      setState(() {});
-                      var snackBar = const SnackBar(
-                          content: Text('Link Deleted Successfully'));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    });
+                    showMyDialogForDeleteLinks(widget.sharedDocID, user.uid);
+                    // .then((value) {
+                    // setState(() {});
+                    // var snackBar = const SnackBar(
+                    //     content: Text('Link Deleted Successfully'));
+                    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    // });
                   },
                   child: Image.asset('assets/delIcon.png'),
                 ),

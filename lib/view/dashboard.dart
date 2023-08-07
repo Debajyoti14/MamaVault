@@ -34,6 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final allUserDocs = Provider.of<UserProvider>(context).getUserDocs;
     dashboardViewModel.getTimeline(allUserDocs);
     final size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -152,15 +153,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 child: Text(value.timeline.message.toString()),
                               );
                             case Status.COMPLETED:
-                              return ListView.builder(
-                                itemCount: value.timeline.data?.length ?? 0,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final singletimeline =
-                                      value.timeline.data?[index];
-                                  final formattedTime =
-                                      format12hourTime(singletimeline['time']);
-                                  return value.timeline.data.length > 0
-                                      ? Container(
+                              return value.timeline.data.length > 0
+                                  ? ListView.builder(
+                                      itemCount:
+                                          value.timeline.data?.length ?? 0,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        final singletimeline =
+                                            value.timeline.data?[index];
+                                        final formattedTime = format12hourTime(
+                                            singletimeline['time']);
+                                        return Container(
                                           padding: const EdgeInsets.symmetric(
                                             vertical: 8.0,
                                           ),
@@ -291,10 +294,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               ),
                                             ],
                                           ),
-                                        )
-                                      : const SizedBox();
-                                },
-                              );
+                                        );
+                                      },
+                                    )
+                                  : const Center(
+                                      child: Text("No Documents Uploaded"),
+                                    );
+
                             default:
                               return Container();
                           }

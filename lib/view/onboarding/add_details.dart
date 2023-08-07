@@ -41,9 +41,11 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
       'name': nameController.text,
       'email': emailController.text,
       'age': int.parse(ageController.text),
-      'date_of_pregnancy': _selectedDate,
+      'date_of_pregnancy':
+          formatdateTimeToStoreInFireStore(_selectedDate ?? DateTime.now()),
       'uid': user.uid,
-      'image': user.photoURL
+      'image': user.photoURL,
+      'bloodGroup': bloodGroup,
     };
     await finalUser.update(data);
     isLoading = false;

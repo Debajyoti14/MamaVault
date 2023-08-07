@@ -1,13 +1,13 @@
-import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:interrupt/repository/panic_repository.dart';
+import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/view_model/verified_number_provider.dart';
 import 'package:interrupt/resources/components/custom_text_field.dart';
 import 'package:interrupt/resources/components/number_verification.dart';
 import 'package:interrupt/resources/components/primary_button.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import '../../resources/UI_constraints.dart';
 
@@ -19,6 +19,7 @@ class SetupPanicScreen extends StatefulWidget {
 }
 
 class _SetupPanicScreenState extends State<SetupPanicScreen> {
+  PanicRepository panicRepository = PanicRepository();
   final TextEditingController _phoneNumber1Controller = TextEditingController();
   final user = FirebaseAuth.instance.currentUser!;
   String button1State = 'Initial';
@@ -41,28 +42,7 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
   }
 
   void refresh() {
-    debugPrint("In Refresh");
     fetchNumbers();
-    setState(() {});
-  }
-
-  Future sendNumberDetails() async {
-    var url = Uri.parse('https://verify-mobile-number-s6e4vwvwlq-el.a.run.app');
-    Map data = {
-      "uid": user.uid,
-      "name": user.displayName,
-      "number": "+91${_phoneNumber1Controller.text}",
-    };
-    var body = json.encode(data);
-    await http.post(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: body,
-    );
-    isLoading = false;
-    setState(() {});
   }
 
   @override
@@ -70,6 +50,11 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
     BuildContext modalContext = context;
     List allNumbers = Provider.of<NumberProvider>(context).gerVerifiedNumber;
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: AppColors.primaryPurple),
+      ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
         height: MediaQuery.of(context).size.height,
@@ -77,7 +62,6 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 50.h),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -127,16 +111,18 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
                     ),
                   ])
                 : SizedBox(
-                    height: 550.h,
-                    child: Column(
-                      children: allNumbers.map<Widget>((data) {
-                        return NumberVerify(
-                          number: data['number'],
-                          status: data['status'],
-                          verifyId: data['number_id'],
-                          refresh: refresh,
-                        );
-                      }).toList(),
+                    height: 520.h,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: allNumbers.map<Widget>((data) {
+                          return NumberVerify(
+                            number: data['number'],
+                            status: data['status'],
+                            verifyId: data['number_id'],
+                            refresh: refresh,
+                          );
+                        }).toList(),
+                      ),
                     ),
                   ),
             (allNumbers.length < 3)
@@ -182,15 +168,23 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
                                         SizedBox(
                                           height: 30.h,
                                         ),
+                                        // TODO add Loading State
                                         PrimaryButton(
                                           buttonTitle: "Add Number",
                                           isLoading: isLoading,
                                           onPressed: () async {
-                                            await sendNumberDetails();
+                                            await panicRepository
+                                                .sendNumberDetails(
+                                              name: user.displayName ?? "",
+                                              number:
+                                                  _phoneNumber1Controller.text,
+                                              uid: user.uid,
+                                            );
                                             await fetchNumbers();
-                                            if (mounted) {
+                                            if (context.mounted) {
                                               Navigator.pop(modalContext);
                                             }
+                                            // TODO remove unswanted SetState && Add Number Validation
                                             setState(() {});
                                           },
                                         ),

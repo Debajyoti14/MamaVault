@@ -349,12 +349,9 @@ class _DocumentUploadState extends State<DocumentUpload> {
                           await uploadFile(file);
                         }
                         await fetchDocs();
-                        // dateController.clear();
-                        // docTitle.clear();
-                        // nameIndex = 0;
-                        // docType = '';
-                        // fileList = [];
-                        // setState(() {});
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
                       }
                     })
               ],

@@ -40,3 +40,42 @@ String convertFirebaseTimestampToFormattedString(Timestamp timestamp) {
 
   return formattedDate;
 }
+
+String formatdateTimeToStoreInFireStore(DateTime dateTime) {
+  String formattedDate = DateFormat('E MMM dd yyyy HH:mm:ss').format(dateTime);
+
+  // Get the timezone offset in the format "+HH:mm" or "-HH:mm"
+  String timezoneOffset = dateTime.timeZoneOffset.inHours >= 0
+      ? '+${dateTime.timeZoneOffset.inHours.toString().padLeft(2, '0')}:${dateTime.timeZoneOffset.inMinutes.remainder(60).toString().padLeft(2, '0')}'
+      : '-${dateTime.timeZoneOffset.inHours.abs().toString().padLeft(2, '0')}:${dateTime.timeZoneOffset.inMinutes.remainder(60).abs().toString().padLeft(2, '0')}';
+
+  // Get the timezone name
+  String timezoneName = getAbbreviationForTimezone(dateTime.timeZoneName);
+
+  // Combine the timezone offset and name to get the desired format
+  String timezoneInformation = 'GMT$timezoneOffset ($timezoneName)';
+  return "$formattedDate $timezoneInformation";
+}
+
+// Function to get the timezone abbreviation from the full timezone name
+String getAbbreviationForTimezone(String timezoneName) {
+  switch (timezoneName) {
+    case 'UTC':
+      return 'Coordinated Universal Time';
+    case 'IST':
+      return 'India Standard Time';
+    case 'EST':
+      return 'Eastern Standard Time';
+    case 'PST':
+      return 'Pacific Standard Time';
+    case 'CST':
+      return 'Central Standard Time';
+    case 'MST':
+      return 'Mountain Standard Time';
+    case 'BST':
+      return 'British Summer Time';
+    // Add more cases for other shorthand timezone abbreviations as needed
+    default:
+      return timezoneName;
+  }
+}

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:interrupt/utils/date_formatter.dart';
 import 'package:interrupt/view/bottom_nav_bar.dart';
 import 'package:interrupt/view/onboarding/add_details.dart';
 import 'package:interrupt/view/signin_page.dart';
@@ -70,7 +71,7 @@ class _HomeState extends State<Home> {
         .then((DocumentSnapshot documentSnapshot) async {
       if (!documentSnapshot.exists) {
         final data = {
-          'account_created': DateTime.now(),
+          'account_created': formatdateTimeToStoreInFireStore(DateTime.now()),
           'email': user.email,
           'name': user.displayName,
           'uid': user.uid,

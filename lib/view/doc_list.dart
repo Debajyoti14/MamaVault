@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/model/document_model.dart';
-import 'package:interrupt/repository/doclist_repository.dart';
+import 'package:interrupt/repository/shareDoc_repository.dart';
 import 'package:interrupt/resources/UI_constraints.dart';
 import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/view/share.dart';
@@ -39,7 +37,7 @@ class _DocListScreenState extends State<DocListScreen> {
   bool isSelectContractionStressThings = false;
   bool isSelectDopplerUltrasoundReport = false;
   bool isSelectOthers = false;
-  DocListRepository docListRepository = DocListRepository();
+  ShareDocrepository shareDocRepository = ShareDocrepository();
 
   List<Widget> docCategoriesTabs = const [
     Tab(child: Text('All')),
@@ -365,18 +363,18 @@ class _DocListScreenState extends State<DocListScreen> {
                                                       3600, //in seconds
                                                   "shared_docs": selectedItems,
                                                 };
+                                                // TODO Add Validation at Expiry Time in hrs
+
                                                 if (_formKey.currentState!
                                                     .validate()) {
                                                   Navigator.pop(context);
                                                   var res =
-                                                      await docListRepository
+                                                      await shareDocRepository
                                                           .getSharableLink(
                                                               data);
-                                                  final parsed =
-                                                      json.decode(res);
 
-                                                  fetchExpire();
-                                                  setState(() {});
+                                                  // fetchExpire();
+                                                  // setState(() {});
                                                   if (mounted) {
                                                     showModalBottomSheet(
                                                         context: modalContext,
@@ -414,7 +412,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                                                       ),
                                                                       child:
                                                                           QrImageView(
-                                                                        data: parsed[
+                                                                        data: res[
                                                                             'share_doc_link'],
                                                                         size: 200
                                                                             .h,
@@ -447,12 +445,12 @@ class _DocListScreenState extends State<DocListScreen> {
                                                                           children: [
                                                                             SizedBox(
                                                                               width: 300.w,
-                                                                              child: Text(parsed['share_doc_link']),
+                                                                              child: Text(res['share_doc_link']),
                                                                             ),
                                                                             InkWell(
                                                                               child: const Icon(Icons.copy),
                                                                               onTap: () {
-                                                                                FlutterClipboard.copy(parsed['share_doc_link']).then(
+                                                                                FlutterClipboard.copy(res['share_doc_link']).then(
                                                                                   (value) => ScaffoldMessenger.of(context).showSnackBar(success),
                                                                                 );
                                                                                 Navigator.pop(context);
@@ -561,6 +559,7 @@ class _DocListScreenState extends State<DocListScreen> {
                       ],
                     ),
                   ),
+                  // TODO Add Delete Share Docs Functions
                   const Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
