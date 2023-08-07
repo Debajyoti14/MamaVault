@@ -53,11 +53,9 @@ class _DocumentUploadState extends State<DocumentUpload> {
 
     PlatformFile fileDetails = result!.files.first;
     setState(() {
-      debugPrint("InSetState");
       fileList = files;
       isSelected = false;
       fileExt = fileDetails.extension!;
-      print(fileExt);
     });
   }
 
@@ -113,8 +111,10 @@ class _DocumentUploadState extends State<DocumentUpload> {
           (fileList.length > 1) ? "${docTitle.text}$nameIndex" : docTitle.text,
       'doc_format': metaData,
       "doc_download_url": imageURL,
-      "upload_time": _selectedDate,
-      "timeline_time": _selectedDate,
+      "upload_time":
+          formatdateTimeToStoreInFireStore(_selectedDate ?? DateTime.now()),
+      "timeline_time":
+          formatdateTimeToStoreInFireStore(_selectedDate ?? DateTime.now()),
     };
     await finalUser.add(data).then((value) {
       String docId = value.id;

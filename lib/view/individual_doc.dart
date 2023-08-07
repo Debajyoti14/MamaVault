@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interrupt/model/document_model.dart';
 import 'package:interrupt/resources/colors.dart';
+import 'package:interrupt/utils/date_formatter.dart';
 import 'package:interrupt/view/preview_doc.dart';
 
 // ignore: must_be_immutable
@@ -67,7 +68,7 @@ class _IndividualDocState extends State<IndividualDoc> {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  widget.time,
+                  viableDateString(widget.time),
                   style: const TextStyle(fontSize: 12),
                 ),
               ],

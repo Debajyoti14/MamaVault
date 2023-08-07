@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/resources/UI_constraints.dart';
+import 'package:interrupt/view/Panic%20Mode/setup_panic.dart';
 import 'package:interrupt/view_model/verified_number_provider.dart';
 import 'package:interrupt/view/Panic%20Mode/panic_mode_message.dart';
-import 'package:interrupt/view/Panic%20Mode/setup_panic.dart';
 import 'package:interrupt/view/bottom_nav_bar.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -28,25 +28,26 @@ class _PanicModeScreenState extends State<PanicModeScreen> {
   Widget build(BuildContext context) {
     NumberProvider numberProvider = Provider.of(context, listen: false);
     final numbersAvailable = numberProvider.gerVerifiedNumber.length;
-    return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 40.h),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Panic Mode',
-                style: TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            numbersAvailable > 0
-                ? Column(
+    return numbersAvailable > 0
+        ? Scaffold(
+            body: Container(
+              padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 40.h),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Panic Mode',
+                      style: TextStyle(
+                          fontSize: 32.sp, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  Column(
                     children: [
                       CircularCountDownTimer(
                         duration: _duration,
@@ -132,54 +133,71 @@ class _PanicModeScreenState extends State<PanicModeScreen> {
                       ),
                     ],
                   )
-                : Column(
-                    children: [
-                      Lottie.network(
-                          'https://assets3.lottiefiles.com/private_files/lf30_gtzclufw.json'),
-                      SizedBox(height: 10.h),
-                      Text(
-                        'Add Phone No\'s to setup panic mode',
-                        style: TextStyle(
-                          fontSize: 24.sp,
-                          fontFamily: GoogleFonts.poppins(
-                            fontWeight: FontWeight.bold,
-                          ).fontFamily,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 20.h),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            CupertinoPageRoute(
-                                builder: (_) => const SetupPanicScreen()),
-                          );
-                        },
-                        icon: const Icon(Icons.done, color: Colors.green),
-                        label: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w),
-                          child: const Text(
-                            'Setup',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          backgroundColor: AppColors.bodyTextColorLight,
-                          textStyle: TextStyle(
-                            fontFamily: GoogleFonts.poppins().fontFamily,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16.sp,
-                          ),
-                        ),
-                      ),
-                    ],
+                ],
+              ),
+            ),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: Colors.white,
+              iconTheme: const IconThemeData(color: AppColors.primaryPurple),
+            ),
+            body: Column(
+              children: [
+                SizedBox(height: 40.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Panic Mode',
+                    style:
+                        TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.left,
                   ),
-          ],
-        ),
-      ),
-    );
+                ),
+                Lottie.network(
+                    'https://assets3.lottiefiles.com/private_files/lf30_gtzclufw.json'),
+                SizedBox(height: 10.h),
+                Text(
+                  'Add Phone No\'s to setup panic mode',
+                  style: TextStyle(
+                    fontSize: 24.sp,
+                    fontFamily: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                    ).fontFamily,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20.h),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      CupertinoPageRoute(
+                          builder: (_) => const SetupPanicScreen()),
+                    );
+                  },
+                  icon: const Icon(Icons.done, color: Colors.green),
+                  label: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
+                    child: const Text(
+                      'Setup',
+                      style: TextStyle(color: Colors.green),
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    backgroundColor: AppColors.bodyTextColorLight,
+                    textStyle: TextStyle(
+                      fontFamily: GoogleFonts.poppins().fontFamily,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16.sp,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 }

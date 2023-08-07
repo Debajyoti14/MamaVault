@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 String format12hourTime(int lastSeen) {
@@ -29,16 +28,6 @@ String formatDate(DateTime dateTime) {
   String year = dateTime.year.toString().substring(2);
 
   return '$day $month, $year';
-}
-
-String convertFirebaseTimestampToFormattedString(Timestamp timestamp) {
-  // Convert the Timestamp to a DateTime object
-  DateTime dateTime = timestamp.toDate();
-
-  // Format the DateTime object as "03 Jul 23 07:56"
-  String formattedDate = DateFormat('dd MMM yy HH:mm').format(dateTime);
-
-  return formattedDate;
 }
 
 String formatdateTimeToStoreInFireStore(DateTime dateTime) {
@@ -78,4 +67,22 @@ String getAbbreviationForTimezone(String timezoneName) {
     default:
       return timezoneName;
   }
+}
+
+String viableDateString(String inputDate) {
+  // Extract the day of the week from the input string
+  String dayOfWeek = inputDate.substring(0, 3);
+
+  // Extract the date part from the input string
+  String datePart = inputDate.substring(4, 15);
+
+  // Combine day of the week and date to form a parsable date string
+  String parsableDateString = '$dayOfWeek $datePart';
+
+  // Parse the parsable date string into a DateTime object
+  DateTime dateTime = DateFormat('E MMM dd yyyy').parse(parsableDateString);
+
+  // Format the DateTime object to the desired output format
+  String formattedDate = DateFormat('E MMM dd yyyy').format(dateTime);
+  return formattedDate;
 }

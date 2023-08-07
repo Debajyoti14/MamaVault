@@ -8,7 +8,6 @@ import 'package:interrupt/view/memories_upload.dart';
 import 'package:provider/provider.dart';
 
 import '../resources/UI_constraints.dart';
-import '../utils/date_formatter.dart';
 
 class MemoryTimeline extends StatefulWidget {
   const MemoryTimeline({super.key});
@@ -84,8 +83,7 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      convertFirebaseTimestampToFormattedString(
-                                          memory['timeline_time']),
+                                      memory['timeline_time'],
                                       style: TextStyle(
                                           fontSize: 20.sp,
                                           fontWeight: FontWeight.w500),

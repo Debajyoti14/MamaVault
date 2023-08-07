@@ -62,8 +62,10 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
     final data = {
       'doc_url': imageURL,
       'doc_title': docTitle.text,
-      "upload_time": _selectedDate,
-      "timeline_time": _selectedDate,
+      "upload_time":
+          formatdateTimeToStoreInFireStore(_selectedDate ?? DateTime.now()),
+      "timeline_time":
+          formatdateTimeToStoreInFireStore(_selectedDate ?? DateTime.now()),
     };
     await finalUser.add(data).then((value) {
       String docId = value.id;

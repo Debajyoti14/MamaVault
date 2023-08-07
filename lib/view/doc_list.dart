@@ -363,6 +363,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                                       3600, //in seconds
                                                   "shared_docs": selectedItems,
                                                 };
+                                                print(data.toString());
                                                 // TODO Add Validation at Expiry Time in hrs
 
                                                 if (_formKey.currentState!
@@ -372,6 +373,7 @@ class _DocListScreenState extends State<DocListScreen> {
                                                       await shareDocRepository
                                                           .getSharableLink(
                                                               data);
+                                                  print("The Response is $res");
 
                                                   // fetchExpire();
                                                   // setState(() {});

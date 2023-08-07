@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import '../utils/date_formatter.dart';
-
 class DocumentModel {
   final String docId;
   final String docTitle;
@@ -40,9 +38,8 @@ class DocumentModel {
       docType: map['doc_type'] as String,
       docFormat: map['doc_format'] as String,
       docUrl: map['doc_url'] as String,
-      timelineTime:
-          convertFirebaseTimestampToFormattedString(map['timeline_time']),
-      uploadTime: convertFirebaseTimestampToFormattedString(map['upload_time']),
+      timelineTime: map['timeline_time'] as String,
+      uploadTime: map['upload_time'] as String,
     );
   }
 }
