@@ -6,9 +6,10 @@
 	<string>This App require access for Photo Library usage</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This App require access to the camera</string>
-   
-
-
+    <key>NSLocationWhenInUseUsageDescription</key>
+	<string>This application requires location services to work</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This application requires location services to work</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

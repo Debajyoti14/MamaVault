@@ -2,7 +2,7 @@ name: interrupt
 description: A new Flutter project.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+1
+version: 1.0.0+120230707
 
 environment:
   sdk: ">=2.18.5 <3.0.0"
@@ -28,6 +28,7 @@ dependencies:
   fluttertoast: ^8.2.2
   font_awesome_flutter: ^10.4.0
   gallery_saver: ^2.3.2
+  geolocator: ^8.0.0
   google_fonts: ^4.0.3
   google_sign_in: ^6.0.0
   http: ^0.13.5

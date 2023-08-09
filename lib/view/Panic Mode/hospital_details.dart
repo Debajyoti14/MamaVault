@@ -1,14 +1,21 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:interrupt/model/hospital_model.dart';
 import 'package:interrupt/resources/UI_constraints.dart';
 import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/resources/components/hospital_details_widget.dart';
 import 'package:interrupt/view/bottom_nav_bar.dart';
 
 class HospitalDetails extends StatelessWidget {
-  const HospitalDetails({super.key});
+  final List<Results>? results;
+  const HospitalDetails({
+    Key? key,
+    this.results,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +34,11 @@ class HospitalDetails extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
         child: SingleChildScrollView(
+          physics: const ScrollPhysics(),
           child: Column(
             children: [
               SizedBox(
-                height: 30.h,
+                height: 50.h,
               ),
               Align(
                 alignment: Alignment.centerLeft,
@@ -45,47 +53,39 @@ class HospitalDetails extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               ),
-              SizedBox(height: 30.h),
-              const HospitalDetailsWidget(
-                hospitalName: "ECHS Polyclinic Salt Lake",
-                address:
-                    "EM Block, Sector V, Bidhannagar, Kolkata, West Bengal 700091",
-                distance: "2.1",
-                url: "https://goo.gl/maps/tc1i49JPdjUicaDTA",
+              SizedBox(
+                height: 10.h,
               ),
-              SizedBox(height: 10.h),
-              const HospitalDetailsWidget(
-                hospitalName: "Care Hospital",
-                address:
-                    "Fd216, Flat-1, Sector-III, Salt Lake, BN Block, Sector V, Bidhannagar, Kolkata, West Bengal 700c091",
-                distance: "1.7",
-                url: "https://goo.gl/maps/azDR4rvrpCU6CC5A6",
-              ),
-              SizedBox(height: 10.h),
-              const HospitalDetailsWidget(
-                hospitalName: "Matri Sadan Bidhannagar Municipal Hospital",
-                address:
-                    "Salt Lake, Main Lane 1, EE-55A, 3rd Ave, EE Block, Sector II, Bidhannagar, Kolkata, West Bengal 700091",
-                distance: "1.9",
-                url: "https://goo.gl/maps/z4WvvKSnMZ8gUhEF8",
-              ),
-              SizedBox(height: 10.h),
-              const HospitalDetailsWidget(
-                hospitalName: "Calcutta Heart Clinic & Hospital",
-                address:
-                    "3, 1st Cross Rd, HC Block, Sector III, Bidhannagar, Kolkata, West Bengal 700106",
-                distance: "2.2",
-                url: "https://goo.gl/maps/5oaCfTWLqx1tPmW49",
-              ),
-              SizedBox(height: 10.h),
-              const HospitalDetailsWidget(
-                hospitalName: "AMRI Hospital - Salt Lake",
-                address:
-                    "17,Lane, Central Park Road,Stadium Entrance Road,, 16, Broadway Rd, opposite salt lake, JC Block, Sector III, Bidhannagar, Kolkata, West Bengal 700098",
-                distance: "3.8",
-                url: "https://goo.gl/maps/U24q2b3ZfhFU3kfa7",
-              ),
-              SizedBox(height: 30.h),
+              (results != null && results!.isNotEmpty)
+                  ? ListView.builder(
+                      itemCount: results?.length ?? 0,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        final hospital = results?[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: HospitalDetailsWidget(
+                            hospitalName: hospital?.poi?.name,
+                            address: hospital?.address?.freeformAddress,
+                            distance: (hospital?.dist ?? 0).toStringAsFixed(1),
+                            url:
+                                "http://www.google.com/maps/place/${hospital?.position?.lat},${hospital?.position?.lon}/@${hospital?.position?.lat},${hospital?.position?.lon},17z",
+                          ),
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Text(
+                        "No Hospitals found nearby",
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontFamily:
+                              GoogleFonts.poppins(fontWeight: FontWeight.bold)
+                                  .fontFamily,
+                        ),
+                      ),
+                    ),
             ],
           ),
         ),

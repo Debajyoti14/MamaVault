@@ -4,10 +4,10 @@ import 'package:interrupt/resources/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HospitalDetailsWidget extends StatelessWidget {
-  final hospitalName;
-  final address;
-  final distance;
-  final url;
+  final String? hospitalName;
+  final String? address;
+  final String? distance;
+  final String? url;
   const HospitalDetailsWidget(
       {super.key, this.hospitalName, this.address, this.distance, this.url});
 
@@ -15,7 +15,7 @@ class HospitalDetailsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        await launchUrl(Uri.parse(url));
+        await launchUrl(Uri.parse(url ?? ""));
       },
       child: Container(
         width: double.infinity,
@@ -29,7 +29,7 @@ class HospitalDetailsWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              hospitalName,
+              hospitalName ?? "",
               style: TextStyle(
                 fontSize: 18,
                 fontFamily:
@@ -40,7 +40,7 @@ class HospitalDetailsWidget extends StatelessWidget {
               height: 8,
             ),
             Text(
-              address,
+              address ?? "",
               style: TextStyle(
                 fontSize: 14,
                 fontFamily:

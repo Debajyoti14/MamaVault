@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:interrupt/data/network/baseApiServices.dart';
 import 'package:interrupt/data/network/networkApiServices.dart';
 import 'package:interrupt/resources/app_url.dart';
@@ -10,11 +11,17 @@ class PanicRepository {
   Future<dynamic> sendPanicRequest({
     required String uid,
     required String name,
+    required String locationLink,
+    required Position currentPosition,
   }) async {
     Map data = {
       "uid": uid,
       "name": name,
-      "location_link": "Anandapur, Kolkata", // get the location from the user
+      "location_link": locationLink,
+      "location": {
+        "lat": currentPosition.latitude.toString(),
+        "lon": currentPosition.longitude.toString(),
+      }
     };
     dynamic response = await _apiServices.postApiResponse(
         AppUrl.sendPanicRequest, jsonEncode(data));

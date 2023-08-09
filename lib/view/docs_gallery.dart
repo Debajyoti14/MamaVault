@@ -19,66 +19,63 @@ class DocsGalleryScreen extends StatelessWidget {
       'Doppler Ultrasound Report',
       'Others'
     ];
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: defaultPadding),
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: SizedBox(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 40.h),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Docs Gallery',
-                      style: TextStyle(
-                          fontSize: 32.sp, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.left,
-                    ),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: defaultPadding),
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 40.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Docs Gallery',
+                    style:
+                        TextStyle(fontSize: 32.sp, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.left,
                   ),
-                  SizedBox(height: 40.h),
-                  GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    itemCount: docCategories.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (_) => const DocListScreen()),
-                          );
-                        },
-                        child: Column(
-                          children: [
-                            FaIcon(
-                              FontAwesomeIcons.solidFolder,
-                              color: AppColors.primaryPurple,
-                              size: 122.w,
-                            ),
-                            SizedBox(height: 5.h),
-                            Text(
-                              docCategories[index],
-                              style: TextStyle(
-                                  fontSize: 14.sp, fontWeight: FontWeight.w400),
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
+                ),
+                SizedBox(height: 40.h),
+                GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                  ),
+                  itemCount: docCategories.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (_) => const DocListScreen()),
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          FaIcon(
+                            FontAwesomeIcons.solidFolder,
+                            color: AppColors.primaryPurple,
+                            size: 122.w,
+                          ),
+                          SizedBox(height: 5.h),
+                          Text(
+                            docCategories[index],
+                            style: TextStyle(
+                                fontSize: 14.sp, fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                )
+              ],
             ),
           ),
         ),

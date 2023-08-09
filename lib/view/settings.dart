@@ -21,8 +21,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: defaultPadding,
@@ -97,6 +96,6 @@ class _SettingsPageState extends State<SettingsPage> {
           ],
         )),
       ),
-    ));
+    );
   }
 }

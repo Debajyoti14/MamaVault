@@ -12,6 +12,8 @@ import 'package:interrupt/resources/UI_constraints.dart';
 import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/utils/date_formatter.dart';
 import 'package:interrupt/resources/components/primary_button.dart';
+import 'package:interrupt/view_model/memory_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../resources/components/custom_text_field.dart';
 
@@ -238,7 +240,9 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
                   buttonTitle: "Upload",
                   onPressed: () async {
                     await uploadImage();
-                    if (mounted) {
+                    if (context.mounted) {
+                      MemoryProvider memoryProvider = Provider.of(context);
+                      await memoryProvider.fetchUserMemories();
                       showDone();
                     }
                   }),
