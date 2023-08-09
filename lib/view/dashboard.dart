@@ -43,7 +43,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: SizedBox(
           width: double.infinity,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 40.h),
               Row(
@@ -136,7 +136,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               const SizedBox(height: 20),
               SingleChildScrollView(
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.5,
+                  height: MediaQuery.of(context).size.height * 0.63,
                   child: ChangeNotifierProvider<DashboardViewModel>(
                     create: (BuildContext context) => dashboardViewModel,
                     child: Consumer<DashboardViewModel>(

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/repository/panic_repository.dart';
+import 'package:interrupt/utils/utils.dart';
 
 import '../colors.dart';
 
@@ -23,6 +24,49 @@ class NumberVerify extends StatelessWidget {
   Widget build(BuildContext context) {
     PanicRepository panicRepository = PanicRepository();
     final user = FirebaseAuth.instance.currentUser!;
+    Future<void> showMyDialogForDeleteEmergencyNos() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text(
+              'Are you sure?',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            content: const Text('The contacts will be deleted permanently'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Cancel',
+                    style: TextStyle(color: AppColors.primaryPurple)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text(
+                  'Confirm',
+                  style: TextStyle(color: Colors.red),
+                ),
+                onPressed: () async {
+                  panicRepository
+                      .deleteNumber(
+                    uid: user.uid,
+                    verificationID: verifyId,
+                  )
+                      .then((value) {
+                    refresh();
+                    Navigator.of(context).pop();
+                    Utils.toastMessage("Emergency Contact Deleted");
+                  });
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Container(
@@ -89,15 +133,8 @@ class NumberVerify extends StatelessWidget {
               const SizedBox(
                 width: 29,
               ),
-              // TODO add Delete Confirmation and loading state
               InkWell(
-                onTap: () async {
-                  await panicRepository.deleteNumber(
-                    uid: user.uid,
-                    verificationID: verifyId,
-                  );
-                  refresh();
-                },
+                onTap: showMyDialogForDeleteEmergencyNos,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                   child: Image.asset('assets/delIcon.png'),

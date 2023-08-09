@@ -21,6 +21,7 @@ class SetupPanicScreen extends StatefulWidget {
 class _SetupPanicScreenState extends State<SetupPanicScreen> {
   PanicRepository panicRepository = PanicRepository();
   final TextEditingController _phoneNumber1Controller = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final user = FirebaseAuth.instance.currentUser!;
   String button1State = 'Initial';
   String button2State = 'Processing';
@@ -39,6 +40,7 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
     setState(() {});
     NumberProvider userProvider = Provider.of(context, listen: false);
     await userProvider.fetchAllNumber();
+    isLoading = false;
   }
 
   void refresh() {
@@ -49,6 +51,7 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
   Widget build(BuildContext context) {
     BuildContext modalContext = context;
     List allNumbers = Provider.of<NumberProvider>(context).gerVerifiedNumber;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -162,31 +165,47 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
                                               controller:
                                                   _phoneNumber1Controller,
                                               width: 300.w,
+                                              validator: (value) {
+                                                if (value.toString().isEmpty) {
+                                                  return "Phone No. Required";
+                                                } else if (value
+                                                            .toString()
+                                                            .length <
+                                                        10 ||
+                                                    value.toString().length >
+                                                        10) {
+                                                  return "It should contain 10 Digits";
+                                                }
+                                                return null;
+                                              },
                                             ),
                                           ],
                                         ),
                                         SizedBox(
                                           height: 30.h,
                                         ),
-                                        // TODO add Loading State
                                         PrimaryButton(
                                           buttonTitle: "Add Number",
                                           isLoading: isLoading,
                                           onPressed: () async {
-                                            await panicRepository
-                                                .sendNumberDetails(
-                                              name: user.displayName ?? "",
-                                              number:
-                                                  _phoneNumber1Controller.text,
-                                              uid: user.uid,
-                                            );
-                                            await fetchNumbers();
-                                            if (context.mounted) {
-                                              Navigator.pop(modalContext);
+                                            if (formKey.currentState!
+                                                .validate()) {
+                                              await panicRepository
+                                                  .sendNumberDetails(
+                                                name: user.displayName ?? "",
+                                                number: _phoneNumber1Controller
+                                                    .text,
+                                                uid: user.uid,
+                                              );
+                                              await fetchNumbers();
+                                              if (context.mounted) {
+                                                Navigator.pop(modalContext);
+                                              }
                                             }
-                                            // TODO remove unswanted SetState && Add Number Validation
-                                            setState(() {});
                                           },
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
                                         ),
                                       ],
                                     ),

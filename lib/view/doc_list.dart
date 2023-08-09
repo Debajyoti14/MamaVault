@@ -66,12 +66,12 @@ class _DocListScreenState extends State<DocListScreen> {
     content: Text('Copied to clipboard'),
   );
 
-  fetchExpire() async {
+  Future<dynamic> fetchExpire() async {
     ExpireProvider userProvider = Provider.of(context, listen: false);
     await userProvider.fetchExpiryDetails();
   }
 
-  Future fetExpireDetails() async {
+  Future<dynamic> fetExpireDetails() async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     try {
       CollectionReference docRef = firestore
@@ -257,7 +257,10 @@ class _DocListScreenState extends State<DocListScreen> {
                                 onClosing: () {},
                                 builder: (BuildContext context) {
                                   return SizedBox(
-                                    height: 350.h,
+                                    height: 350.h +
+                                        MediaQuery.of(context)
+                                            .viewInsets
+                                            .bottom,
                                     child: SingleChildScrollView(
                                       child: Padding(
                                         padding: EdgeInsets.only(
@@ -299,7 +302,8 @@ class _DocListScreenState extends State<DocListScreen> {
                                                       .toString()
                                                       .isEmpty) {
                                                     return 'Time Required';
-                                                  } else if (int.parse(value) >
+                                                  } else if (int.parse(value) /
+                                                          24 >
                                                       30) {
                                                     return 'Maximum Limit 30 days';
                                                   }
@@ -353,30 +357,26 @@ class _DocListScreenState extends State<DocListScreen> {
                                                 size: 18.w,
                                               ),
                                               onPressed: () async {
-                                                Map<String, dynamic> data = {
-                                                  "uid": user.uid, // user id
-                                                  "isprofile":
-                                                      shareProfile, // shares profile
-                                                  "ttl": int.parse(
-                                                          expireTimeController
-                                                              .text) *
-                                                      3600, //in seconds
-                                                  "shared_docs": selectedItems,
-                                                };
-                                                print(data.toString());
-                                                // TODO Add Validation at Expiry Time in hrs
-
                                                 if (_formKey.currentState!
                                                     .validate()) {
+                                                  Map<String, dynamic> data = {
+                                                    "uid": user.uid, // user id
+                                                    "isprofile":
+                                                        shareProfile, // shares profile
+                                                    "ttl": int.parse(
+                                                            expireTimeController
+                                                                .text) *
+                                                        3600, //in seconds
+                                                    "shared_docs":
+                                                        selectedItems,
+                                                  };
                                                   Navigator.pop(context);
                                                   var res =
                                                       await shareDocRepository
                                                           .getSharableLink(
                                                               data);
-                                                  print("The Response is $res");
 
-                                                  // fetchExpire();
-                                                  // setState(() {});
+                                                  fetchExpire();
                                                   if (mounted) {
                                                     showModalBottomSheet(
                                                         context: modalContext,
@@ -561,16 +561,23 @@ class _DocListScreenState extends State<DocListScreen> {
                       ],
                     ),
                   ),
-                  // TODO Add Delete Share Docs Functions
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                      ),
-                      Text('Delete')
-                    ],
+                  // TODO Delete Share Doc
+                  InkWell(
+                    onTap: () async {
+                      // for (var item in selectedItems) {
+                      //   shareDocRepository.deleteSharedDoc(item, user.uid);
+                      // }
+                    },
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                        Text('Delete')
+                      ],
+                    ),
                   ),
                 ],
               ),
