@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
   final double? width;
   final double? height;
   final bool isNumber;
+  final bool isPurple;
   const CustomTextField({
     super.key,
     this.obscureText = false,
@@ -26,6 +27,7 @@ class CustomTextField extends StatelessWidget {
     this.width,
     this.height,
     this.isNumber = false,
+    this.isPurple = false,
   });
 
   @override
@@ -35,18 +37,34 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         keyboardType: isNumber ? TextInputType.number : TextInputType.text,
         controller: controller,
+        cursorColor: isPurple ? Colors.white : AppColors.primaryPurple,
+        style:
+            TextStyle(color: isPurple ? Colors.white : AppColors.primaryPurple),
         decoration: InputDecoration(
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.primaryPurple),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: isPurple ? Colors.white : AppColors.primaryPurple,
+              width: isPurple ? 2 : 1,
             ),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: isPurple ? Colors.white : AppColors.primaryPurple,
+              width: isPurple ? 2 : 1,
             ),
-            contentPadding: EdgeInsets.symmetric(
-              vertical: height ?? 7,
-              horizontal: 13,
-            ),
-            hintText: hintText),
+          ),
+          contentPadding: EdgeInsets.symmetric(
+            vertical: height ?? 7,
+            horizontal: 13,
+          ),
+          hintText: hintText,
+          labelStyle: TextStyle(
+            color: isPurple ? Colors.white : AppColors.primaryPurple,
+          ),
+          hintStyle: TextStyle(
+            color: isPurple ? Colors.white : AppColors.primaryPurple,
+          ),
+        ),
         onSaved: onSaved,
         validator: validator,
       ),

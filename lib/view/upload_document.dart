@@ -153,10 +153,11 @@ class _DocumentUploadState extends State<DocumentUpload> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primaryPurple,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: AppColors.primaryPurple),
+        backgroundColor: AppColors.primaryPurple,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -174,6 +175,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                       fontFamily:
                           GoogleFonts.poppins(fontWeight: FontWeight.bold)
                               .fontFamily,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -190,6 +192,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                               fontFamily: GoogleFonts.poppins(
                                       fontWeight: FontWeight.bold)
                                   .fontFamily,
+                              color: Colors.white,
                             ),
                           ),
                           Text(
@@ -199,13 +202,14 @@ class _DocumentUploadState extends State<DocumentUpload> {
                               fontFamily: GoogleFonts.poppins(
                                       fontWeight: FontWeight.w500)
                                   .fontFamily,
+                              color: Colors.white,
                             ),
                           ),
                         ],
                       ),
                       (fileList.isEmpty)
                           ? IconButton(
-                              color: AppColors.primaryPurple,
+                              color: Colors.white,
                               icon: const Icon(Icons.add_a_photo),
                               onPressed: () async {
                                 openPicker();
@@ -226,7 +230,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                             margin: const EdgeInsets.symmetric(vertical: 5),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                  width: 2, color: AppColors.primaryPurple),
+                                  width: 2, color: Colors.grey.shade300),
                               color: const Color.fromARGB(255, 231, 231, 255),
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(8)),
@@ -250,7 +254,10 @@ class _DocumentUploadState extends State<DocumentUpload> {
                 const SizedBox(height: 30),
                 const Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Choose Date"),
+                  child: Text(
+                    "Choose Date",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 const SizedBox(
                   height: 5,
@@ -267,16 +274,18 @@ class _DocumentUploadState extends State<DocumentUpload> {
                         return null;
                       }
                     },
-                    enabled: false,
+                    cursorColor: Colors.white,
+                    style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       hintText: _selectedDate != null
                           ? formatDate(_selectedDate!)
                           : 'Enter Date',
+                      hintStyle: const TextStyle(color: Colors.white),
                       focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.primaryPurple),
+                        borderSide: BorderSide(color: Colors.white, width: 2),
                       ),
                       enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
+                        borderSide: BorderSide(color: Colors.white, width: 2),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 20,
@@ -292,6 +301,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                   height: 20,
                   hintText: "Enter Title",
                   controller: docTitle,
+                  isPurple: true,
                   validator: (value) {
                     if (value.toString().isEmpty) {
                       return 'Title Required';
@@ -305,37 +315,48 @@ class _DocumentUploadState extends State<DocumentUpload> {
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
-                  child: DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                        width: 2,
+                      ),
                     ),
-                    hint: const Text('Doc Type'),
-                    isExpanded: true,
-                    items: <String>[
-                      'USG Report',
-                      'Non-Stress Test',
-                      'Contraction Stress Test',
-                      'Doppler Ultrasound Report',
-                      'Others'
-                    ].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      docType = value!;
-                      print(docType);
-                    },
-                    validator: (value) {
-                      if (docType == '') {
-                        return 'Doc type is required';
-                      } else {
-                        return null;
-                      }
-                    },
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                        width: 2,
+                      ),
+                    ),
                   ),
+                  hint: const Text(
+                    'Doc Type',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  items: <String>[
+                    'USG Report',
+                    'Non-Stress Test',
+                    'Contraction Stress Test',
+                    'Doppler Ultrasound Report',
+                    'Others'
+                  ].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    docType = value!;
+                    print(docType);
+                  },
+                  validator: (value) {
+                    if (docType == '') {
+                      return 'Doc type is required';
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
                 const SizedBox(
                   height: 60,
@@ -343,6 +364,7 @@ class _DocumentUploadState extends State<DocumentUpload> {
                 PrimaryButton(
                     buttonTitle: "Upload",
                     isLoading: isLoading,
+                    isPurple: true,
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         for (var file in fileList) {
