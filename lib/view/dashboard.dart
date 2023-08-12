@@ -34,6 +34,9 @@ class _DashboardScreenState extends State<DashboardScreen>
   late Animation<Alignment> _topAlignmentAnimation;
   late Animation<Alignment> _bottomAlignmentAnimation;
 
+  double scaleFactor = 1;
+  bool isVisible = true;
+
   @override
   void initState() {
     super.initState();
@@ -411,15 +414,62 @@ class _DashboardScreenState extends State<DashboardScreen>
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(CupertinoPageRoute(
-            builder: (context) => const DocumentUpload(),
-          ));
-        },
-        backgroundColor: AppColors.primaryPurple,
-        child: const Icon(Icons.add),
+      floatingActionButton: Transform.scale(
+        scale: scaleFactor,
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(_createRoute());
+          },
+          backgroundColor: AppColors.primaryPurple,
+          child: const Icon(Icons.add),
+        ),
       ),
     );
+  }
+
+  scale() async {
+    setState(() {
+      isVisible = true;
+    });
+    for (var i = 0; i < 200; i++) {
+      await Future.delayed(const Duration(milliseconds: 4), () {
+        setState(() {
+          scaleFactor += 0.15;
+        });
+      });
+    }
+    if (context.mounted) {
+      Navigator.of(context)
+          .push(CupertinoPageRoute(
+        builder: (context) => const DocumentUpload(),
+      ))
+          .then((value) async {
+        for (var i = 0; i < 200; i++) {
+          await Future.delayed(const Duration(milliseconds: 4), () {
+            setState(() {
+              scaleFactor -= 0.15;
+            });
+          });
+        }
+        setState(() {
+          isVisible = true;
+        });
+      });
+    }
+  }
+
+  Route _createRoute() {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const DocumentUpload(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const curve = Curves.fastEaseInToSlowEaseOut;
+          final curvedAnimation =
+              CurvedAnimation(parent: animation, curve: curve);
+          return ScaleTransition(
+            scale: curvedAnimation,
+            child: child,
+          );
+        });
   }
 }

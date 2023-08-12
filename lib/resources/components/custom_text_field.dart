@@ -43,13 +43,13 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: isPurple ? Colors.white : AppColors.primaryPurple,
+              color: isPurple ? Colors.white : Colors.black26,
               width: isPurple ? 2 : 1,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: isPurple ? Colors.white : AppColors.primaryPurple,
+              color: isPurple ? Colors.white : Colors.black26,
               width: isPurple ? 2 : 1,
             ),
           ),
@@ -59,10 +59,10 @@ class CustomTextField extends StatelessWidget {
           ),
           hintText: hintText,
           labelStyle: TextStyle(
-            color: isPurple ? Colors.white : AppColors.primaryPurple,
+            color: isPurple ? Colors.white : Colors.black54,
           ),
           hintStyle: TextStyle(
-            color: isPurple ? Colors.white : AppColors.primaryPurple,
+            color: isPurple ? Colors.white : Colors.black54,
           ),
         ),
         onSaved: onSaved,
