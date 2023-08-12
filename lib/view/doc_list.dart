@@ -314,14 +314,18 @@ class _DocListScreenState extends State<DocListScreen> {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.white,
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter myState) {
             return BottomSheet(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
               onClosing: () {},
               builder: (BuildContext context) {
                 return SizedBox(
-                  height: 350.h + MediaQuery.of(context).viewInsets.bottom,
+                  height: 320.h + MediaQuery.of(context).viewInsets.bottom,
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: EdgeInsets.only(
@@ -391,7 +395,7 @@ class _DocListScreenState extends State<DocListScreen> {
                             ],
                           ),
                           SizedBox(
-                            height: 50.h,
+                            height: 30.h,
                           ),
                           PrimaryIconButton(
                             buttonTitle: "Next",
@@ -416,148 +420,156 @@ class _DocListScreenState extends State<DocListScreen> {
                                 if (mounted) {
                                   showModalBottomSheet(
                                       context: modalContext,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      backgroundColor: Colors.white,
                                       builder: (BuildContext context) {
-                                        return SizedBox(
+                                        return Container(
                                           height: 500.h,
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: defaultPadding),
-                                            child: Column(children: [
-                                              SizedBox(
-                                                height: 40.h,
-                                              ),
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                    color: const Color.fromARGB(
-                                                        255, 224, 223, 223),
-                                                  ),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: defaultPadding),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            border: Border.all(
+                                              color: const Color.fromARGB(
+                                                  255, 224, 223, 223),
+                                            ),
+                                          ),
+                                          child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                SizedBox(
+                                                  height: 40.h,
                                                 ),
-                                                child: QrImageView(
-                                                  data: res['share_doc_link'],
-                                                  size: 200.h,
-                                                ),
-                                              ),
-                                              SizedBox(height: 30.h),
-                                              Container(
+                                                Container(
                                                   padding:
                                                       const EdgeInsets.all(8),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    border: Border.all(
-                                                      color:
-                                                          const Color.fromARGB(
-                                                              255,
-                                                              224,
-                                                              223,
-                                                              223),
-                                                    ),
+                                                  child: QrImageView(
+                                                    data: res['share_doc_link'],
+                                                    size: 200.h,
                                                   ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 300.w,
-                                                        child: Text(res[
-                                                            'share_doc_link']),
-                                                      ),
-                                                      InkWell(
-                                                        child: const Icon(
-                                                            Icons.copy),
-                                                        onTap: () {
-                                                          FlutterClipboard.copy(
-                                                                  res['share_doc_link'])
-                                                              .then(
-                                                            (value) =>
-                                                                ScaffoldMessenger.of(
-                                                                        context)
-                                                                    .showSnackBar(
-                                                                        success),
-                                                          );
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                      )
-                                                    ],
-                                                  )),
-                                              SizedBox(
-                                                height: 20.h,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(
-                                                    width: 153.w,
-                                                    height: 60.h,
-                                                    child: ElevatedButton.icon(
-                                                      onPressed: null,
-                                                      icon: const Icon(
-                                                          Icons.send,
-                                                          color: AppColors
-                                                              .primaryPurple),
-                                                      label: const Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 8),
-                                                        child: Text(
-                                                          'Send Via Email',
-                                                          style: TextStyle(
-                                                              color: AppColors
-                                                                  .primaryPurple),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      ),
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      12.0),
-                                                        ),
-                                                        backgroundColor: AppColors
-                                                            .bodyTextColorLight,
-                                                        textStyle: TextStyle(
-                                                          fontFamily:
-                                                              GoogleFonts
-                                                                      .poppins()
-                                                                  .fontFamily,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 16.sp,
-                                                        ),
+                                                ),
+                                                SizedBox(height: 30.h),
+                                                Container(
+                                                    padding:
+                                                        const EdgeInsets.all(8),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      border: Border.all(
+                                                        color: const Color
+                                                                .fromARGB(
+                                                            255, 224, 223, 223),
                                                       ),
                                                     ),
-                                                  ),
-                                                  SizedBox(width: 20.w),
-                                                  SizedBox(
-                                                    width: 153.w,
-                                                    child: PrimaryButton(
-                                                        buttonTitle:
-                                                            'View Shared Links',
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 300.w,
+                                                          child: Text(res[
+                                                              'share_doc_link']),
+                                                        ),
+                                                        InkWell(
+                                                          child: const Icon(
+                                                              Icons.copy),
+                                                          onTap: () {
+                                                            FlutterClipboard
+                                                                    .copy(res[
+                                                                        'share_doc_link'])
+                                                                .then(
+                                                              (value) => ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(
+                                                                      success),
+                                                            );
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        )
+                                                      ],
+                                                    )),
+                                                SizedBox(
+                                                  height: 20.h,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 153.w,
+                                                      height: 60.h,
+                                                      child:
+                                                          ElevatedButton.icon(
                                                         onPressed: () {
-                                                          Navigator.push(
-                                                              context,
-                                                              CupertinoPageRoute(
-                                                                  builder: (_) =>
-                                                                      const Share()));
-                                                        }),
-                                                  )
-                                                ],
-                                              )
-                                            ]),
-                                          ),
+                                                          Utils.toastMessage(
+                                                              "Coming Soon");
+                                                        },
+                                                        icon: const Icon(
+                                                            Icons.send,
+                                                            color: AppColors
+                                                                .primaryPurple),
+                                                        label: const Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      8),
+                                                          child: Text(
+                                                            'Send Via Email',
+                                                            style: TextStyle(
+                                                                color: AppColors
+                                                                    .primaryPurple),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          ),
+                                                        ),
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12.0),
+                                                          ),
+                                                          backgroundColor: AppColors
+                                                              .bodyTextColorLight,
+                                                          textStyle: TextStyle(
+                                                            fontFamily:
+                                                                GoogleFonts
+                                                                        .poppins()
+                                                                    .fontFamily,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 16.sp,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 20.w),
+                                                    SizedBox(
+                                                      width: 153.w,
+                                                      child: PrimaryButton(
+                                                          buttonTitle:
+                                                              'View Shared Links',
+                                                          onPressed: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                CupertinoPageRoute(
+                                                                    builder: (_) =>
+                                                                        const Share()));
+                                                          }),
+                                                    )
+                                                  ],
+                                                )
+                                              ]),
                                         );
                                       });
                                 }

@@ -11,15 +11,11 @@ class ExpireLink extends StatefulWidget {
   final String link;
   final String date;
   final String views;
-  final double percentage;
-  final String centerText;
   const ExpireLink({
     super.key,
     required this.link,
     required this.date,
     required this.views,
-    required this.percentage,
-    required this.centerText,
     required this.sharedDocID,
   });
 

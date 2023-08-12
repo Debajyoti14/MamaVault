@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/resources/UI_constraints.dart';
+import 'package:interrupt/utils/utils.dart';
 import 'package:interrupt/view/doc_list.dart';
 import 'package:interrupt/resources/components/expire_link.dart';
 import 'package:interrupt/resources/components/primary_icon_button.dart';
@@ -146,13 +148,19 @@ class _ShareState extends State<Share> {
                       children: allExpireDocs.map<Widget>((data) {
                         String formattedDate =
                             format12hourTime(data['expiry_time']);
-                        return ExpireLink(
+                        return GestureDetector(
+                          onTap: () {
+                            FlutterClipboard.copy(data['shared_link']).then(
+                                (value) =>
+                                    Utils.toastMessage("Copied to Clipboard"));
+                          },
+                          child: ExpireLink(
                             sharedDocID: data['shared_doc_id'],
                             link: data['shared_link'],
                             date: formattedDate,
                             views: data['views'].toString(),
-                            percentage: 0.72,
-                            centerText: "22:00");
+                          ),
+                        );
                       }).toList(),
                     )
                   : SizedBox(
