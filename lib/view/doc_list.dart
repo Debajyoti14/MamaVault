@@ -119,48 +119,48 @@ class _DocListScreenState extends State<DocListScreen> {
     Widget selectDocType(List<DocumentModel> documents) {
       return documents.isNotEmpty
           ? SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: defaultPadding,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    documents.isNotEmpty
-                        ? Row(
-                            children: [
-                              Checkbox(
-                                checkColor: Colors.white,
-                                activeColor: AppColors.primaryPurple,
-                                value: isSelectAll,
-                                shape: const CircleBorder(),
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    isSelectAll = value!;
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 10.h),
+                  documents.isNotEmpty
+                      ? Row(
+                          children: [
+                            Checkbox(
+                              checkColor: Colors.white,
+                              activeColor: AppColors.primaryPurple,
+                              value: isSelectAll,
+                              shape: const CircleBorder(),
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  isSelectAll = value!;
 
-                                    if (value == true) {
-                                      selectedItems.clear();
-                                      setState(() {
-                                        for (var item in documents) {
-                                          selectedItems.add(item.docId);
-                                        }
-                                      });
-                                    } else {
-                                      selectedItems = [];
-                                    }
-                                  });
-                                },
-                              ),
-                              const Text(
-                                'Select All',
-                                style:
-                                    TextStyle(color: AppColors.primaryPurple),
-                              )
-                            ],
-                          )
-                        : Container(),
-                    for (var doc in documents)
-                      Column(
+                                  if (value == true) {
+                                    selectedItems.clear();
+                                    setState(() {
+                                      for (var item in documents) {
+                                        selectedItems.add(item.docId);
+                                      }
+                                    });
+                                  } else {
+                                    selectedItems = [];
+                                  }
+                                });
+                              },
+                            ),
+                            const Text(
+                              'Select All',
+                              style: TextStyle(color: AppColors.primaryPurple),
+                            )
+                          ],
+                        )
+                      : Container(),
+                  for (var doc in documents)
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: defaultPadding,
+                      ),
+                      child: Column(
                         children: [
                           SizedBox(height: 10.h),
                           GestureDetector(
@@ -178,9 +178,9 @@ class _DocListScreenState extends State<DocListScreen> {
                             time: doc.timelineTime,
                           )),
                         ],
-                      )
-                  ],
-                ),
+                      ),
+                    )
+                ],
               ),
             )
           : Lottie.network(
