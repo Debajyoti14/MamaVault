@@ -10,6 +10,7 @@ import 'package:interrupt/model/document_model.dart';
 import 'package:interrupt/repository/shareDoc_repository.dart';
 import 'package:interrupt/resources/UI_constraints.dart';
 import 'package:interrupt/resources/colors.dart';
+import 'package:interrupt/utils/utils.dart';
 import 'package:interrupt/view/share.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -246,296 +247,11 @@ class _DocListScreenState extends State<DocListScreen> {
                 children: [
                   InkWell(
                     onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (BuildContext context) {
-                          return StatefulBuilder(
-                            builder:
-                                (BuildContext context, StateSetter myState) {
-                              return BottomSheet(
-                                onClosing: () {},
-                                builder: (BuildContext context) {
-                                  return SizedBox(
-                                    height: 350.h +
-                                        MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom,
-                                    child: SingleChildScrollView(
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                          left: defaultPadding,
-                                          right: defaultPadding,
-                                          bottom: MediaQuery.of(context)
-                                              .viewInsets
-                                              .bottom,
-                                        ),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            SizedBox(
-                                              height: 30.h,
-                                            ),
-                                            Text(
-                                              'Expiry Time',
-                                              style: TextStyle(
-                                                fontSize: 18.sp,
-                                                fontFamily: GoogleFonts.poppins(
-                                                        fontWeight:
-                                                            FontWeight.bold)
-                                                    .fontFamily,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 20.h,
-                                            ),
-                                            Form(
-                                              key: _formKey,
-                                              child: CustomTextField(
-                                                isNumber: true,
-                                                hintText:
-                                                    "Enter Expiry time in hrs",
-                                                controller:
-                                                    expireTimeController,
-                                                validator: (value) {
-                                                  if (value
-                                                      .toString()
-                                                      .isEmpty) {
-                                                    return 'Time Required';
-                                                  } else if (int.parse(value) /
-                                                          24 >
-                                                      30) {
-                                                    return 'Maximum Limit 30 days';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 20.h,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Share Profile",
-                                                  style: TextStyle(
-                                                    fontSize: 20.sp,
-                                                    fontFamily:
-                                                        GoogleFonts.poppins(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500)
-                                                            .fontFamily,
-                                                  ),
-                                                ),
-                                                StatefulBuilder(builder:
-                                                    (BuildContext context,
-                                                        StateSetter
-                                                            stateSetter) {
-                                                  return Switch(
-                                                    value: shareProfile,
-                                                    activeColor:
-                                                        AppColors.primaryPurple,
-                                                    onChanged: (val) {
-                                                      stateSetter(() =>
-                                                          shareProfile = val);
-                                                    },
-                                                  );
-                                                }),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 50.h,
-                                            ),
-                                            PrimaryIconButton(
-                                              buttonTitle: "Next",
-                                              buttonIcon: FaIcon(
-                                                FontAwesomeIcons.link,
-                                                size: 18.w,
-                                              ),
-                                              onPressed: () async {
-                                                if (_formKey.currentState!
-                                                    .validate()) {
-                                                  Map<String, dynamic> data = {
-                                                    "uid": user.uid, // user id
-                                                    "isprofile":
-                                                        shareProfile, // shares profile
-                                                    "ttl": int.parse(
-                                                            expireTimeController
-                                                                .text) *
-                                                        3600, //in seconds
-                                                    "shared_docs":
-                                                        selectedItems,
-                                                  };
-                                                  Navigator.pop(context);
-                                                  var res =
-                                                      await shareDocRepository
-                                                          .getSharableLink(
-                                                              data);
-
-                                                  fetchExpire();
-                                                  if (mounted) {
-                                                    showModalBottomSheet(
-                                                        context: modalContext,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return SizedBox(
-                                                            height: 500.h,
-                                                            child: Padding(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          defaultPadding),
-                                                              child: Column(
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      height:
-                                                                          40.h,
-                                                                    ),
-                                                                    Container(
-                                                                      padding:
-                                                                          const EdgeInsets.all(
-                                                                              8),
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10),
-                                                                        border:
-                                                                            Border.all(
-                                                                          color: const Color.fromARGB(
-                                                                              255,
-                                                                              224,
-                                                                              223,
-                                                                              223),
-                                                                        ),
-                                                                      ),
-                                                                      child:
-                                                                          QrImageView(
-                                                                        data: res[
-                                                                            'share_doc_link'],
-                                                                        size: 200
-                                                                            .h,
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                        height:
-                                                                            30.h),
-                                                                    Container(
-                                                                        padding:
-                                                                            const EdgeInsets.all(
-                                                                                8),
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(10),
-                                                                          border:
-                                                                              Border.all(
-                                                                            color: const Color.fromARGB(
-                                                                                255,
-                                                                                224,
-                                                                                223,
-                                                                                223),
-                                                                          ),
-                                                                        ),
-                                                                        child:
-                                                                            Row(
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.spaceBetween,
-                                                                          children: [
-                                                                            SizedBox(
-                                                                              width: 300.w,
-                                                                              child: Text(res['share_doc_link']),
-                                                                            ),
-                                                                            InkWell(
-                                                                              child: const Icon(Icons.copy),
-                                                                              onTap: () {
-                                                                                FlutterClipboard.copy(res['share_doc_link']).then(
-                                                                                  (value) => ScaffoldMessenger.of(context).showSnackBar(success),
-                                                                                );
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                            )
-                                                                          ],
-                                                                        )),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          20.h,
-                                                                    ),
-                                                                    Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children: [
-                                                                        SizedBox(
-                                                                          width:
-                                                                              153.w,
-                                                                          height:
-                                                                              60.h,
-                                                                          child:
-                                                                              ElevatedButton.icon(
-                                                                            onPressed:
-                                                                                null,
-                                                                            icon:
-                                                                                const Icon(Icons.send, color: AppColors.primaryPurple),
-                                                                            label:
-                                                                                const Padding(
-                                                                              padding: EdgeInsets.symmetric(horizontal: 8),
-                                                                              child: Text(
-                                                                                'Send Via Email',
-                                                                                style: TextStyle(color: AppColors.primaryPurple),
-                                                                                textAlign: TextAlign.center,
-                                                                              ),
-                                                                            ),
-                                                                            style:
-                                                                                ElevatedButton.styleFrom(
-                                                                              shape: RoundedRectangleBorder(
-                                                                                borderRadius: BorderRadius.circular(12.0),
-                                                                              ),
-                                                                              backgroundColor: AppColors.bodyTextColorLight,
-                                                                              textStyle: TextStyle(
-                                                                                fontFamily: GoogleFonts.poppins().fontFamily,
-                                                                                fontWeight: FontWeight.w600,
-                                                                                fontSize: 16.sp,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(
-                                                                            width:
-                                                                                20.w),
-                                                                        SizedBox(
-                                                                          width:
-                                                                              153.w,
-                                                                          child: PrimaryButton(
-                                                                              buttonTitle: 'View Shared Links',
-                                                                              onPressed: () {
-                                                                                Navigator.push(context, CupertinoPageRoute(builder: (_) => const Share()));
-                                                                              }),
-                                                                        )
-                                                                      ],
-                                                                    )
-                                                                  ]),
-                                                            ),
-                                                          );
-                                                        });
-                                                  }
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                          );
-                        },
-                      );
+                      if (selectedItems.isEmpty) {
+                        Utils.toastMessage("No Document Selected");
+                      } else {
+                        showShareModal(context, modalContext);
+                      }
                     },
                     child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -585,6 +301,275 @@ class _DocListScreenState extends State<DocListScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  // For Showing the Share Modal
+  Future<dynamic> showShareModal(
+      BuildContext context, BuildContext modalContext) {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter myState) {
+            return BottomSheet(
+              onClosing: () {},
+              builder: (BuildContext context) {
+                return SizedBox(
+                  height: 350.h + MediaQuery.of(context).viewInsets.bottom,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: defaultPadding,
+                        right: defaultPadding,
+                        bottom: MediaQuery.of(context).viewInsets.bottom,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            height: 30.h,
+                          ),
+                          Text(
+                            'Expiry Time',
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              fontFamily: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.bold)
+                                  .fontFamily,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          Form(
+                            key: _formKey,
+                            child: CustomTextField(
+                              isNumber: true,
+                              hintText: "Enter Expiry time in hrs",
+                              controller: expireTimeController,
+                              validator: (value) {
+                                if (value.toString().isEmpty) {
+                                  return 'Time Required';
+                                } else if (int.parse(value) / 24 > 30) {
+                                  return 'Maximum Limit 30 days';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Share Profile",
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  fontFamily: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500)
+                                      .fontFamily,
+                                ),
+                              ),
+                              StatefulBuilder(builder: (BuildContext context,
+                                  StateSetter stateSetter) {
+                                return Switch(
+                                  value: shareProfile,
+                                  activeColor: AppColors.primaryPurple,
+                                  onChanged: (val) {
+                                    stateSetter(() => shareProfile = val);
+                                  },
+                                );
+                              }),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 50.h,
+                          ),
+                          PrimaryIconButton(
+                            buttonTitle: "Next",
+                            buttonIcon: FaIcon(
+                              FontAwesomeIcons.link,
+                              size: 18.w,
+                            ),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                Map<String, dynamic> data = {
+                                  "uid": user.uid, // user id
+                                  "isprofile": shareProfile, // shares profile
+                                  "ttl": int.parse(expireTimeController.text) *
+                                      3600, //in seconds
+                                  "shared_docs": selectedItems,
+                                };
+                                Navigator.pop(context);
+                                var res = await shareDocRepository
+                                    .getSharableLink(data);
+
+                                fetchExpire();
+                                if (mounted) {
+                                  showModalBottomSheet(
+                                      context: modalContext,
+                                      builder: (BuildContext context) {
+                                        return SizedBox(
+                                          height: 500.h,
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: defaultPadding),
+                                            child: Column(children: [
+                                              SizedBox(
+                                                height: 40.h,
+                                              ),
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                    color: const Color.fromARGB(
+                                                        255, 224, 223, 223),
+                                                  ),
+                                                ),
+                                                child: QrImageView(
+                                                  data: res['share_doc_link'],
+                                                  size: 200.h,
+                                                ),
+                                              ),
+                                              SizedBox(height: 30.h),
+                                              Container(
+                                                  padding:
+                                                      const EdgeInsets.all(8),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    border: Border.all(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              224,
+                                                              223,
+                                                              223),
+                                                    ),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 300.w,
+                                                        child: Text(res[
+                                                            'share_doc_link']),
+                                                      ),
+                                                      InkWell(
+                                                        child: const Icon(
+                                                            Icons.copy),
+                                                        onTap: () {
+                                                          FlutterClipboard.copy(
+                                                                  res['share_doc_link'])
+                                                              .then(
+                                                            (value) =>
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                        success),
+                                                          );
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                      )
+                                                    ],
+                                                  )),
+                                              SizedBox(
+                                                height: 20.h,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 153.w,
+                                                    height: 60.h,
+                                                    child: ElevatedButton.icon(
+                                                      onPressed: null,
+                                                      icon: const Icon(
+                                                          Icons.send,
+                                                          color: AppColors
+                                                              .primaryPurple),
+                                                      label: const Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 8),
+                                                        child: Text(
+                                                          'Send Via Email',
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .primaryPurple),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      ),
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      12.0),
+                                                        ),
+                                                        backgroundColor: AppColors
+                                                            .bodyTextColorLight,
+                                                        textStyle: TextStyle(
+                                                          fontFamily:
+                                                              GoogleFonts
+                                                                      .poppins()
+                                                                  .fontFamily,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 16.sp,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 20.w),
+                                                  SizedBox(
+                                                    width: 153.w,
+                                                    child: PrimaryButton(
+                                                        buttonTitle:
+                                                            'View Shared Links',
+                                                        onPressed: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              CupertinoPageRoute(
+                                                                  builder: (_) =>
+                                                                      const Share()));
+                                                        }),
+                                                  )
+                                                ],
+                                              )
+                                            ]),
+                                          ),
+                                        );
+                                      });
+                                }
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
     );
   }
 }
