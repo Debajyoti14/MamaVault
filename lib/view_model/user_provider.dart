@@ -34,6 +34,29 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool?> checkUserOnboarded() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    User currentUser = auth.currentUser!;
+    try {
+      DocumentReference docRef =
+          firestore.collection('users').doc(currentUser.uid);
+      DocumentSnapshot docData = await docRef.get();
+
+      _userData = UserModel.fromJson(docData.data() as Map<String, dynamic>);
+      notifyListeners();
+      if (_userData.bloodGroup == "" ||
+          _userData.allergies.isEmpty ||
+          _userData.medicines.isEmpty) {
+        return false;
+      }
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return null;
+  }
+
   Future<void> fetchUser() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final FirebaseFirestore firestore = FirebaseFirestore.instance;

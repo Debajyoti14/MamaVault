@@ -74,13 +74,13 @@ class UserModel {
       userID: map['uid'] as String,
       imgUrl: map['image'] as String,
       email: map['email'] as String,
-      bloodGroup: map['bloodGroup'] as String,
+      bloodGroup: (map['bloodGroup'] ?? '') as String,
       age: map['age'] as int,
       dateOfPregrancy: map['date_of_pregnancy'],
       complicationDesc: map['complications_description'] as String,
-      medicines: List<String>.from(map['medicines']),
-      diseases: List<String>.from(map['diseases']),
-      allergies: List<String>.from(map['allegies']),
+      medicines: List<String>.from(map['medicines'] ?? []),
+      diseases: List<String>.from(map['diseases'] ?? []),
+      allergies: List<String>.from(map['allegies'] ?? []),
     );
   }
 

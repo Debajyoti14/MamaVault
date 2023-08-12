@@ -51,7 +51,7 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 20.h),
+              SizedBox(height: 40.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,7 +67,6 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
                   ),
                 ],
               ),
-              SizedBox(height: 20.h),
               SingleChildScrollView(
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height * 0.6,
