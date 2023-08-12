@@ -34,7 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final allUserDocs =
         Provider.of<UserProvider>(context, listen: false).getUserDocs;
     dashboardViewModel.getTimeline(allUserDocs);
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery.sizeOf(context);
 
     return Scaffold(
       body: Container(
@@ -154,10 +154,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           case Status.COMPLETED:
                             return value.timeline.data.length > 0
                                 ? Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         margin: const EdgeInsets.symmetric(
-                                            vertical: 20),
+                                            vertical: 15),
                                         width: 5,
                                         height: size.height,
                                         color: AppColors.primaryPurple,

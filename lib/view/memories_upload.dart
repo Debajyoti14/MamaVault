@@ -128,6 +128,7 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -167,14 +168,22 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
                             color: const Color.fromARGB(255, 224, 223, 223),
                           ),
                         ),
-                        child: Image.asset("assets/imageUploadIcon.png"),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            "assets/imageUploadIcon.png",
+                          ),
+                        ),
                       ),
                     )
-                  : Image.file(
-                      io.File(image!.path),
-                      fit: BoxFit.cover,
-                      width: 200.w,
-                      height: 200.h,
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.file(
+                        io.File(image!.path),
+                        fit: BoxFit.fill,
+                        width: size.width,
+                        height: 200.h,
+                      ),
                     ),
               SizedBox(height: 60.h),
               SizedBox(
