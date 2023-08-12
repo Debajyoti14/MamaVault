@@ -25,9 +25,74 @@ class DashboardScreen extends StatefulWidget {
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardScreenState extends State<DashboardScreen>
+    with SingleTickerProviderStateMixin {
   final user = FirebaseAuth.instance.currentUser!;
   DashboardViewModel dashboardViewModel = DashboardViewModel();
+
+  late AnimationController _controller;
+  late Animation<Alignment> _topAlignmentAnimation;
+  late Animation<Alignment> _bottomAlignmentAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 10));
+    _topAlignmentAnimation = TweenSequence<Alignment>([
+      TweenSequenceItem<Alignment>(
+        tween:
+            Tween<Alignment>(begin: Alignment.topLeft, end: Alignment.topRight),
+        weight: 1,
+      ),
+      TweenSequenceItem<Alignment>(
+        tween: Tween<Alignment>(
+            begin: Alignment.topRight, end: Alignment.bottomRight),
+        weight: 1,
+      ),
+      TweenSequenceItem<Alignment>(
+        tween: Tween<Alignment>(
+            begin: Alignment.bottomRight, end: Alignment.bottomLeft),
+        weight: 1,
+      ),
+      TweenSequenceItem<Alignment>(
+        tween: Tween<Alignment>(
+            begin: Alignment.bottomLeft, end: Alignment.topLeft),
+        weight: 1,
+      ),
+    ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
+
+    _bottomAlignmentAnimation = TweenSequence<Alignment>([
+      TweenSequenceItem<Alignment>(
+        tween: Tween<Alignment>(
+            begin: Alignment.bottomRight, end: Alignment.bottomLeft),
+        weight: 1,
+      ),
+      TweenSequenceItem<Alignment>(
+        tween: Tween<Alignment>(
+            begin: Alignment.bottomLeft, end: Alignment.topLeft),
+        weight: 1,
+      ),
+      TweenSequenceItem<Alignment>(
+        tween:
+            Tween<Alignment>(begin: Alignment.topLeft, end: Alignment.topRight),
+        weight: 1,
+      ),
+      TweenSequenceItem<Alignment>(
+        tween: Tween<Alignment>(
+            begin: Alignment.topRight, end: Alignment.bottomRight),
+        weight: 1,
+      ),
+    ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
+
+    _controller.repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,111 +264,128 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                     ),
                                                   ),
                                                   const SizedBox(height: 10),
-                                                  Container(
-                                                    width: double.infinity,
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            16.0),
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          width: 2,
-                                                          color: AppColors
-                                                              .primaryPurple),
-                                                      color:
-                                                          const Color.fromARGB(
-                                                              255,
-                                                              231,
-                                                              231,
-                                                              255),
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                                  .all(
-                                                              Radius.circular(
-                                                                  8)),
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        const Text(
-                                                          'Document Attached',
-                                                          style: TextStyle(
-                                                              fontSize: 20,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
+                                                  AnimatedBuilder(
+                                                    animation: _controller,
+                                                    builder: (context, _) {
+                                                      return Container(
+                                                        width: double.infinity,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(16.0),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          gradient:
+                                                              LinearGradient(
+                                                            colors: [
+                                                              AppColors
+                                                                  .primaryPurple
+                                                                  .withOpacity(
+                                                                      0.2),
+                                                              Colors.white,
+                                                            ],
+                                                            begin:
+                                                                _topAlignmentAnimation
+                                                                    .value,
+                                                            end:
+                                                                _bottomAlignmentAnimation
+                                                                    .value,
+                                                          ),
+                                                          // border: Border.all(
+                                                          //     width: 2,
+                                                          //     color: AppColors
+                                                          //         .primaryPurple),
+                                                          // color:
+                                                          //     const Color.fromARGB(
+                                                          //         255,
+                                                          //         231,
+                                                          //         231,
+                                                          //         255),
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                      .all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          8)),
                                                         ),
-                                                        const SizedBox(
-                                                            height: 15),
-                                                        Row(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
                                                           children: [
-                                                            for (var doc
-                                                                in singletimeline[
-                                                                    'document'])
-                                                              Padding(
-                                                                padding: const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal:
-                                                                        8.0),
-                                                                child: Column(
-                                                                  children: [
-                                                                    (doc['doc_format'] ==
-                                                                                'image/jpeg' ||
-                                                                            doc['doc_format'] ==
-                                                                                'image/png')
-                                                                        ? Container(
-                                                                            decoration:
-                                                                                BoxDecoration(
-                                                                              border: Border.all(
-                                                                                width: 2,
-                                                                                color: AppColors.primaryPurple,
+                                                            const Text(
+                                                              'Document Attached',
+                                                              style: TextStyle(
+                                                                  fontSize: 20,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 15),
+                                                            Row(
+                                                              children: [
+                                                                for (var doc
+                                                                    in singletimeline[
+                                                                        'document'])
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                        horizontal:
+                                                                            8.0),
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        (doc['doc_format'] == 'image/jpeg' ||
+                                                                                doc['doc_format'] == 'image/png')
+                                                                            ? Container(
+                                                                                decoration: BoxDecoration(
+                                                                                  border: Border.all(
+                                                                                    width: 2,
+                                                                                    color: AppColors.primaryPurple,
+                                                                                  ),
+                                                                                  borderRadius: const BorderRadius.all(
+                                                                                    Radius.circular(10),
+                                                                                  ),
+                                                                                ),
+                                                                                child: ClipRRect(
+                                                                                  borderRadius: const BorderRadius.all(
+                                                                                    Radius.circular(10),
+                                                                                  ),
+                                                                                  child: Image.network(doc['doc_url'], width: 83, height: 64, fit: BoxFit.fill),
+                                                                                ),
+                                                                              )
+                                                                            : Container(
+                                                                                padding: const EdgeInsets.all(8),
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: const BorderRadius.all(
+                                                                                    Radius.circular(10),
+                                                                                  ),
+                                                                                  border: Border.all(
+                                                                                    width: 2,
+                                                                                    color: AppColors.primaryPurple,
+                                                                                  ),
+                                                                                ),
+                                                                                child: Image.network(
+                                                                                  'https://www.iconpacks.net/icons/2/free-pdf-icon-1512-thumb.png',
+                                                                                  width: 93,
+                                                                                  height: 64,
+                                                                                ),
                                                                               ),
-                                                                              borderRadius: const BorderRadius.all(
-                                                                                Radius.circular(10),
-                                                                              ),
-                                                                            ),
-                                                                            child:
-                                                                                ClipRRect(
-                                                                              borderRadius: const BorderRadius.all(
-                                                                                Radius.circular(10),
-                                                                              ),
-                                                                              child: Image.network(doc['doc_url'], width: 83, height: 64, fit: BoxFit.fill),
-                                                                            ),
-                                                                          )
-                                                                        : Container(
-                                                                            padding:
-                                                                                const EdgeInsets.all(8),
-                                                                            decoration:
-                                                                                BoxDecoration(
-                                                                              borderRadius: const BorderRadius.all(
-                                                                                Radius.circular(10),
-                                                                              ),
-                                                                              border: Border.all(
-                                                                                width: 2,
-                                                                                color: AppColors.primaryPurple,
-                                                                              ),
-                                                                            ),
-                                                                            child:
-                                                                                Image.network(
-                                                                              'https://www.iconpacks.net/icons/2/free-pdf-icon-1512-thumb.png',
-                                                                              width: 93,
-                                                                              height: 64,
-                                                                            ),
-                                                                          ),
-                                                                    const SizedBox(
-                                                                        height:
-                                                                            5),
-                                                                    Text(
-                                                                      doc['doc_title'],
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              )
+                                                                        const SizedBox(
+                                                                            height:
+                                                                                5),
+                                                                        Text(
+                                                                          doc['doc_title'],
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                              ],
+                                                            )
                                                           ],
-                                                        )
-                                                      ],
-                                                    ),
+                                                        ),
+                                                      );
+                                                    },
                                                   ),
                                                 ],
                                               ),
