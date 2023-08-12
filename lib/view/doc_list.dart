@@ -265,7 +265,9 @@ class _DocListScreenState extends State<DocListScreen> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Utils.toastMessage("Coming Soon");
+                    },
                     child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -280,6 +282,8 @@ class _DocListScreenState extends State<DocListScreen> {
                   // TODO Delete Share Doc
                   InkWell(
                     onTap: () async {
+                      Utils.toastMessage("Coming Soon");
+
                       // for (var item in selectedItems) {
                       //   shareDocRepository.deleteSharedDoc(item, user.uid);
                       // }
