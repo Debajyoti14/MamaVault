@@ -12,7 +12,6 @@ import 'package:interrupt/view_model/user_provider.dart';
 import 'package:interrupt/view_model/verified_number_provider.dart';
 import 'package:interrupt/view/splash.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,23 +34,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isOnboarded = false;
-
-  @override
-  void initState() {
-    _checkLoginPrefs();
-    super.initState();
-  }
-
-  void _checkLoginPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(
-      () {
-        isOnboarded = prefs.getBool('isOnboarded') ?? false;
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

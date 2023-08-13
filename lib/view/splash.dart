@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:interrupt/model/user_model.dart';
 import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/view/home_page.dart';
 import 'package:interrupt/view/onboarding/onboarding.dart';
@@ -38,11 +41,36 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _checkLoginPrefs() async {
     final prefs = await SharedPreferences.getInstance();
+    final res = await checkUserOnboarded();
+    await prefs.setBool('isOnboarded', res ?? false);
     setState(
       () {
-        isOnboarded = prefs.getBool('isOnboarded') ?? false;
+        isOnboarded = res ?? false;
       },
     );
+  }
+
+  Future<bool?> checkUserOnboarded() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    User currentUser = auth.currentUser!;
+    try {
+      DocumentReference docRef =
+          firestore.collection('users').doc(currentUser.uid);
+      DocumentSnapshot docData = await docRef.get();
+
+      final userData =
+          UserModel.fromJson(docData.data() as Map<String, dynamic>);
+      if (userData.bloodGroup == "" ||
+          userData.allergies.isEmpty ||
+          userData.medicines.isEmpty) {
+        return false;
+      }
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return null;
   }
 
   @override

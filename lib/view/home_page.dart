@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:interrupt/model/user_model.dart';
 import 'package:interrupt/utils/date_formatter.dart';
 import 'package:interrupt/view/bottom_nav_bar.dart';
 import 'package:interrupt/view/onboarding/add_details.dart';
 import 'package:interrupt/view/signin_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -24,36 +24,12 @@ class _HomeState extends State<Home> {
   }
 
   void _checkLoginPrefs() async {
-    // final prefs = await SharedPreferences.getInstance();
-    final prefs = await checkUserOnboarded();
+    final prefs = await SharedPreferences.getInstance();
     setState(
       () {
-        isOnboarded = prefs ?? false;
+        isOnboarded = prefs.getBool('isOnboarded') ?? false;
       },
     );
-  }
-
-  Future<bool?> checkUserOnboarded() async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    User currentUser = auth.currentUser!;
-    try {
-      DocumentReference docRef =
-          firestore.collection('users').doc(currentUser.uid);
-      DocumentSnapshot docData = await docRef.get();
-
-      final userData =
-          UserModel.fromJson(docData.data() as Map<String, dynamic>);
-      if (userData.bloodGroup == "" ||
-          userData.allergies.isEmpty ||
-          userData.medicines.isEmpty) {
-        return false;
-      }
-      return true;
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-    return null;
   }
 
   @override

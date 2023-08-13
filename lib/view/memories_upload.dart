@@ -130,10 +130,11 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
+      backgroundColor: AppColors.primaryPurple,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: AppColors.primaryPurple),
+        backgroundColor: AppColors.primaryPurple,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -148,32 +149,22 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
                     fontSize: 32.sp,
                     fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold)
                         .fontFamily,
+                    color: Colors.white,
                   ),
                 ),
               ),
               SizedBox(
                 height: 50.h,
               ),
-              counter == 0
+              (counter == 0 && image != null)
                   ? InkWell(
                       onTap: () async {
                         await openPicker();
                       },
-                      child: Container(
-                        height: 150.h,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 255, 255, 255),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 224, 223, 223),
-                          ),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            "assets/imageUploadIcon.png",
-                          ),
-                        ),
+                      child: const Icon(
+                        Icons.add_circle_outline,
+                        color: Colors.white,
+                        size: 120,
                       ),
                     )
                   : ClipRRect(
@@ -193,6 +184,7 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
                 height: 20.h,
                 hintText: "Enter Title",
                 controller: docTitle,
+                isPurple: true,
                 validator: (value) {
                   if (value.toString().isEmpty) {
                     return 'Title Required';
@@ -206,7 +198,10 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
               ),
               const Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Choose Date"),
+                child: Text(
+                  "Choose Date",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
               SizedBox(
                 height: 5.h,
@@ -228,11 +223,15 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
                     hintText: _selectedDate != null
                         ? formatDate(_selectedDate!)
                         : 'Enter Date',
+                    hintStyle: const TextStyle(color: Colors.white),
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColors.primaryPurple),
+                      borderSide: BorderSide(color: Colors.white, width: 2),
                     ),
                     enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
+                      borderSide: BorderSide(color: Colors.white, width: 2),
+                    ),
+                    disabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white, width: 2),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 20,
@@ -247,6 +246,7 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
               PrimaryButton(
                   isLoading: isLoading,
                   buttonTitle: "Upload",
+                  isPurple: true,
                   onPressed: () async {
                     await uploadImage();
                     if (context.mounted) {

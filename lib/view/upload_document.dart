@@ -130,13 +130,12 @@ class _DocumentUploadState extends State<DocumentUpload> {
       lastDate: DateTime(2100),
       builder: (BuildContext context, Widget? child) {
         return Theme(
-          data: Theme.of(context).copyWith(
-            // Customize the date picker theme properties
-            primaryColor: AppColors.primaryPurple, // Customize primary color
-            // Add more customizations as needed
-            colorScheme: Theme.of(context)
-                .colorScheme
-                .copyWith(secondary: AppColors.primaryPurple),
+          data: ThemeData.light().copyWith(
+            primaryColor: const Color(0xFF8CE7F1),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            colorScheme: const ColorScheme.light(primary: Color(0xFF8CE7F1))
+                .copyWith(secondary: const Color(0xFF8CE7F1)),
           ),
           child: child!,
         );
@@ -280,11 +279,15 @@ class _DocumentUploadState extends State<DocumentUpload> {
                       hintText: _selectedDate != null
                           ? formatDate(_selectedDate!)
                           : 'Enter Date',
+                      enabled: false,
                       hintStyle: const TextStyle(color: Colors.white),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white, width: 2),
                       ),
                       enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white, width: 2),
+                      ),
+                      disabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white, width: 2),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
