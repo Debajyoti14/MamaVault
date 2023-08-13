@@ -293,16 +293,6 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                                 _bottomAlignmentAnimation
                                                                     .value,
                                                           ),
-                                                          // border: Border.all(
-                                                          //     width: 2,
-                                                          //     color: AppColors
-                                                          //         .primaryPurple),
-                                                          // color:
-                                                          //     const Color.fromARGB(
-                                                          //         255,
-                                                          //         231,
-                                                          //         231,
-                                                          //         255),
                                                           borderRadius:
                                                               const BorderRadius
                                                                       .all(

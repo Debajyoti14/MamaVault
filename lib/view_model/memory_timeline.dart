@@ -17,8 +17,16 @@ class MemoryTimeline extends StatefulWidget {
   State<MemoryTimeline> createState() => _MemoryTimelineState();
 }
 
-class _MemoryTimelineState extends State<MemoryTimeline> {
+class _MemoryTimelineState extends State<MemoryTimeline>
+    with SingleTickerProviderStateMixin {
   final user = FirebaseAuth.instance.currentUser!;
+
+  late AnimationController _controller;
+  late Animation<Alignment> _topAlignmentAnimation;
+  late Animation<Alignment> _bottomAlignmentAnimation;
+
+  double scaleFactor = 1;
+  bool isVisible = true;
   fetchMemories() async {
     MemoryProvider memoryProvider = Provider.of(context, listen: false);
     await memoryProvider.fetchUserMemories();
@@ -26,8 +34,63 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
 
   @override
   void initState() {
-    fetchMemories();
     super.initState();
+    fetchMemories();
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 10));
+    _topAlignmentAnimation = TweenSequence<Alignment>([
+      TweenSequenceItem<Alignment>(
+        tween:
+            Tween<Alignment>(begin: Alignment.topLeft, end: Alignment.topRight),
+        weight: 1,
+      ),
+      TweenSequenceItem<Alignment>(
+        tween: Tween<Alignment>(
+            begin: Alignment.topRight, end: Alignment.bottomRight),
+        weight: 1,
+      ),
+      TweenSequenceItem<Alignment>(
+        tween: Tween<Alignment>(
+            begin: Alignment.bottomRight, end: Alignment.bottomLeft),
+        weight: 1,
+      ),
+      TweenSequenceItem<Alignment>(
+        tween: Tween<Alignment>(
+            begin: Alignment.bottomLeft, end: Alignment.topLeft),
+        weight: 1,
+      ),
+    ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
+
+    _bottomAlignmentAnimation = TweenSequence<Alignment>([
+      TweenSequenceItem<Alignment>(
+        tween: Tween<Alignment>(
+            begin: Alignment.bottomRight, end: Alignment.bottomLeft),
+        weight: 1,
+      ),
+      TweenSequenceItem<Alignment>(
+        tween: Tween<Alignment>(
+            begin: Alignment.bottomLeft, end: Alignment.topLeft),
+        weight: 1,
+      ),
+      TweenSequenceItem<Alignment>(
+        tween:
+            Tween<Alignment>(begin: Alignment.topLeft, end: Alignment.topRight),
+        weight: 1,
+      ),
+      TweenSequenceItem<Alignment>(
+        tween: Tween<Alignment>(
+            begin: Alignment.topRight, end: Alignment.bottomRight),
+        weight: 1,
+      ),
+    ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
+
+    _controller.repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -36,14 +99,16 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
     final size = MediaQuery.sizeOf(context);
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: Transform.scale(
+        scale: scaleFactor,
+        child: FloatingActionButton(
           backgroundColor: AppColors.primaryPurple,
           onPressed: () {
-            Navigator.of(context).push(
-              CupertinoPageRoute(builder: (_) => const MemoriesUpload()),
-            );
+            Navigator.of(context).push(_createRoute());
           },
-          child: const Icon(Icons.add)),
+          child: const Icon(Icons.add),
+        ),
+      ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
         height: MediaQuery.of(context).size.height,
@@ -105,56 +170,70 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
                                               fontWeight: FontWeight.w500),
                                         ),
                                         SizedBox(height: 10.h),
-                                        Container(
-                                          width: double.infinity,
-                                          padding: const EdgeInsets.all(16.0),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                                width: 2,
-                                                color: AppColors.primaryPurple),
-                                            color: const Color.fromARGB(
-                                                255, 231, 231, 255),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(8)),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    width: 2,
-                                                    color:
-                                                        AppColors.primaryPurple,
-                                                  ),
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                    Radius.circular(10),
-                                                  ),
+                                        AnimatedBuilder(
+                                          animation: _controller,
+                                          builder: (context, _) {
+                                            return Container(
+                                              width: double.infinity,
+                                              padding:
+                                                  const EdgeInsets.all(16.0),
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: [
+                                                    AppColors.primaryPurple
+                                                        .withOpacity(0.2),
+                                                    Colors.white,
+                                                  ],
+                                                  begin: _topAlignmentAnimation
+                                                      .value,
+                                                  end: _bottomAlignmentAnimation
+                                                      .value,
                                                 ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                    Radius.circular(10),
-                                                  ),
-                                                  child: Image.network(
-                                                    memory['doc_url'],
-                                                    width: 83.w,
-                                                    height: 64.h,
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                ),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(8)),
                                               ),
-                                              SizedBox(width: 15.w),
-                                              Text(
-                                                memory['doc_title'],
-                                                style: TextStyle(
-                                                    fontSize: 20.sp,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        width: 2,
+                                                        color: AppColors
+                                                            .primaryPurple,
+                                                      ),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                        Radius.circular(10),
+                                                      ),
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                        Radius.circular(10),
+                                                      ),
+                                                      child: Image.network(
+                                                        memory['doc_url'],
+                                                        width: 83.w,
+                                                        height: 64.h,
+                                                        fit: BoxFit.fill,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 15.w),
+                                                  Text(
+                                                    memory['doc_title'],
+                                                    style: TextStyle(
+                                                        fontSize: 20.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            );
+                                          },
                                         ),
                                       ],
                                     ),
@@ -172,5 +251,51 @@ class _MemoryTimelineState extends State<MemoryTimeline> {
         ),
       ),
     );
+  }
+
+  scale() async {
+    setState(() {
+      isVisible = true;
+    });
+    for (var i = 0; i < 200; i++) {
+      await Future.delayed(const Duration(milliseconds: 4), () {
+        setState(() {
+          scaleFactor += 0.15;
+        });
+      });
+    }
+    if (context.mounted) {
+      Navigator.of(context)
+          .push(CupertinoPageRoute(
+        builder: (context) => const MemoriesUpload(),
+      ))
+          .then((value) async {
+        for (var i = 0; i < 200; i++) {
+          await Future.delayed(const Duration(milliseconds: 4), () {
+            setState(() {
+              scaleFactor -= 0.15;
+            });
+          });
+        }
+        setState(() {
+          isVisible = true;
+        });
+      });
+    }
+  }
+
+  Route _createRoute() {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const MemoriesUpload(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const curve = Curves.fastEaseInToSlowEaseOut;
+          final curvedAnimation =
+              CurvedAnimation(parent: animation, curve: curve);
+          return ScaleTransition(
+            scale: curvedAnimation,
+            child: child,
+          );
+        });
   }
 }

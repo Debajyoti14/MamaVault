@@ -25,18 +25,14 @@ class MemoriesUpload extends StatefulWidget {
 }
 
 class _MemoriesUploadState extends State<MemoriesUpload> {
-  late final XFile? image;
+  XFile? image;
   bool isLoading = false;
   DateTime? _selectedDate;
   final user = FirebaseAuth.instance.currentUser!;
   final docTitle = TextEditingController();
-  var counter = 0;
   Future openPicker() async {
     final ImagePicker picker = ImagePicker();
     image = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      counter++;
-    });
   }
 
   Future uploadImage() async {
@@ -51,7 +47,6 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
     var dowurl = await uploadTask.ref.getDownloadURL();
     await addDocDetails(dowurl);
     setState(() {
-      counter = 0;
       isLoading = false;
     });
   }
@@ -156,7 +151,7 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
               SizedBox(
                 height: 50.h,
               ),
-              (counter == 0 && image != null)
+              (image == null)
                   ? InkWell(
                       onTap: () async {
                         await openPicker();
