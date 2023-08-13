@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -99,8 +100,7 @@ class _DashboardScreenState extends State<DashboardScreen>
 
   @override
   Widget build(BuildContext context) {
-    final allUserDocs =
-        Provider.of<UserProvider>(context, listen: false).getUserDocs;
+    final allUserDocs = Provider.of<UserProvider>(context).getUserDocs;
     dashboardViewModel.getTimeline(allUserDocs);
     final size = MediaQuery.sizeOf(context);
 
@@ -344,7 +344,17 @@ class _DashboardScreenState extends State<DashboardScreen>
                                                                                   borderRadius: const BorderRadius.all(
                                                                                     Radius.circular(10),
                                                                                   ),
-                                                                                  child: Image.network(doc['doc_url'], width: 83, height: 64, fit: BoxFit.fill),
+                                                                                  child: CachedNetworkImage(
+                                                                                    imageUrl: doc['doc_url'],
+                                                                                    width: 83,
+                                                                                    height: 64,
+                                                                                    fit: BoxFit.fill,
+                                                                                    placeholder: (context, url) => const Center(
+                                                                                        child: CircularProgressIndicator(
+                                                                                      color: AppColors.primaryPurple,
+                                                                                    )),
+                                                                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                                                  ),
                                                                                 ),
                                                                               )
                                                                             : Container(

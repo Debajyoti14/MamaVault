@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -214,11 +215,24 @@ class _MemoryTimelineState extends State<MemoryTimeline>
                                                               .all(
                                                         Radius.circular(10),
                                                       ),
-                                                      child: Image.network(
-                                                        memory['doc_url'],
-                                                        width: 83.w,
-                                                        height: 64.h,
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            memory['doc_url'],
+                                                        width: 83,
+                                                        height: 64,
                                                         fit: BoxFit.fill,
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            const Center(
+                                                                child:
+                                                                    CircularProgressIndicator(
+                                                          color: AppColors
+                                                              .primaryPurple,
+                                                        )),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            const Icon(
+                                                                Icons.error),
                                                       ),
                                                     ),
                                                   ),

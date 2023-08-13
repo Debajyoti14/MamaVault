@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,10 +59,17 @@ class _PreviewDocScreenState extends State<PreviewDocScreen> {
                         borderRadius: const BorderRadius.all(
                           Radius.circular(20),
                         ),
-                        child: Image.network(
-                          widget.docURL,
+                        child: CachedNetworkImage(
+                          imageUrl: widget.docURL,
+                          width: MediaQuery.sizeOf(context).width,
                           height: MediaQuery.sizeOf(context).height * 0.55,
                           fit: BoxFit.fill,
+                          placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(
+                            color: AppColors.primaryPurple,
+                          )),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                         ),
                       )
                     : FutureBuilder<File>(
