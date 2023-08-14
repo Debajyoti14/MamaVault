@@ -12,6 +12,7 @@ import 'package:interrupt/resources/UI_constraints.dart';
 import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/utils/utils.dart';
 import 'package:interrupt/view/share.dart';
+import 'package:interrupt/view_model/theme_provider.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -96,6 +97,7 @@ class _DocListScreenState extends State<DocListScreen> {
   @override
   Widget build(BuildContext context) {
     final allUserDocs = Provider.of<UserProvider>(context).getUserDocs;
+    final themeChange = Provider.of<ThemeProvider>(context);
 
     BuildContext modalContext = context;
 
@@ -193,8 +195,8 @@ class _DocListScreenState extends State<DocListScreen> {
       child: Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-          elevation: 0,
-          backgroundColor: AppColors.bodyTextColorLight,
+          backgroundColor:
+              themeChange.darkTheme ? AppColors.backgroundDark : Colors.white,
           bottom: TabBar(
             indicatorColor: AppColors.primaryPurple,
             labelStyle: TextStyle(
@@ -207,7 +209,7 @@ class _DocListScreenState extends State<DocListScreen> {
               fontSize: 14.0.sp,
               fontFamily: GoogleFonts.poppins().fontFamily,
             ),
-            labelColor: Colors.black,
+            labelColor: themeChange.darkTheme ? Colors.white : Colors.black,
             isScrollable: true,
             tabs: docCategoriesTabs,
           ),
@@ -241,7 +243,9 @@ class _DocListScreenState extends State<DocListScreen> {
             ),
             Container(
               padding: const EdgeInsets.all(8.0),
-              color: const Color.fromARGB(255, 245, 246, 254),
+              color: themeChange.darkTheme
+                  ? AppColors.backgroundDark
+                  : const Color.fromARGB(255, 245, 246, 254),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -314,10 +318,11 @@ class _DocListScreenState extends State<DocListScreen> {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.white,
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter myState) {
+            final themeChange = Provider.of<ThemeProvider>(context);
+
             return BottomSheet(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -354,6 +359,7 @@ class _DocListScreenState extends State<DocListScreen> {
                           Form(
                             key: _formKey,
                             child: CustomTextField(
+                              isPurple: themeChange.darkTheme,
                               isNumber: true,
                               hintText: "Enter Expiry time in hrs",
                               controller: expireTimeController,
@@ -424,7 +430,6 @@ class _DocListScreenState extends State<DocListScreen> {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                       ),
-                                      backgroundColor: Colors.white,
                                       builder: (BuildContext context) {
                                         return Container(
                                           height: 500.h,
@@ -437,6 +442,9 @@ class _DocListScreenState extends State<DocListScreen> {
                                               color: const Color.fromARGB(
                                                   255, 224, 223, 223),
                                             ),
+                                            color: themeChange.darkTheme
+                                                ? AppColors.backgroundDark
+                                                : Colors.white,
                                           ),
                                           child: Column(
                                               mainAxisSize: MainAxisSize.min,
@@ -450,6 +458,11 @@ class _DocListScreenState extends State<DocListScreen> {
                                                   child: QrImageView(
                                                     data: res['share_doc_link'],
                                                     size: 200.h,
+                                                    backgroundColor:
+                                                        themeChange.darkTheme
+                                                            ? Colors.white
+                                                            : AppColors
+                                                                .backgroundDark,
                                                   ),
                                                 ),
                                                 SizedBox(height: 30.h),

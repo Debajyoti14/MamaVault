@@ -5,6 +5,8 @@ import 'package:interrupt/repository/shareDoc_repository.dart';
 
 import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/utils/utils.dart';
+import 'package:interrupt/view_model/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class ExpireLink extends StatefulWidget {
   final String sharedDocID;
@@ -69,13 +71,16 @@ class _ExpireLinkState extends State<ExpireLink> {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
+    final themeChange = Provider.of<ThemeProvider>(context);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 245, 246, 254),
+          color: themeChange.darkTheme
+              ? AppColors.primaryPurple
+              : const Color.fromARGB(255, 245, 246, 254),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: AppColors.primaryPurple,
@@ -108,7 +113,9 @@ class _ExpireLinkState extends State<ExpireLink> {
                   Text(
                     'Will expire on ${widget.date}',
                     style: TextStyle(
-                      color: const Color.fromARGB(255, 122, 122, 122),
+                      color: themeChange.darkTheme
+                          ? Colors.white
+                          : const Color.fromARGB(255, 122, 122, 122),
                       fontSize: 13,
                       fontFamily:
                           GoogleFonts.poppins(fontWeight: FontWeight.w500)
@@ -127,7 +134,9 @@ class _ExpireLinkState extends State<ExpireLink> {
                       Text(
                         widget.views,
                         style: TextStyle(
-                          color: const Color.fromARGB(255, 122, 122, 122),
+                          color: themeChange.darkTheme
+                              ? Colors.white
+                              : const Color.fromARGB(255, 122, 122, 122),
                           fontSize: 14,
                           fontFamily:
                               GoogleFonts.poppins(fontWeight: FontWeight.w500)

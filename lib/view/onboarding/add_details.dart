@@ -7,6 +7,8 @@ import 'package:interrupt/resources/UI_constraints.dart';
 import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/utils/date_formatter.dart';
 import 'package:interrupt/resources/components/custom_text_field.dart';
+import 'package:interrupt/view_model/theme_provider.dart';
+import 'package:provider/provider.dart';
 import '../../resources/components/primary_button.dart';
 import 'add_medical_records.dart';
 
@@ -84,6 +86,8 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
 
     final size = MediaQuery.of(context).size;
 
+    final themeChange = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
@@ -123,12 +127,14 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                     hintText: 'Enter Your Name',
                     controller: nameController,
                     height: 20.h,
+                    isPurple: themeChange.darkTheme,
                   ),
                   SizedBox(height: 10.h),
                   CustomTextField(
                     hintText: 'Enter Your Email',
                     controller: emailController,
                     height: 20.h,
+                    isPurple: themeChange.darkTheme,
                   ),
                   SizedBox(height: 10.h),
                   Row(
@@ -139,6 +145,7 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
                           height: 23.h,
                           hintText: 'Enter Your Age',
                           controller: ageController,
+                          isPurple: themeChange.darkTheme,
                           validator: (value) {
                             if (value.toString().isEmpty) {
                               return 'Age Required';

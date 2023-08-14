@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/repository/panic_repository.dart';
 import 'package:interrupt/utils/utils.dart';
+import 'package:interrupt/view_model/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../colors.dart';
 
@@ -24,6 +26,8 @@ class NumberVerify extends StatelessWidget {
   Widget build(BuildContext context) {
     PanicRepository panicRepository = PanicRepository();
     final user = FirebaseAuth.instance.currentUser!;
+    final themeChange = Provider.of<ThemeProvider>(context);
+
     Future<void> showMyDialogForDeleteEmergencyNos() async {
       return showDialog<void>(
         context: context,
@@ -72,7 +76,9 @@ class NumberVerify extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 245, 246, 254),
+          color: themeChange.darkTheme
+              ? AppColors.primaryPurple
+              : const Color.fromARGB(255, 245, 246, 254),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: AppColors.primaryPurple,
@@ -119,7 +125,9 @@ class NumberVerify extends StatelessWidget {
                       Text(
                         status,
                         style: TextStyle(
-                          color: const Color.fromARGB(255, 122, 122, 122),
+                          color: themeChange.darkTheme
+                              ? Colors.white
+                              : const Color.fromARGB(255, 122, 122, 122),
                           fontSize: 13,
                           fontFamily:
                               GoogleFonts.poppins(fontWeight: FontWeight.w500)

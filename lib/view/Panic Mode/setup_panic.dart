@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/repository/panic_repository.dart';
 import 'package:interrupt/resources/colors.dart';
+import 'package:interrupt/view_model/theme_provider.dart';
 import 'package:interrupt/view_model/verified_number_provider.dart';
 import 'package:interrupt/resources/components/custom_text_field.dart';
 import 'package:interrupt/resources/components/number_verification.dart';
@@ -49,13 +50,14 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
 
   @override
   Widget build(BuildContext context) {
-    BuildContext modalContext = context;
     List allNumbers = Provider.of<NumberProvider>(context).gerVerifiedNumber;
+    final themeChange = Provider.of<ThemeProvider>(context);
+
+    BuildContext modalContext = context;
 
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: AppColors.primaryPurple),
       ),
       body: Container(
@@ -165,6 +167,7 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
                                               controller:
                                                   _phoneNumber1Controller,
                                               width: 300.w,
+                                              isPurple: themeChange.darkTheme,
                                               validator: (value) {
                                                 if (value.toString().isEmpty) {
                                                   return "Phone No. Required";

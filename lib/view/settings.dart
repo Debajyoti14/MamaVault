@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/resources/UI_constraints.dart';
+import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/view/Panic%20Mode/setup_panic.dart';
 import 'package:interrupt/resources/components/setting_component.dart';
+import 'package:interrupt/view_model/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../view_model/google_signin.dart';
@@ -21,6 +23,8 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -44,9 +48,52 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(
               height: 40.h,
             ),
-            const SettingComponent(
-              imagePath: 'assets/setting1.png',
-              settingTitle: 'Theme',
+            Row(
+              children: [
+                Container(
+                  width: MediaQuery.sizeOf(context).width * 0.9,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: const Color.fromARGB(255, 224, 223, 223),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/setting1.png',
+                            scale: 0.8,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            'Dark Theme',
+                            style: TextStyle(
+                              fontSize: 21,
+                              fontFamily: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500)
+                                  .fontFamily,
+                            ),
+                          )
+                        ],
+                      ),
+                      Switch(
+                        value: themeChange.darkTheme,
+                        activeColor: AppColors.primaryPurple,
+                        onChanged: (value) {
+                          themeChange.darkTheme = value;
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ],
             ),
             SizedBox(
               height: 20.h,

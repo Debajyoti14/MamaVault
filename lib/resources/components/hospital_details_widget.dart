@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/resources/colors.dart';
+import 'package:interrupt/view_model/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HospitalDetailsWidget extends StatelessWidget {
@@ -13,6 +15,8 @@ class HospitalDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
+
     return InkWell(
       onTap: () async {
         await launchUrl(Uri.parse(url ?? ""));
@@ -22,7 +26,9 @@ class HospitalDetailsWidget extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           border: Border.all(width: 2, color: AppColors.primaryPurple),
-          color: const Color.fromARGB(255, 231, 231, 255),
+          color: themeChange.darkTheme
+              ? AppColors.primaryPurple
+              : const Color.fromARGB(255, 231, 231, 255),
           borderRadius: const BorderRadius.all(Radius.circular(8)),
         ),
         child: Column(

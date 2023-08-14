@@ -64,7 +64,6 @@ class _BottomNavState extends State<BottomNav> {
       bottomNavigationBar: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          backgroundColor: Colors.white,
           type: BottomNavigationBarType.fixed,
           onTap: _onItemTapped,
           selectedItemColor: const Color.fromRGBO(55, 80, 206, 1),

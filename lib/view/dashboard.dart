@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/data/response/status.dart';
 import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/view_model/dashboard_view_model.dart';
+import 'package:interrupt/view_model/theme_provider.dart';
 import 'package:interrupt/view_model/user_provider.dart';
 import 'package:interrupt/view/Panic%20Mode/panic_mode_timer.dart';
 import 'package:interrupt/view/profile.dart';
@@ -101,6 +102,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   Widget build(BuildContext context) {
     final allUserDocs = Provider.of<UserProvider>(context).getUserDocs;
+    final themeChange = Provider.of<ThemeProvider>(context);
     dashboardViewModel.getTimeline(allUserDocs);
     final size = MediaQuery.sizeOf(context);
 
@@ -157,9 +159,11 @@ class _DashboardScreenState extends State<DashboardScreen>
               SizedBox(height: 20.h),
               Container(
                 padding: EdgeInsets.all(16.0.w),
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 255, 235, 233),
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                decoration: BoxDecoration(
+                  color: themeChange.darkTheme
+                      ? AppColors.primaryPurple
+                      : const Color.fromARGB(255, 255, 235, 233),
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
                 ),
                 height: 104.h,
                 child: Row(

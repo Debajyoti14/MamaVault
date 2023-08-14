@@ -13,6 +13,7 @@ import 'package:interrupt/utils/utils.dart';
 import 'package:interrupt/view/doc_list.dart';
 import 'package:interrupt/resources/components/expire_link.dart';
 import 'package:interrupt/resources/components/primary_icon_button.dart';
+import 'package:interrupt/view_model/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -90,6 +91,7 @@ class _ShareState extends State<Share> {
   @override
   Widget build(BuildContext context) {
     List allExpireDocs = Provider.of<ExpireProvider>(context).getExpiryDetails;
+    final themeChange = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -127,7 +129,8 @@ class _ShareState extends State<Share> {
               ),
               Container(
                 height: 3.h,
-                decoration: const BoxDecoration(color: Colors.black),
+                decoration: BoxDecoration(
+                    color: themeChange.darkTheme ? Colors.white : Colors.black),
               ),
               SizedBox(
                 height: 30.h,

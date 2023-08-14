@@ -4,6 +4,8 @@ import 'package:interrupt/model/document_model.dart';
 import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/utils/date_formatter.dart';
 import 'package:interrupt/view/preview_doc.dart';
+import 'package:interrupt/view_model/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class IndividualDoc extends StatefulWidget {
@@ -32,6 +34,7 @@ class _IndividualDocState extends State<IndividualDoc> {
   bool isIndividualSelected = false;
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
     isIndividualSelected =
         (widget.selectedDocuments.contains(widget.documentID));
     return InkWell(
@@ -51,7 +54,9 @@ class _IndividualDocState extends State<IndividualDoc> {
         height: 70,
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 223, 223, 247),
+          color: themeChange.darkTheme
+              ? AppColors.primaryPurple
+              : const Color.fromARGB(255, 223, 223, 247),
           border: Border.all(width: 2, color: AppColors.primaryPurple),
           borderRadius: const BorderRadius.all(Radius.circular(8)),
         ),

@@ -34,7 +34,6 @@ class _PreviewDocScreenState extends State<PreviewDocScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: AppColors.primaryPurple),
       ),
       body: Container(

@@ -8,6 +8,7 @@ import 'package:interrupt/firebase_options.dart';
 import 'package:interrupt/view_model/expire_provider.dart';
 import 'package:interrupt/view_model/google_signin.dart';
 import 'package:interrupt/view_model/memory_provider.dart';
+import 'package:interrupt/view_model/theme_provider.dart';
 import 'package:interrupt/view_model/user_provider.dart';
 import 'package:interrupt/view_model/verified_number_provider.dart';
 import 'package:interrupt/view/splash.dart';
@@ -34,6 +35,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  ThemeProvider themeChangeProvider = ThemeProvider();
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentAppTheme();
+  }
+
+  void getCurrentAppTheme() async {
+    themeChangeProvider.darkTheme =
+        await themeChangeProvider.darkThemePreference.getTheme();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -53,18 +67,27 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (context) => MemoryProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => ThemeProvider(),
+        ),
       ],
       child: ScreenUtilInit(
           designSize: const Size(393, 852),
           minTextAdapt: true,
           splitScreenMode: true,
           builder: (context, child) {
-            return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: 'MamaVault',
-                theme: lightThemeData,
-                // darkTheme: darkThemeData,
-                home: const SplashScreen());
+            return Consumer<ThemeProvider>(
+              builder: (context, ThemeProvider themeNotifier, child) {
+                return MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    title: 'MamaVault',
+                    theme: themeChangeProvider.darkTheme
+                        ? darkThemeData
+                        : lightThemeData,
+                    // darkTheme: darkThemeData,
+                    home: const SplashScreen());
+              },
+            );
           }),
     );
   }

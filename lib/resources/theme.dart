@@ -7,6 +7,19 @@ final lightThemeData = ThemeData(
   primaryColor: AppColors.primaryPurple,
   textTheme: GoogleFonts.poppinsTextTheme(ThemeData.light().textTheme),
   scaffoldBackgroundColor: AppColors.bodyTextColorLight,
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    backgroundColor: Colors.white,
+  ),
+  appBarTheme: const AppBarTheme(
+    color: Colors.white,
+    elevation: 0,
+  ),
+  bottomSheetTheme: const BottomSheetThemeData(
+    backgroundColor: Colors.white,
+  ),
+  iconTheme: const IconThemeData(color: Colors.white),
+  floatingActionButtonTheme:
+      const FloatingActionButtonThemeData(foregroundColor: Colors.white),
 );
 
 final darkThemeData = ThemeData(
@@ -14,4 +27,17 @@ final darkThemeData = ThemeData(
   primaryColor: AppColors.primaryPurple,
   textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
   scaffoldBackgroundColor: AppColors.backgroundDark,
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    backgroundColor: AppColors.backgroundDark,
+  ),
+  appBarTheme: const AppBarTheme(
+    backgroundColor: Color.fromARGB(255, 14, 14, 23),
+    elevation: 0,
+  ),
+  bottomSheetTheme: const BottomSheetThemeData(
+    backgroundColor: AppColors.backgroundDark,
+  ),
+  iconTheme: const IconThemeData(color: Colors.white),
+  floatingActionButtonTheme:
+      const FloatingActionButtonThemeData(foregroundColor: Colors.white),
 );

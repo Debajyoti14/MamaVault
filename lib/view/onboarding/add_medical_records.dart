@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/resources/colors.dart';
 import 'package:interrupt/view/home_page.dart';
 import 'package:interrupt/resources/components/primary_button.dart';
+import 'package:interrupt/view_model/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../resources/UI_constraints.dart';
@@ -118,13 +120,17 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
           key: formKey,
           child: Container(
             padding: EdgeInsets.symmetric(
-                horizontal: defaultPadding, vertical: 30.h),
+              horizontal: defaultPadding,
+              vertical: 30.h,
+            ),
             height: MediaQuery.of(context).size.height * 1,
             width: MediaQuery.of(context).size.width,
             child: SizedBox(
@@ -143,13 +149,12 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
                             fontSize: 32.sp, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.left,
                       ),
-                      // SizedBox(height: 20.h),
-                      // Image.asset('assets/add_medical_records.png'),
                       SizedBox(height: 40.h),
                       CustomTextField(
                         hintText: 'Enter Description',
                         controller: _descriptionController,
                         height: 40.h,
+                        isPurple: themeChange.darkTheme,
                         validator: (value) {
                           if (value.toString().isEmpty) {
                             return 'Description is required';
@@ -310,7 +315,7 @@ class _AddMedicalRecordsScreenState extends State<AddMedicalRecordsScreen> {
                     children: [
                       SizedBox(
                         width: 153.w,
-                        height: 60.h,
+                        height: 50.h,
                         child: ElevatedButton.icon(
                           onPressed: () async {
                             Navigator.of(context).pushAndRemoveUntil(

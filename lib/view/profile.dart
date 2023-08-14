@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:interrupt/resources/UI_constraints.dart';
 import 'package:interrupt/resources/colors.dart';
+import 'package:interrupt/view_model/theme_provider.dart';
 import 'package:interrupt/view_model/user_provider.dart';
 
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -16,14 +17,14 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
+    final themeChange = Provider.of<ThemeProvider>(context);
+
     final userData = userProvider.userData;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: AppColors.primaryPurple),
       ),
-      backgroundColor: AppColors.bodyTextColorLight,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -183,10 +184,12 @@ class Profile extends StatelessWidget {
                 height: 50.h,
               ),
               Accordion(
-                  contentBackgroundColor:
-                      const Color.fromARGB(255, 245, 246, 254),
-                  headerBackgroundColor:
-                      const Color.fromARGB(255, 245, 246, 254),
+                  contentBackgroundColor: themeChange.darkTheme
+                      ? AppColors.primaryPurple
+                      : const Color.fromARGB(255, 245, 246, 254),
+                  headerBackgroundColor: themeChange.darkTheme
+                      ? AppColors.primaryPurple
+                      : const Color.fromARGB(255, 245, 246, 254),
                   headerPadding:
                       const EdgeInsets.symmetric(vertical: 24, horizontal: 18),
                   children: [
@@ -195,12 +198,17 @@ class Profile extends StatelessWidget {
                           const Color.fromARGB(255, 245, 246, 254),
                       leftIcon: const FaIcon(FontAwesomeIcons.pills,
                           color: Color.fromARGB(255, 11, 99, 3)),
-                      rightIcon: const Icon(Icons.keyboard_arrow_down,
-                          color: Colors.black54, size: 20),
+                      rightIcon: Icon(Icons.keyboard_arrow_down,
+                          color: themeChange.darkTheme
+                              ? Colors.white
+                              : const Color.fromARGB(255, 73, 72, 72),
+                          size: 20),
                       header: Text(
                         "Medicines",
                         style: TextStyle(
-                          color: const Color.fromARGB(255, 73, 72, 72),
+                          color: themeChange.darkTheme
+                              ? Colors.white
+                              : const Color.fromARGB(255, 73, 72, 72),
                           fontSize: 21.sp,
                           fontFamily:
                               GoogleFonts.poppins(fontWeight: FontWeight.w500)
@@ -215,8 +223,10 @@ class Profile extends StatelessWidget {
                                   (medicine) => Text(
                                     medicine,
                                     style: TextStyle(
-                                      color:
-                                          const Color.fromARGB(255, 73, 72, 72),
+                                      color: themeChange.darkTheme
+                                          ? Colors.white
+                                          : const Color.fromARGB(
+                                              255, 73, 72, 72),
                                       fontSize: 14.sp,
                                       fontFamily: GoogleFonts.poppins(
                                               fontWeight: FontWeight.w500)
@@ -234,12 +244,17 @@ class Profile extends StatelessWidget {
                         FontAwesomeIcons.virusCovid,
                         color: Color.fromARGB(255, 142, 55, 55),
                       ),
-                      rightIcon: const Icon(Icons.keyboard_arrow_down,
-                          color: Colors.black54, size: 20),
+                      rightIcon: Icon(Icons.keyboard_arrow_down,
+                          color: themeChange.darkTheme
+                              ? Colors.white
+                              : Colors.black54,
+                          size: 20),
                       header: Text(
                         "Allergies",
                         style: TextStyle(
-                          color: const Color.fromARGB(255, 73, 72, 72),
+                          color: themeChange.darkTheme
+                              ? Colors.white
+                              : const Color.fromARGB(255, 73, 72, 72),
                           fontSize: 21.sp,
                           fontFamily:
                               GoogleFonts.poppins(fontWeight: FontWeight.w500)
@@ -254,8 +269,10 @@ class Profile extends StatelessWidget {
                                   (allergy) => Text(
                                     allergy,
                                     style: TextStyle(
-                                      color:
-                                          const Color.fromARGB(255, 73, 72, 72),
+                                      color: themeChange.darkTheme
+                                          ? Colors.white
+                                          : const Color.fromARGB(
+                                              255, 73, 72, 72),
                                       fontSize: 14.sp,
                                       fontFamily: GoogleFonts.poppins(
                                               fontWeight: FontWeight.w500)
@@ -273,12 +290,17 @@ class Profile extends StatelessWidget {
                         FontAwesomeIcons.disease,
                         color: Color.fromARGB(255, 106, 120, 11),
                       ),
-                      rightIcon: const Icon(Icons.keyboard_arrow_down,
-                          color: Colors.black54, size: 20),
+                      rightIcon: Icon(Icons.keyboard_arrow_down,
+                          color: themeChange.darkTheme
+                              ? Colors.white
+                              : Colors.black54,
+                          size: 20),
                       header: Text(
                         "Diseases",
                         style: TextStyle(
-                          color: const Color.fromARGB(255, 73, 72, 72),
+                          color: themeChange.darkTheme
+                              ? Colors.white
+                              : const Color.fromARGB(255, 73, 72, 72),
                           fontSize: 21.sp,
                           fontFamily:
                               GoogleFonts.poppins(fontWeight: FontWeight.w500)
@@ -293,8 +315,10 @@ class Profile extends StatelessWidget {
                                   (disease) => Text(
                                     disease,
                                     style: TextStyle(
-                                      color:
-                                          const Color.fromARGB(255, 73, 72, 72),
+                                      color: themeChange.darkTheme
+                                          ? Colors.white
+                                          : const Color.fromARGB(
+                                              255, 73, 72, 72),
                                       fontSize: 14.sp,
                                       fontFamily: GoogleFonts.poppins(
                                               fontWeight: FontWeight.w500)
