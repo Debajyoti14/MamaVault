@@ -127,7 +127,12 @@ class _ExpireLinkState extends State<ExpireLink> {
                   ),
                   Row(
                     children: [
-                      const Icon(Icons.remove_red_eye_sharp),
+                      Icon(
+                        Icons.remove_red_eye_sharp,
+                        color: themeChange.darkTheme
+                            ? Colors.white
+                            : Colors.black45,
+                      ),
                       const SizedBox(
                         width: 4,
                       ),
