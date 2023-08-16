@@ -101,13 +101,15 @@ class _MemoriesUploadState extends State<MemoriesUpload> {
       lastDate: DateTime(2100),
       builder: (BuildContext context, Widget? child) {
         return Theme(
-          data: Theme.of(context).copyWith(
-            // Customize the date picker theme properties
-            primaryColor: AppColors.primaryPurple, // Customize primary color
-            // Add more customizations as needed
-            colorScheme: Theme.of(context)
-                .colorScheme
-                .copyWith(secondary: AppColors.primaryPurple),
+          data: ThemeData.light().copyWith(
+            primaryColor: AppColors.primaryPurple,
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            colorScheme:
+                const ColorScheme.light(primary: AppColors.primaryPurple)
+                    .copyWith(
+              secondary: AppColors.primaryPurple,
+            ),
           ),
           child: child!,
         );

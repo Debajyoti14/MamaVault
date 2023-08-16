@@ -131,11 +131,14 @@ class _DocumentUploadState extends State<DocumentUpload> {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            primaryColor: const Color(0xFF8CE7F1),
+            primaryColor: AppColors.primaryPurple,
             buttonTheme:
                 const ButtonThemeData(textTheme: ButtonTextTheme.primary),
-            colorScheme: const ColorScheme.light(primary: Color(0xFF8CE7F1))
-                .copyWith(secondary: const Color(0xFF8CE7F1)),
+            colorScheme:
+                const ColorScheme.light(primary: AppColors.primaryPurple)
+                    .copyWith(
+              secondary: AppColors.primaryPurple,
+            ),
           ),
           child: child!,
         );

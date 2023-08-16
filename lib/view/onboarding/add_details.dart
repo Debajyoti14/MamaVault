@@ -62,11 +62,15 @@ class _AddDetailsScreenState extends State<AddDetailsScreen> {
       lastDate: DateTime(2100),
       builder: (BuildContext context, Widget? child) {
         return Theme(
-          data: Theme.of(context).copyWith(
+          data: ThemeData.light().copyWith(
             primaryColor: AppColors.primaryPurple,
-            colorScheme: Theme.of(context)
-                .colorScheme
-                .copyWith(secondary: AppColors.primaryPurple),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            colorScheme:
+                const ColorScheme.light(primary: AppColors.primaryPurple)
+                    .copyWith(
+              secondary: AppColors.primaryPurple,
+            ),
           ),
           child: child!,
         );
