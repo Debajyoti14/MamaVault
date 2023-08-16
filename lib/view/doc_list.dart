@@ -33,6 +33,8 @@ class DocListScreen extends StatefulWidget {
 
 class _DocListScreenState extends State<DocListScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   bool isSelectAll = false;
   bool isSelectAllUSG = false;
   bool isSelectNonStressThings = false;
@@ -86,6 +88,55 @@ class _DocListScreenState extends State<DocListScreen> {
     } catch (e) {
       return;
     }
+  }
+
+  Future<void> showMyDialogForDeleteDocs() async {
+    return showDialog<void>(
+      context: _scaffoldKey.currentContext ?? context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Are you sure?',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          content: const Text('The Shared Link will be deleted permanently'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel',
+                  style: TextStyle(color: AppColors.primaryPurple)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text(
+                'Confirm',
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                shareDocRepository
+                    .deleteDocuments(
+                  selectedItems,
+                  user.uid,
+                )
+                    .then((value) {
+                  Provider.of<UserProvider>(context, listen: false)
+                      .fetchUserDocs()
+                      .then(
+                        (value) => Utils.toastMessage(
+                          "${selectedItems.length} Document Deleted",
+                        ),
+                      );
+                }).then(
+                  (value) => Navigator.of(context).pop(),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -193,6 +244,7 @@ class _DocListScreenState extends State<DocListScreen> {
     return DefaultTabController(
       length: docCategoriesTabs.length,
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
           backgroundColor:
@@ -283,15 +335,8 @@ class _DocListScreenState extends State<DocListScreen> {
                       ],
                     ),
                   ),
-                  // TODO Delete Share Doc
                   InkWell(
-                    onTap: () async {
-                      Utils.toastMessage("Coming Soon");
-
-                      // for (var item in selectedItems) {
-                      //   shareDocRepository.deleteSharedDoc(item, user.uid);
-                      // }
-                    },
+                    onTap: () => showMyDialogForDeleteDocs(),
                     child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [

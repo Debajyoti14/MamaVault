@@ -31,4 +31,18 @@ class ShareDocrepository {
       debugPrint(e.toString());
     }
   }
+
+  Future<dynamic> deleteDocuments(List<String> docIDs, String uid) async {
+    try {
+      Map<String, dynamic> data = {
+        "uid": uid, // user id
+        "doc_id_arr": docIDs
+      };
+      dynamic response = await _apiServices.postApiResponse(
+          AppUrl.deleteDocsLink, jsonEncode(data));
+      return response;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 }
