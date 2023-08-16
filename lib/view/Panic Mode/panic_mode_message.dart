@@ -40,8 +40,6 @@ class _PanicModeMessageScreenState extends State<PanicModeMessageScreen> {
         String result = utf8.decode(
             bytes); // Assuming the Base64 string was originally UTF-8 encoded text
 
-        print("Inside Panic Req");
-        print(jsonDecode(result).toString());
         HospitalList hospitalData = HospitalList.fromJson(jsonDecode(result));
         Timer(const Duration(seconds: 3), () {
           if (context.mounted) {
@@ -69,7 +67,7 @@ class _PanicModeMessageScreenState extends State<PanicModeMessageScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 50.h),
+            // SizedBox(height: 50.h),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(

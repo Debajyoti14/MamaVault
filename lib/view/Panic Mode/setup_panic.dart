@@ -152,65 +152,72 @@ class _SetupPanicScreenState extends State<SetupPanicScreen> {
                                         MediaQuery.of(context)
                                             .viewInsets
                                             .bottom,
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              '+91',
-                                              style: TextStyle(fontSize: 20.sp),
-                                            ),
-                                            CustomTextField(
-                                              hintText: 'Enter Phone Number',
-                                              controller:
-                                                  _phoneNumber1Controller,
-                                              width: 300.w,
-                                              isPurple: themeChange.darkTheme,
-                                              validator: (value) {
-                                                if (value.toString().isEmpty) {
-                                                  return "Phone No. Required";
-                                                } else if (value
-                                                            .toString()
-                                                            .length <
-                                                        10 ||
-                                                    value.toString().length >
-                                                        10) {
-                                                  return "It should contain 10 Digits";
+                                    child: Form(
+                                      key: formKey,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                '+91',
+                                                style:
+                                                    TextStyle(fontSize: 20.sp),
+                                              ),
+                                              CustomTextField(
+                                                hintText: 'Enter Phone Number',
+                                                controller:
+                                                    _phoneNumber1Controller,
+                                                width: 300.w,
+                                                isPurple: themeChange.darkTheme,
+                                                validator: (value) {
+                                                  if (value
+                                                      .toString()
+                                                      .isEmpty) {
+                                                    return "Phone No. Required";
+                                                  } else if (value
+                                                              .toString()
+                                                              .length <
+                                                          10 ||
+                                                      value.toString().length >
+                                                          10) {
+                                                    return "It should contain 10 Digits";
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 30.h,
+                                          ),
+                                          PrimaryButton(
+                                            buttonTitle: "Add Number",
+                                            isLoading: isLoading,
+                                            onPressed: () async {
+                                              if (formKey.currentState!
+                                                  .validate()) {
+                                                await panicRepository
+                                                    .sendNumberDetails(
+                                                  name: user.displayName ?? "",
+                                                  number:
+                                                      _phoneNumber1Controller
+                                                          .text,
+                                                  uid: user.uid,
+                                                );
+                                                await fetchNumbers();
+                                                if (context.mounted) {
+                                                  Navigator.pop(modalContext);
                                                 }
-                                                return null;
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 30.h,
-                                        ),
-                                        PrimaryButton(
-                                          buttonTitle: "Add Number",
-                                          isLoading: isLoading,
-                                          onPressed: () async {
-                                            if (formKey.currentState!
-                                                .validate()) {
-                                              await panicRepository
-                                                  .sendNumberDetails(
-                                                name: user.displayName ?? "",
-                                                number: _phoneNumber1Controller
-                                                    .text,
-                                                uid: user.uid,
-                                              );
-                                              await fetchNumbers();
-                                              if (context.mounted) {
-                                                Navigator.pop(modalContext);
                                               }
-                                            }
-                                          },
-                                        ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                      ],
+                                            },
+                                          ),
+                                          SizedBox(
+                                            height: 10.h,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );

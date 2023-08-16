@@ -26,7 +26,7 @@ final darkThemeData = ThemeData(
   brightness: Brightness.dark,
   primaryColor: AppColors.primaryPurple,
   textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
-  scaffoldBackgroundColor: AppColors.backgroundDark,
+  scaffoldBackgroundColor: const Color.fromARGB(255, 14, 14, 23),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: AppColors.backgroundDark,
   ),

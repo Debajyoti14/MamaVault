@@ -36,7 +36,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   ThemeProvider themeChangeProvider = ThemeProvider();
-
   @override
   void initState() {
     super.initState();
@@ -78,14 +77,13 @@ class _MyAppState extends State<MyApp> {
           builder: (context, child) {
             return Consumer<ThemeProvider>(
               builder: (context, ThemeProvider themeNotifier, child) {
+                final provider = Provider.of<ThemeProvider>(context);
                 return MaterialApp(
-                    debugShowCheckedModeBanner: false,
-                    title: 'MamaVault',
-                    theme: themeChangeProvider.darkTheme
-                        ? darkThemeData
-                        : lightThemeData,
-                    // darkTheme: darkThemeData,
-                    home: const SplashScreen());
+                  debugShowCheckedModeBanner: false,
+                  title: 'MamaVault',
+                  theme: provider.darkTheme ? darkThemeData : lightThemeData,
+                  home: const SplashScreen(),
+                );
               },
             );
           }),
