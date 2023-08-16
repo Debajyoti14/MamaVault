@@ -78,6 +78,7 @@ class _MyAppState extends State<MyApp> {
             return Consumer<ThemeProvider>(
               builder: (context, ThemeProvider themeNotifier, child) {
                 final provider = Provider.of<ThemeProvider>(context);
+                print(provider.darkTheme);
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
                   title: 'MamaVault',

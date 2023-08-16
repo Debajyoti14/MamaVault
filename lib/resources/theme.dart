@@ -35,7 +35,7 @@ final darkThemeData = ThemeData(
     elevation: 0,
   ),
   bottomSheetTheme: const BottomSheetThemeData(
-    backgroundColor: AppColors.backgroundDark,
+    backgroundColor: Color.fromARGB(255, 14, 14, 23),
   ),
   iconTheme: const IconThemeData(color: Colors.white),
   floatingActionButtonTheme:

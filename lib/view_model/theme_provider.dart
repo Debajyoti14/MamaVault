@@ -8,6 +8,7 @@ class ThemeProvider extends ChangeNotifier {
   bool get darkTheme => _darkTheme;
 
   set darkTheme(bool value) {
+    print("Setting Theme ---- $value");
     _darkTheme = value;
     darkThemePreference.setDarkTheme(value);
     notifyListeners();

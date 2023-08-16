@@ -48,15 +48,14 @@ class _DocumentUploadState extends State<DocumentUpload> {
       allowMultiple: true,
     );
     if (result != null) {
+      PlatformFile fileDetails = result.files.first;
+      setState(() {
+        fileList = files;
+        isSelected = false;
+        fileExt = fileDetails.extension!;
+      });
       files = result.paths.map((path) => File(path!)).toList();
     }
-
-    PlatformFile fileDetails = result!.files.first;
-    setState(() {
-      fileList = files;
-      isSelected = false;
-      fileExt = fileDetails.extension!;
-    });
   }
 
   Future uploadFile(File? image) async {

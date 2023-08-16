@@ -4,8 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gallery_saver/gallery_saver.dart';
+import 'package:image_downloader/image_downloader.dart';
 import 'package:interrupt/utils/date_formatter.dart';
+import 'package:interrupt/utils/utils.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 
 import '../resources/UI_constraints.dart';
@@ -92,11 +93,9 @@ class _PreviewDocScreenState extends State<PreviewDocScreen> {
             PrimaryButton(
               buttonTitle: 'Download',
               onPressed: () async {
-                await GallerySaver.saveImage(widget.docURL).then((value) {
-                  var snackBar =
-                      const SnackBar(content: Text('Image Saved in Gallery'));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                });
+                await ImageDownloader.downloadImage(widget.docURL).then(
+                  (value) => Utils.toastMessage("Image Saved to your Gallery"),
+                );
               },
             )
           ],
